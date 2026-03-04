@@ -7,11 +7,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.23" />
+    <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="8.15.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Controllers\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AuthAccessCore.Application\AuthAccessCore.Application.csproj" />
+    <ProjectReference Include="..\AuthAccessCore.Domain\AuthAccessCore.Domain.csproj" />
+    <ProjectReference Include="..\AuthAccessCore.Infrastructure\AuthAccessCore.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,11 +1,14 @@
-﻿namespace AuthAccessCore.Domain.Entities
+﻿using AuthAccessCore.Domain.Enums;
+
+namespace AuthAccessCore.Domain.Entities
 {
     public class Module
     {
         public Guid ModuleId { get; private set; }
         public string ModuleName { get; private set; }
+        public Permissions AllowedPermissions { get; private set; }
 
-        public Module(Guid moduleId,string moduleName)
+        public Module(Guid moduleId,string moduleName,Permissions allowedPermissions)
         {
             if (moduleId == Guid.Empty)
                 throw new ArgumentException("ModuleId can not be null");
@@ -14,6 +17,7 @@
 
             ModuleId = moduleId;
             ModuleName = moduleName;
+            AllowedPermissions = allowedPermissions;
         }
     }
 }
