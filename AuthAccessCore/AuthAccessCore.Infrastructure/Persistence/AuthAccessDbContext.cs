@@ -19,5 +19,6 @@ namespace AuthAccessCore.Infrastructure.Persistence
         public DbSet<Module> Modules { get; set; }
         public DbSet<UserModuleAccess> UserModulesAccess { get; set; }
         public DbSet<RoleModuleAccess> RoleModulesAccess { get; set; }
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
     }
 }

@@ -24,6 +24,7 @@ builder.Services.AddDbContext<AuthAccessDbContext>(options =>
 builder.Services.AddScoped<IUserModuleAccessRepository, UserModuleAccessRepository>();
 builder.Services.AddScoped<IRoleModuleAccessRepository, RoleModuleAccessRepository>();
 builder.Services.AddScoped<IModuleRepository, ModuleRepository>();
+builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
 
 // Application Service
 builder.Services.AddScoped<IAccessResolver, AccessResolver>();
