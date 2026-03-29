@@ -25,6 +25,8 @@ builder.Services.AddScoped<IUserModuleAccessRepository, UserModuleAccessReposito
 builder.Services.AddScoped<IRoleModuleAccessRepository, RoleModuleAccessRepository>();
 builder.Services.AddScoped<IModuleRepository, ModuleRepository>();
 builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 // Application Service
 builder.Services.AddScoped<IAccessResolver, AccessResolver>();

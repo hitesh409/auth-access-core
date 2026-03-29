@@ -8,13 +8,12 @@ namespace AuthAccessCore.Domain.Entities
         public string FirstName { get; private set; }
         public string LastName { get; private set; }
         public string Email { get; private set; }
-        public Roles Roles { get; private set; }
+        public string PasswordHash { get; private set; }
+        public Roles Role { get; private set; }
+        private User() { }
 
-        public User(Guid UserId, string FirstName, string LastName, string Email, Roles Roles) { 
-
-            if (UserId == Guid.Empty)
-                throw new ArgumentException("UserId can not be null or empty");
-
+        public User(string FirstName, string LastName, string Email, Roles Role, string passwordHash)
+        {
             if (string.IsNullOrEmpty(FirstName))
                 throw new ArgumentException("FirstName is Required");
 
@@ -24,11 +23,12 @@ namespace AuthAccessCore.Domain.Entities
             if (string.IsNullOrEmpty(Email))
                 throw new ArgumentException("Email is Required");
 
-            this.UserId = UserId;
+            this.UserId = Guid.NewGuid();
             this.FirstName = FirstName;
             this.LastName = LastName;
             this.Email = Email;
-            this.Roles = Roles;
+            this.Role = Role;
+            this.PasswordHash = passwordHash;
         }
     }
 }
