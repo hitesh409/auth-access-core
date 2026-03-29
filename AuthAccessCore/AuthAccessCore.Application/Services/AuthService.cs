@@ -1,4 +1,5 @@
 ﻿using AuthAccessCore.API.Helper;
+using AuthAccessCore.Application.Common.Exceptions;
 using AuthAccessCore.Application.Interfaces;
 using AuthAccessCore.Domain.Entities;
 using AuthAccessCore.Domain.Enums;
@@ -19,7 +20,7 @@ namespace AuthAccessCore.Application.Services
         {
             email = email.Trim().ToLowerInvariant();
             if (await _userRepo.IsExistEmailAsync(email))
-                throw new Exception("User already exists");
+                throw new ConflictException("User already exists");
             var passwordHash = PasswordHasher.Hash(password);
 
             var user = new User

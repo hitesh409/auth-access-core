@@ -1,4 +1,5 @@
 using AuthAccessCore.API.Helper;
+using AuthAccessCore.API.Middleware;
 using AuthAccessCore.Application.Interfaces;
 using AuthAccessCore.Application.Services;
 using AuthAccessCore.Infrastructure.Persistence;
@@ -42,6 +43,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseHttpsRedirection();
 
