@@ -18,5 +18,12 @@ namespace AuthAccessCore.Infrastructure.Repository
                     .AsNoTracking()
                     .FirstOrDefault(m => m.ModuleId == moduleId);
         }
+        public async Task<List<Module>> GetAllAsync()
+        {
+            return await _dbContext.Modules
+                .AsNoTracking()
+                .Where(m => !EF.Property<bool>(m,"isDeleted"))
+                .ToListAsync();
+        }
     }
 }

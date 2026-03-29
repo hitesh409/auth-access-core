@@ -19,5 +19,20 @@ namespace AuthAccessCore.API.Controllers
             var userId = await _authService.RegisterAsync(request.Email,request.FirstName,request.LastName, request.Password, request.Role);
             return Ok(new { userId, message = "User registed successfully" });
         }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginRequest request)
+        {
+            var result = await _authService.LoginAsync(request.Email, request.Password);
+
+            Response.Cookies.Append("refreshTohen",result.RefreshToken,new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict
+            });
+
+            return Ok(new { accessToken = result.AccessToken });
+        }
     }
 }

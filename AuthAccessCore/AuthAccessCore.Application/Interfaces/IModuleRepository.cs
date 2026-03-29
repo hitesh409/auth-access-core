@@ -5,5 +5,6 @@ namespace AuthAccessCore.Application.Interfaces
     public interface IModuleRepository
     {
         Module? GetById(Guid moduleId);
+        Task<List<Module>> GetAllAsync();
     }
 }
