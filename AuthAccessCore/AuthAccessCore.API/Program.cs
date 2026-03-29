@@ -4,6 +4,7 @@ using AuthAccessCore.Application.Interfaces;
 using AuthAccessCore.Application.Services;
 using AuthAccessCore.Infrastructure.Persistence;
 using AuthAccessCore.Infrastructure.Repository;
+using AuthAccessCore.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,10 +28,11 @@ builder.Services.AddScoped<IRoleModuleAccessRepository, RoleModuleAccessReposito
 builder.Services.AddScoped<IModuleRepository, ModuleRepository>();
 builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IAuthService, AuthService>();
 
 // Application Service
 builder.Services.AddScoped<IAccessResolver, AccessResolver>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
 
 // JWT Authentication
 builder.Services.AddJwtAuthentication(builder.Configuration);

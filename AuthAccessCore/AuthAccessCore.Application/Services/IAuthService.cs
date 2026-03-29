@@ -1,4 +1,5 @@
-﻿using AuthAccessCore.Domain.Enums;
+﻿using AuthAccessCore.Application.Models.Auth;
+using AuthAccessCore.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;

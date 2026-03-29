@@ -1,15 +1,12 @@
 ﻿using AuthAccessCore.API.Helper;
 using AuthAccessCore.Application.Common.Exceptions;
 using AuthAccessCore.Application.Interfaces;
+using AuthAccessCore.Application.Models.Auth;
+using AuthAccessCore.Application.Services;
 using AuthAccessCore.Domain.Entities;
 using AuthAccessCore.Domain.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace AuthAccessCore.Application.Services
+namespace AuthAccessCore.Infrastructure.Services
 {
     public class AuthService : IAuthService
     {

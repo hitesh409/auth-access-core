@@ -1,7 +1,8 @@
 ﻿using AuthAccessCore.Application.Interfaces;
+using AuthAccessCore.Application.Services;
 using AuthAccessCore.Domain.Enums;
 
-namespace AuthAccessCore.Application.Services
+namespace AuthAccessCore.Infrastructure.Services
 {
     public class AccessResolver : IAccessResolver
     {

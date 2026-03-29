@@ -1,9 +1,5 @@
-﻿using AuthAccessCore.Domain.Enums;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 using System.Text;
 
 namespace AuthAccessCore.API.Helper
@@ -34,42 +30,6 @@ namespace AuthAccessCore.API.Helper
                         };
                     });
             return services;
-        }
-    }
-
-    public static class JwtTokenGenerator
-    {
-        public static string GenerateAccessToken(Guid userId, Roles role, Dictionary<Guid, Permissions> modulePermissions, IConfiguration config)
-        {
-            var jwtSections = config.GetSection("Jwt");
-            var key = jwtSections["key"];
-            var issuer = jwtSections["issuer"];
-            var audience = jwtSections["audience"];
-            var accessTokenInMinutes = int.Parse(jwtSections["accessTokenMinutes"]);
-            var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
-            var credentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
-
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
-                new Claim(ClaimTypes.Role, role.ToString()),
-            };
-
-            foreach (var entry in modulePermissions)
-            {
-                claims.Add(new Claim("module", $"{entry.Key}:{(int)entry.Value}"));
-            }
-
-            var token = new JwtSecurityToken
-            (
-                issuer: issuer,
-                audience: audience,
-                claims: claims,
-                expires: DateTime.UtcNow.AddMinutes(accessTokenInMinutes),
-                signingCredentials: credentials
-            );
-            
-            return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
 }
