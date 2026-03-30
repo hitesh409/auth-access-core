@@ -9,6 +9,7 @@ namespace AuthAccessCore.Application.Interfaces
 {
     public interface IUserRepository
     {
+        public Task<User?> GetByIdAsync(Guid userId);
         public Task<User?> GetByEmailAsync(string email);
         public Task AddUserAsync(User user);
         public Task<bool> IsExistEmailAsync(string email);

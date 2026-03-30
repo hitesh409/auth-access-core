@@ -23,6 +23,11 @@ namespace AuthAccessCore.Infrastructure.Repository
             await _context.SaveChangesAsync();
         }
 
+        public async Task<User?> GetByIdAsync(Guid userId)
+        {
+            return await _context.Users.AsNoTracking().FirstOrDefaultAsync(x => x.UserId == userId);
+        }
+
         public async Task<User?> GetByEmailAsync(string email)
         {
             return await _context.Users.AsNoTracking().FirstOrDefaultAsync(x => x.Email == email);     

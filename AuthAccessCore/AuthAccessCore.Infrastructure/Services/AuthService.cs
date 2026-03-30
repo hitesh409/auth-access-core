@@ -83,6 +83,47 @@ namespace AuthAccessCore.Infrastructure.Services
                 RefreshToken = refreshToken
             };
         }
+        
+        public async Task<LoginResult> RefreshAsync(string refreshToken)
+        {
+            if (string.IsNullOrEmpty(refreshToken)) throw new UnauthorizedException("Invalid refresh Token");
+
+            var tokenHash = _tokenService.ComputeHash(refreshToken);
+            var storedToken = await _refreshTokenRepo.GetByHashAsync(tokenHash);
+            if (storedToken == null || storedToken.ExpiresAt < DateTime.UtcNow) throw new UnauthorizedException("Invalid or expired refresh token");
+
+            var user = await _userRepo.GetByIdAsync(storedToken.UserId);
+            if (user == null) throw new UnauthorizedException("User not found");
+
+            var modulePermissions = await ResolvePermissionsAsync(user.UserId, user.Role);
+
+            // generate access token
+            var accessToken = _tokenService.GenerateAccessToken(
+                user.UserId,
+                user.Role,
+                modulePermissions
+            );
+
+            // Rotate refresh token
+            var (newRefreshToken,newHash) = _tokenService.GenerateRefreshToken();
+
+            var refreshTokenDays = int.Parse(_config["Jwt:refreshTokenDays"]);
+
+            await _refreshTokenRepo.ReplaceAsync(tokenHash,newHash, DateTime.UtcNow.AddDays(refreshTokenDays));
+
+            return new LoginResult
+            {
+                AccessToken = accessToken,
+                RefreshToken = newRefreshToken
+            };
+        }
+
+        public async Task LogoutAsync(string refreshToken)
+        {
+            if (string.IsNullOrEmpty(refreshToken)) return;
+            var tokenHash = _tokenService.ComputeHash(refreshToken);
+            await _refreshTokenRepo.RevokeAsync(tokenHash);
+        }
 
         private async Task<Dictionary<Guid,Permissions>> ResolvePermissionsAsync(Guid userId, Roles role)
         {

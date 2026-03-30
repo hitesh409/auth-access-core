@@ -34,5 +34,33 @@ namespace AuthAccessCore.API.Controllers
 
             return Ok(new { accessToken = result.AccessToken });
         }
+
+        [HttpPost("refresh")]
+        public async Task<IActionResult> Refresh()
+        {
+            var refreshToken = Request.Cookies["refreshToken"];
+            var result = await _authService.RefreshAsync(refreshToken);
+
+            Response.Cookies.Append("refreshToken", result.RefreshToken, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict
+            });
+
+            return Ok(new
+            {
+                accessToken = result.AccessToken
+            });
+        }
+
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            var refreshToken = Request.Cookies["refreshToken"];
+            await _authService.LogoutAsync(refreshToken);
+            Response.Cookies.Delete("refreshToken");
+            return Ok(new { message = "Logged out successfully" });
+        }
     }
 }

@@ -12,5 +12,7 @@ namespace AuthAccessCore.Application.Services
     {
         Task<Guid> RegisterAsync(string email, string firstName, string LastName, string password, Roles role);
         Task<LoginResult> LoginAsync(string email, string password);
+        Task<LoginResult> RefreshAsync(string refreshToken);
+        Task LogoutAsync(string refreshToken);
     }
 }
