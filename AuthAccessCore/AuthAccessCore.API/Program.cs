@@ -1,3 +1,4 @@
+using AuthAccessCore.API.Authorization;
 using AuthAccessCore.API.Helper;
 using AuthAccessCore.API.Middleware;
 using AuthAccessCore.Application.Interfaces;
@@ -5,6 +6,7 @@ using AuthAccessCore.Application.Services;
 using AuthAccessCore.Infrastructure.Persistence;
 using AuthAccessCore.Infrastructure.Repository;
 using AuthAccessCore.Infrastructure.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -36,6 +38,10 @@ builder.Services.AddScoped<ITokenService, TokenService>();
 
 // JWT Authentication
 builder.Services.AddJwtAuthentication(builder.Configuration);
+
+builder.Services.AddAuthorization();
+builder.Services.AddSingleton<IAuthorizationHandler, PermissionHandler>();
+builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
 
 var app = builder.Build();
 

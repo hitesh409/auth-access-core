@@ -1,6 +1,10 @@
-﻿using AuthAccessCore.API.Helper;
+﻿using AuthAccessCore.API.Authorization;
+using AuthAccessCore.API.Helper;
 using AuthAccessCore.API.Models.Auth;
 using AuthAccessCore.Application.Services;
+using AuthAccessCore.Domain.Constants;
+using AuthAccessCore.Domain.Enums;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,6 +17,8 @@ namespace AuthAccessCore.API.Controllers
         private readonly IAuthService _authService;
         public AuthController(IAuthService authService) => _authService = authService;
 
+        [Authorize]
+        [HasPermission(Modules.UserManagement, Permissions.Create)]
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
