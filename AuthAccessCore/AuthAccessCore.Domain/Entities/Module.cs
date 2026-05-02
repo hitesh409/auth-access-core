@@ -8,6 +8,10 @@ namespace AuthAccessCore.Domain.Entities
         public string ModuleName { get; private set; }
         public Permissions AllowedPermissions { get; private set; }
 
+        // Navigation
+        public ICollection<UserModuleAccess> UserModuleAccesses { get; private set; } = new List<UserModuleAccess>();
+        public ICollection<RoleModuleAccess> RoleModuleAccesses { get; private set; } = new List<RoleModuleAccess>();
+
         public Module(Guid moduleId,string moduleName,Permissions allowedPermissions)
         {
             if (moduleId == Guid.Empty)

@@ -20,5 +20,10 @@ namespace AuthAccessCore.Infrastructure.Persistence
         public DbSet<UserModuleAccess> UserModulesAccess { get; set; }
         public DbSet<RoleModuleAccess> RoleModulesAccess { get; set; }
         public DbSet<RefreshToken> RefreshTokens { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(AuthAccessDbContext).Assembly);
+        }
     }
 }

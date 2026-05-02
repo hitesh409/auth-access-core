@@ -8,6 +8,10 @@ namespace AuthAccessCore.Domain.Entities
         public Guid ModuleId { get; private set; }
         public Permissions Permissions { get; private set; }
 
+        // Navigation
+        public User User { get; private set; }
+        public Module Module { get; private set; }  
+
         public UserModuleAccess(Guid userId, Guid moduleId, Permissions permissions) {
             if (userId == Guid.Empty)
                 throw new ArgumentException("UserId cannot be empty.");

@@ -10,6 +10,11 @@ namespace AuthAccessCore.Domain.Entities
         public string Email { get; private set; }
         public string PasswordHash { get; private set; }
         public Roles Role { get; private set; }
+
+        // Navigation
+        public ICollection<UserModuleAccess> UserModuleAccesses { get; private set; } = new List<UserModuleAccess>();
+        public ICollection<RefreshToken> RefreshTokens { get; private set; } = new List<RefreshToken>();
+
         private User() { }
 
         public User(string FirstName, string LastName, string Email, Roles Role, string passwordHash)

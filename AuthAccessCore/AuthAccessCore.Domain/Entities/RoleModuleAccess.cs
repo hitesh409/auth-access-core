@@ -8,6 +8,9 @@ namespace AuthAccessCore.Domain.Entities
         public Guid ModuleId { get; private set; }
         public Permissions Permissions { get; private set; }
 
+        // Navigation
+        public Module Module { get; private set; }
+
         public RoleModuleAccess(Roles role, Guid moduleId, Permissions permissions) {
             if (role == Roles.None)
                 throw new ArgumentException("Role must be specified.");

@@ -10,5 +10,7 @@
         public DateTime? RevokedOn { get; set; }
         public string? ReplacedByHash { get; set; }
 
+        // Navigation
+        public User User { get; private set; }
     }
 }

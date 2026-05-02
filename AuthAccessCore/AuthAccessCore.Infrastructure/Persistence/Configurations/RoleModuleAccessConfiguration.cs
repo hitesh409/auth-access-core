@@ -18,6 +18,12 @@ namespace AuthAccessCore.Infrastructure.Persistence.Configurations
             builder.Property<string?>("updatedBy");
             builder.Property<DateTime?>("updatedOn");
             builder.Property<bool>("isDeleted");
+
+            // Relationships
+            builder.HasOne(rm => rm.Module)
+                   .WithMany(m => m.RoleModuleAccesses)
+                   .HasForeignKey(rm => rm.ModuleId)
+                   .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

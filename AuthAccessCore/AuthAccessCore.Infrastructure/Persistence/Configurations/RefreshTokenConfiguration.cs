@@ -22,6 +22,11 @@ namespace AuthAccessCore.Infrastructure.Persistence.Configurations
             builder.Property(x => x.RevokedOn);
             builder.Property(x => x.ReplacedByHash);
 
+            // Relationship
+            builder.HasOne(rt => rt.User)
+                   .WithMany(u => u.RefreshTokens)
+                   .HasForeignKey(rt => rt.UserId)
+                   .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
