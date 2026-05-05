@@ -1,1 +1,41 @@
 /* You can add global styles to this file, and also import other style files */
+@import "bootstrap/dist/css/bootstrap.min.css";
+@import 'ngx-toastr/toastr';
+
+/* Custom Modern Styles */
+.bg-light-gradient {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+.border-radius-20 {
+    border-radius: 20px !important;
+}
+
+.border-radius-10 {
+    border-radius: 10px !important;
+}
+
+.tracking-wider {
+    letter-spacing: 2px;
+}
+
+/* Floating labels background fix */
+.form-floating > .form-control:focus, 
+.form-floating > .form-control:not(:placeholder-shown) {
+    background-color: #f8f9fa !important;
+}
+
+/* Hover Animations */
+.hover-lift {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.hover-lift:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+}
+
+/* White logo filter if your logo is dark */
+.brightness-0-invert {
+    filter: brightness(0) invert(1);
+}
