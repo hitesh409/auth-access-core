@@ -33,14 +33,11 @@
             "styles": [
               "src/styles.scss"
             ],
-            "server": "src/main.server.ts",
-            "outputMode": "server",
+            "server": false,
             "security": {
               "allowedHosts": []
             },
-            "ssr": {
-              "entry": "src/server.ts"
-            }
+            "ssr": false
           },
           "configurations": {
             "production": {
