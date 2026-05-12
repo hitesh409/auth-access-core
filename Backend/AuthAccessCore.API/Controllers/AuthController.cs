@@ -22,7 +22,7 @@ namespace AuthAccessCore.API.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
-            var userId = await _authService.RegisterAsync(request.Email,request.FirstName,request.LastName, request.Password, request.Role);
+            var userId = await _authService.RegisterAsync(request.Email,request.FirstName,request.LastName, request.Password, Roles.Employee);
             return Ok(new { userId, message = "User registed successfully" });
         }
 

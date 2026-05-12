@@ -4,6 +4,7 @@ using AuthAccessCore.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AuthAccessCore.Infrastructure.Migrations
 {
     [DbContext(typeof(AuthAccessDbContext))]
-    partial class AuthAccessDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260512154758_ExtendedUserEntity")]
+    partial class ExtendedUserEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,10 +41,6 @@ namespace AuthAccessCore.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("moduleName");
 
-                    b.Property<Guid?>("ParentId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("parentId");
-
                     b.Property<string>("createdBy")
                         .HasColumnType("nvarchar(max)");
 
@@ -54,9 +53,10 @@ namespace AuthAccessCore.Infrastructure.Migrations
                     b.Property<bool>("isDeleted")
                         .HasColumnType("bit");
 
-                    b.HasKey("ModuleId");
+                    b.Property<int?>("parentId")
+                        .HasColumnType("int");
 
-                    b.HasIndex("ParentId");
+                    b.HasKey("ModuleId");
 
                     b.ToTable("AppModules", (string)null);
                 });
@@ -233,16 +233,6 @@ namespace AuthAccessCore.Infrastructure.Migrations
                     b.ToTable("UserRights", (string)null);
                 });
 
-            modelBuilder.Entity("AuthAccessCore.Domain.Entities.Module", b =>
-                {
-                    b.HasOne("AuthAccessCore.Domain.Entities.Module", "Parent")
-                        .WithMany("ChildModules")
-                        .HasForeignKey("ParentId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("Parent");
-                });
-
             modelBuilder.Entity("AuthAccessCore.Domain.Entities.RefreshToken", b =>
                 {
                     b.HasOne("AuthAccessCore.Domain.Entities.User", "User")
@@ -286,8 +276,6 @@ namespace AuthAccessCore.Infrastructure.Migrations
 
             modelBuilder.Entity("AuthAccessCore.Domain.Entities.Module", b =>
                 {
-                    b.Navigation("ChildModules");
-
                     b.Navigation("RoleModuleAccesses");
 
                     b.Navigation("UserModuleAccesses");

@@ -15,7 +15,5 @@ namespace AuthAccessCore.API.Models.Auth
         public string FirstName { get; set; }
         [Required]
         public string LastName { get; set; }
-        [Required]
-        public Roles Role { get; set; }
     }
 }

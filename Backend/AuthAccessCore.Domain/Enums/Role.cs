@@ -4,8 +4,9 @@
 public enum Roles
 {
     None = 0,
-    User = 1,
-    Manager = 2,
-    Admin = 4,
-    SuperAdmin = 8
+    SuperAdmin = 1,
+    Admin = 2,
+    Manager = 3,
+    Employee = 4,
+    Viewer = 5
 }
