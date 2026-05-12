@@ -17,6 +17,14 @@ namespace AuthAccessCore.Infrastructure.Persistence.Configurations
             builder.HasIndex(u => u.Email).IsUnique();
             builder.Property(u => u.PasswordHash).HasColumnName("passwordHash").IsRequired();
             builder.Property(u => u.Role).HasConversion<int>().HasColumnName("role").IsRequired();
+            builder.Property(u => u.ProfileImageUrl).HasColumnName("profileImageUrl").HasMaxLength(500);
+            builder.Property(u => u.HasRequestedRoleUpgrade).HasDefaultValue(false);
+            builder.Property(u => u.IsActive).HasDefaultValue(true);
+            builder.Property(u => u.LastLoginAt).HasColumnName("lastLoginAt");
+            builder.Property(u => u.RoleUpdatedBy);
+            builder.Property(u => u.RoleUpdatedAt);
+            builder.Property(u => u.UpdatedBy);
+            builder.Property(u => u.UpdatedAt);
         }
     }
 }
