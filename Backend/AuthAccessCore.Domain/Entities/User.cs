@@ -10,12 +10,6 @@ namespace AuthAccessCore.Domain.Entities
         public string Email { get; private set; }
         public string PasswordHash { get; private set; }
         public Roles Role { get; private set; }
-        public string? ProfileImageUrl { get; private set; }
-        public bool HasRequestedRoleUpgrade { get; private set; } = false;
-        public DateTime? LastLoginAt { get; private set; }
-        public bool IsActive { get; private set; } = true;
-        public DateTime? UpdatedAt { get; private set; }
-        public Guid? UpdatedBy { get; private set; }
 
         // Navigation
         public ICollection<UserModuleAccess> UserModuleAccesses { get; private set; } = new List<UserModuleAccess>();
