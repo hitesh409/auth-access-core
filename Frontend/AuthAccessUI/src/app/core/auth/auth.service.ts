@@ -6,6 +6,9 @@ import { AppConfigService } from "../services/app-config.service";
 
 export class AuthService{
     constructor(private http: HttpClient, private config: AppConfigService){}
+    register(data: any){
+        return this.http.post(`${this.config.apiUrl}/auth/register`,data);
+    }
 
     login(data: any){
         return this.http.post(`${this.config.apiUrl}/auth/login`,data, {withCredentials: true});

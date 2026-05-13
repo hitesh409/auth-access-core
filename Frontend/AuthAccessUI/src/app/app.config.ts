@@ -6,7 +6,7 @@ import { provideClientHydration, withEventReplay } from '@angular/platform-brows
 import { provideToastr } from 'ngx-toastr'; 
 import { importProvidersFrom } from '@angular/core';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
-import { faKey, faRightFromBracket, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { faKey, faRightFromBracket, faEye, faEyeSlash, faUserPlus, faUserShield } from '@fortawesome/free-solid-svg-icons';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -20,7 +20,7 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(FontAwesomeModule),{
       provide: 'FA_ICONS_INIT',
       useFactory: (library:FaIconLibrary)=>{
-        library.addIcons(faKey, faRightFromBracket, faEye, faEyeSlash);
+        library.addIcons(faKey, faRightFromBracket, faEye, faEyeSlash, faUserPlus, faUserShield);
         return true;
       },
       deps: [FaIconLibrary]
