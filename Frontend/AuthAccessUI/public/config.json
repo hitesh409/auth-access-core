@@ -1,5 +1,5 @@
 {
-  "apiUrl": "https://localhost:5167/api",
+  "apiUrl": "https://localhost:7208/api",
   "appName": "Auth Access System",
   "enableLogging": true
 }
