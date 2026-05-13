@@ -1,4 +1,6 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './core/guards/auth.guard';
+import { guestGuard } from './core/guards/guest.guard';
 
 export const routes: Routes = [
     //layout for auth related pages
@@ -7,7 +9,12 @@ export const routes: Routes = [
         loadComponent : () => import('./features/auth/auth-layout/auth-layout').then(m => m.AuthLayout),
         children:[
             {
+                path: '',
+                loadComponent: () => import('./features/auth/login/login').then(m => m.Login)
+            },
+            {
                 path: 'login',
+                canActivate: [guestGuard],
                 loadComponent: () => import('./features/auth/login/login').then(m => m.Login)
             },
             {
@@ -29,6 +36,7 @@ export const routes: Routes = [
     // protected routes
     {
         path: 'dashboard',
+        canActivate: [authGuard],
         loadComponent: () => import('./features/dashboard/dashboard').then(m => m.Dashboard)
     },
 
