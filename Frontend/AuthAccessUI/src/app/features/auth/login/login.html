@@ -1,68 +1,47 @@
-<div class="container-fluid vh-100 vw-100 d-flex align-items-center justify-content-center bg-light-gradient">
-    <div class="row w-100 justify-content-center">
-        <div class="col-12 col-lg-10 col-xl-8">
-            <div class="card border-0 shadow-lg overflow-hidden border-radius-20">
-                <div class="row g-0">
-                    
-                    <!-- Left Side: Branding/Visual -->
-                    <div class="col-md-6 d-none d-md-flex flex-column align-items-center justify-content-center bg-primary text-white p-5 position-relative overflow-hidden">
-                        <!-- Subtle Background Pattern Overlay -->
-                        <div class="position-absolute top-0 start-0 w-100 h-100 opacity-10" style="background-image: url('https://www.transparenttextures.com/patterns/cubes.png');"></div>
-                        
-                        <div class="text-center position-relative z-1">
-                            <img src="assets/logo.png" alt="Web Logo" class="img-fluid mb-4 brightness-0-invert" style="max-width: 180px;">
-                            <h2 class="fw-light">Secure Access for <br><span class="fw-bold text-uppercase tracking-wider">Modern Systems</span></h2>
-                            <p class="mt-3 opacity-75">Role-based control, token security, and seamless access management.</p>
-                        </div>
-                    </div>
+<div class="mb-5 text-center text-md-start">
+    <h3 class="fw-bold text-dark"><fa-icon [icon]="['fas', 'key']"></fa-icon> Welcome Back</h3>
+    <p class="text-muted small">Please enter your details to sign in.</p>
+</div>
 
-                    <!-- Right Side: Login Form -->
-                    <div class="col-md-6 bg-white p-4 p-md-5">
-                        <div class="mb-5 text-center text-md-start">
-                            <h3 class="fw-bold text-dark"><fa-icon [icon]="['fas', 'key']"></fa-icon> Welcome Back</h3>
-                            <p class="text-muted small">Please enter your details to sign in.</p>
-                        </div>
-
-                        <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
-                            <div class="form-floating mb-3">
-                                <input type="email" formControlName="email" class="form-control border-0 bg-light" id="emailInput" placeholder="name@example.com" [class.is-invalid]="submitted && loginForm.get('email')?.invalid && (!activeErrorField || activeErrorField === 'email')">
-                                <label for="emailInput" class="text-muted">Email Address</label>
-                            </div>
-
-                            <div class="form-floating mb-3 position-relative">
-                                <input [type]="hidePassword ? 'password' : 'text'" formControlName="password" class="form-control border-0 bg-light" id="passwordInput" placeholder="Password" [class.is-invalid]="submitted && loginForm.get('password')?.invalid && (!activeErrorField || activeErrorField === 'password')">
-                                <label for="passwordInput" class="text-muted">Password</label>
-                                <span class="position-absolute top-50 end-0 translate-middle-y me-3 cursor-pointer" (click)="togglePassword()">
-                                    <fa-icon [icon]="hidePassword ? ['fas', 'eye-slash'] : ['fas', 'eye']"></fa-icon>
-                                </span>
-                            </div>
-
-                            <div class="d-flex justify-content-between align-items-center mb-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="rememberMe">
-                                    <label class="form-check-label small text-muted" for="rememberMe">Remember me</label>
-                                </div>
-                                <a routerLink="/forgot-password" class="small text-primary text-decoration-none fw-semibold">Forgot Password?</a>
-                            </div>
-
-                            <button type="submit" class="btn btn-primary w-100 py-3 fw-bold" [disabled]="isLoading()">
-                                 @if (!isLoading()) {
-                                    <fa-icon [icon]="['fas', 'right-from-bracket']" class="me-2"></fa-icon>
-                                    SIGN IN
-                                } @else {
-                                    <span class="spinner-border spinner-border-sm me-2"></span>
-                                    Signing in...
-                                }
-                            </button>
-                        </form>
-
-                        <div class="mt-5 text-center">
-                            <p class="small text-muted">Don't have an account? <a routerLink="/register" class="text-primary fw-bold text-decoration-none">Sign Up</a></p>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
+<form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+    <div class="form-floating mb-3">
+        <input type="email" formControlName="email" class="form-control border-0 bg-light" id="emailInput"
+            placeholder="name@example.com"
+            [class.is-invalid]="submitted && loginForm.get('email')?.invalid && (!activeErrorField || activeErrorField === 'email')">
+        <label for="emailInput" class="text-muted">Email Address</label>
     </div>
+
+    <div class="form-floating mb-3 position-relative">
+        <input [type]="hidePassword ? 'password' : 'text'" formControlName="password"
+            class="form-control border-0 bg-light" id="passwordInput" placeholder="Password"
+            [class.is-invalid]="submitted && loginForm.get('password')?.invalid && (!activeErrorField || activeErrorField === 'password')">
+        <label for="passwordInput" class="text-muted">Password</label>
+        <span class="position-absolute top-50 end-0 translate-middle-y me-3 cursor-pointer" (click)="togglePassword()">
+            <fa-icon [icon]="hidePassword ? ['fas', 'eye-slash'] : ['fas', 'eye']"></fa-icon>
+        </span>
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="rememberMe">
+            <label class="form-check-label small text-muted" for="rememberMe">Remember me</label>
+        </div>
+        <a routerLink="/forgot-password" class="small text-primary text-decoration-none fw-semibold">Forgot
+            Password?</a>
+    </div>
+
+    <button type="submit" class="btn btn-primary w-100 py-3 fw-bold" [disabled]="isLoading()">
+        @if (!isLoading()) {
+        <fa-icon [icon]="['fas', 'right-from-bracket']" class="me-2"></fa-icon>
+        SIGN IN
+        } @else {
+        <span class="spinner-border spinner-border-sm me-2"></span>
+        Signing in...
+        }
+    </button>
+</form>
+
+<div class="mt-5 text-center">
+    <p class="small text-muted">Don't have an account? <a routerLink="/register"
+            class="text-primary fw-bold text-decoration-none">Sign Up</a></p>
 </div>
