@@ -7,11 +7,14 @@ import { provideToastr } from 'ngx-toastr';
 import { importProvidersFrom } from '@angular/core';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { faKey, faRightFromBracket, faEye, faEyeSlash, faUserPlus, faUserShield } from '@fortawesome/free-solid-svg-icons';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { authInterceptor } from './core/Interceptors/auth.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes), provideClientHydration(withEventReplay()),
+    provideHttpClient(withInterceptors([authInterceptor])),
     provideToastr({
       timeOut: 3000,
       positionClass: 'toast-bottom-center',
