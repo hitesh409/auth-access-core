@@ -1,0 +1,65 @@
+<div class="mb-5 text-center text-md-start">
+    <h3 class="fw-bold text-dark"><fa-icon [icon]="['fas', 'user-plus']"></fa-icon> Create Account</h3>
+    <p class="text-muted small">Register your account to continue.</p>
+</div>
+<form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+    <!-- Name Row -->
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <div class="form-floating">
+                <input type="text" class="form-control bg-light border-0" placeholder="First Name"
+                    formControlName="firstName"
+                    [class.is-invalid]="submitted && registerForm.get('firstName')?.invalid && (!activeErrorField || activeErrorField === 'firstName')">
+                <label for="firstNameInput" class="text-muted">First Name</label>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <div class="form-floating">
+                <input type="text" class="form-control bg-light border-0" placeholder="Last Name"
+                    formControlName="lastName" [class.is-invalid]="submitted && registerForm.get('lastName')?.invalid && (!activeErrorField || activeErrorField === 'lastName')">
+                <label for="lastNameInput" class="text-muted">Last Name</label>
+            </div>
+        </div>
+    </div>
+
+    <!-- Email -->
+    <div class="form-floating mb-3">
+        <input type="email" class="form-control bg-light border-0" placeholder="Email" formControlName="email"
+            [class.is-invalid]="submitted && registerForm.get('email')?.invalid && (!activeErrorField || activeErrorField === 'email')">
+        <label for="emailInput" class="text-muted">Email Address</label>
+    </div>
+
+    <!-- Password -->
+    <div class="form-floating mb-3 position-relative">
+        <input [type]="hidePassword ? 'password' : 'text'" class="form-control bg-light border-0" placeholder="Password"
+            formControlName="password" [class.is-invalid]="submitted && registerForm.get('password')?.invalid && (!activeErrorField || activeErrorField === 'password')">
+        <label for="passwordInput" class="text-muted">Password</label>
+        <span class="position-absolute top-50 end-0 translate-middle-y me-3 cursor-pointer" (click)="togglePassword()">
+            <fa-icon [icon]="hidePassword ? ['fas', 'eye-slash'] : ['fas', 'eye']"></fa-icon>
+        </span>
+    </div>
+
+    <!-- Confirm Password -->
+    <div class="form-floating mb-4 position-relative">
+        <input [type]="hideConfirmPassword ? 'password' : 'text'" class="form-control bg-light border-0"
+            placeholder="Confirm Password" formControlName="confirmPassword"
+            [class.is-invalid]="submitted && registerForm.get('confirmPassword')?.invalid && (!activeErrorField || activeErrorField === 'confirmPassword')">
+        <label for="confirmPasswordInput" class="text-muted">Confirm Password</label>
+        <span class="position-absolute top-50 end-0 translate-middle-y me-3 cursor-pointer" (click)="toggleConfirmPassword()">
+            <fa-icon [icon]="hideConfirmPassword ? ['fas', 'eye-slash'] : ['fas', 'eye']"></fa-icon>
+        </span>
+    </div>
+
+    <button type="submit" class="btn btn-primary w-100 py-3 fw-bold" [disabled]="isLoading()">
+        @if (!isLoading()) {
+            <span >Create Account </span>
+        }
+        @else {
+            <span ><span class="spinner-border spinner-border-sm me-2"></span> Creating Account...</span>
+        }        
+    </button>
+</form>
+<div class="mt-4 text-center">
+    <p class="small text-muted"> Already have an account? <a routerLink="/login" class="text-primary fw-bold text-decoration-none">Sign In</a></p>
+</div>

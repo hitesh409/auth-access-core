@@ -17,8 +17,6 @@ namespace AuthAccessCore.API.Controllers
         private readonly IAuthService _authService;
         public AuthController(IAuthService authService) => _authService = authService;
 
-        [Authorize]
-        [HasPermission(Modules.UserManagement, Permissions.Create)]
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
@@ -31,7 +29,7 @@ namespace AuthAccessCore.API.Controllers
         {
             var result = await _authService.LoginAsync(request.Email, request.Password);
 
-            Response.Cookies.Append("refreshTohen",result.RefreshToken,new CookieOptions
+            Response.Cookies.Append("refreshToken",result.RefreshToken,new CookieOptions
             {
                 HttpOnly = true,
                 Secure = true,

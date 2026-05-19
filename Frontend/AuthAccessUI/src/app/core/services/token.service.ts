@@ -12,7 +12,7 @@ export class TokenService{
         localStorage.setItem(this.key,token);
     }
 
-    cleatToken(){
+    clearToken(){
         localStorage.removeItem(this.key);
     }
 }

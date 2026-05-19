@@ -4,14 +4,14 @@ import { AuthService } from '../../../core/auth/auth.service';
 import { TokenService } from '../../../core/services/token.service';
 import { JwtService } from '../../../core/auth/jwt.service';
 import { PermissionService } from '../../../core/auth/permission.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule, CommonModule, FontAwesomeModule],
+  imports: [ReactiveFormsModule, CommonModule, FontAwesomeModule, RouterLink],
   templateUrl: './login.html',
   styleUrl: './login.scss',
 })
@@ -24,7 +24,8 @@ export class Login {
     private tokenService: TokenService,
     private jwtService: JwtService,
     private permissionService: PermissionService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   hidePassword: boolean = true
@@ -71,10 +72,12 @@ export class Login {
         this.tokenService.setToken(res.accessToken);
 
         const decoded = this.jwtService.decodeToken(res.accessToken);
-        this.permissionService.setPermissions(decoded.permissions);
+        this.permissionService.setPermissions(decoded.module);
 
         this.isLoading.set(false);
-        this.router.navigate(['/dashboard']);
+        this.toastr.success('Login successful', 'Welcome Back!');
+        const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
+        this.router.navigate([returnUrl]);
       },
       error: () => {
         this.isLoading.set(false);
