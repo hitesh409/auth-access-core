@@ -1,23 +1,14 @@
-<aside class="sidebar">
-
+<aside class="sidebar" [class.collapsed]="isSidebarCollapsed()">
   <nav class="sidebar-nav">
-
-    <a
-      routerLink="/dashboard"
-      routerLinkActive="active"
-      class="sidebar-link"
-    >
-      Dashboard
+    @for (item of navigationItems; track item.route) {
+    <a class="sidebar-link" [routerLink]="item.route" routerLinkActive="active">
+      @if (item.icon) {
+        <i [class]="item.icon"></i>
+      }
+      @if (!isSidebarCollapsed()) {
+        <span>{{ item.label }}</span>
+      }
     </a>
-
-    <a
-      routerLink="/profile"
-      routerLinkActive="active"
-      class="sidebar-link"
-    >
-      Profile
-    </a>
-
+    }
   </nav>
-
 </aside>
