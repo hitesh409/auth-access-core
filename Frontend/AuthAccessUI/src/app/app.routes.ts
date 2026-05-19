@@ -35,10 +35,26 @@ export const routes: Routes = [
 
     // protected routes
     {
-        path: 'dashboard',
+        path: '',
         canActivate: [authGuard],
-        loadComponent: () => import('./features/dashboard/dashboard').then(m => m.Dashboard)
+        loadComponent: () =>
+        import('./layout/main-layout/main-layout')
+            .then(m => m.MainLayout),
+        children: [
+            {
+                path: '',
+                pathMatch: 'full',
+                redirectTo: 'dashboard'
+            },
+            {
+                path: 'dashboard',
+                loadComponent: () =>
+                import('./features/dashboard/dashboard')
+                    .then(m => m.Dashboard)
+            }
+        ]
     },
+
 
     // default route
     {

@@ -1,0 +1,27 @@
+.sidebar {
+  width: 260px;
+
+  border-right: 1px solid #dee2e6;
+
+  background-color: #f8f9fa;
+
+  padding: 1rem;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.sidebar-link {
+  text-decoration: none;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  color: #212529;
+}
+
+.sidebar-link.active {
+  background-color: #0d6efd;
+  color: white;
+}

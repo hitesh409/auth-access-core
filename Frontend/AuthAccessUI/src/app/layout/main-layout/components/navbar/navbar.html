@@ -1,0 +1,16 @@
+<header class="navbar">
+    <div class="navbar-brand">
+        My Application
+    </div>
+    <div class="navbar-actions">
+        <button class="btn btn-outline-secondary" (click)="logout()" [disabled]="isLoading()">
+            @if (!isLoading()) {
+                Logout
+            }
+            @else {
+                <span class="spinner-border spinner-border-sm me-2"></span>
+                Logging out...
+            }
+        </button>
+    </div>
+</header>
