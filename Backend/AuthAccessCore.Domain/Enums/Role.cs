@@ -8,5 +8,5 @@ public enum Roles
     Admin = 2,          // Scoped Admin
     AccessAuditor = 3,  // Read-Only Access
     SupportAdmin = 4,   // Operational Role
-    User = 5          // Basic User
+    User = 5            // Basic User
 }

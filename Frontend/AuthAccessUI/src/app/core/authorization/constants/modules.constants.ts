@@ -3,5 +3,6 @@ export const MODULES = {
   USERS: 'users',
   ROLES: 'roles',
   PERMISSIONS: 'permissions',
-  PROFILE: 'profile'
+  PROFILE: 'profile',
+  REPORTS: 'reports'
 } as const;

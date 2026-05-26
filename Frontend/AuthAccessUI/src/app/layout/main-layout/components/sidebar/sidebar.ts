@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { LayoutService } from '../../services/layout.service';
+import { LayoutService } from '../../../layout.service';
 import { NAVIGATION_ITEMS } from '../../config/navigation.config';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 

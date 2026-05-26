@@ -3,7 +3,7 @@ import { AuthService } from '../../../../core/auth/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { TokenService } from '../../../../core/services/token.service';
 import { Router } from '@angular/router';
-import { LayoutService } from '../../services/layout.service';
+import { LayoutService } from '../../../layout.service';
 
 @Component({
   selector: 'app-navbar',
@@ -34,7 +34,7 @@ export class Navbar {
     this.authService.logout().subscribe({
       next: () => {
         this.toastr.success('Logged out successfully', 'Logout');
-        this.router.navigate(['/login']);
+        this.router.navigate(['/auth/login']);
       },
       error: (err) => {
         this.toastr.error('Logout failed', 'Error');
