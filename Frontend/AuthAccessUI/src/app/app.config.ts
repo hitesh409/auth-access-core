@@ -1,4 +1,4 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
+import {ApplicationConfig, provideAppInitializer, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
@@ -9,6 +9,7 @@ import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontaweso
 import { faKey, faRightFromBracket, faEye, faEyeSlash, faUserPlus, faUserShield } from '@fortawesome/free-solid-svg-icons';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { authInterceptor } from './core/Interceptors/auth.interceptor';
+import { authInitializer } from './core/auth/auth.initializer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -27,7 +28,8 @@ export const appConfig: ApplicationConfig = {
         return true;
       },
       deps: [FaIconLibrary]
-    }
+    },
+    provideAppInitializer(authInitializer)
   ]
 };
 

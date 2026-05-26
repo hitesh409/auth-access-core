@@ -18,4 +18,8 @@ export class PermissionService{
         if(value === undefined) return false;
         return (value & required) === required;
     }
+
+    clearPermissions(){
+        this.permissions.clear();
+    }
 }

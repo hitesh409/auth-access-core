@@ -36,7 +36,7 @@ namespace AuthAccessCore.API.Controllers
                 SameSite = SameSiteMode.Strict
             });
 
-            return Ok(new { accessToken = result.AccessToken });
+            return Ok(new { accessToken = result.AccessToken, userContext = result.UserContext });
         }
 
         [HttpPost("refresh")]
@@ -54,7 +54,8 @@ namespace AuthAccessCore.API.Controllers
 
             return Ok(new
             {
-                accessToken = result.AccessToken
+                accessToken = result.AccessToken,
+                userContext = result.UserContext
             });
         }
 
