@@ -1,10 +1,12 @@
 import { Routes } from '@angular/router';
 
 import { PermissionFlags } from '../../core/authorization/constants/permission-flags.constants';
+import { permissionGuard } from '../../core/guards/permissions.guard';
 
 export const REPORTS_ROUTES: Routes = [
   {
     path: 'audit-logs',
+    canActivate: [permissionGuard],
     data: {
       permission: {
         module: 'Audit Logs',
@@ -16,6 +18,7 @@ export const REPORTS_ROUTES: Routes = [
   
   {
     path: 'login-activity',
+    canActivate: [permissionGuard],
     data: {
       permission: {
         module: 'Login Activity',
@@ -27,6 +30,7 @@ export const REPORTS_ROUTES: Routes = [
 
   {
     path: 'access-reports',
+    canActivate: [permissionGuard],
     data: {
       permission: {
         module: 'Access Reports',
@@ -38,6 +42,7 @@ export const REPORTS_ROUTES: Routes = [
 
   {
     path: 'security-reports',
+    canActivate: [permissionGuard],
     data: {
       permission: {
         module: 'Security Reports',

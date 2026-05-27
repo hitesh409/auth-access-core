@@ -1,10 +1,12 @@
 import { Routes } from '@angular/router';
 
 import { PermissionFlags } from '../../core/authorization/constants/permission-flags.constants';
+import { permissionGuard } from '../../core/guards/permissions.guard';
 
 export const SETTINGS_ROUTES: Routes = [
   {
     path: 'profile',
+    canActivate: [permissionGuard],
     data: {
       permission: {
         module: 'Profile Settings',
@@ -16,6 +18,7 @@ export const SETTINGS_ROUTES: Routes = [
 
   {
     path: 'security',
+    canActivate: [permissionGuard],
     data: {
       permission: {
         module: 'Security Settings',
@@ -28,6 +31,7 @@ export const SETTINGS_ROUTES: Routes = [
 
   {
     path: 'application',
+    canActivate: [permissionGuard],
     data: {
       permission: {
         module: 'Application Settings',

@@ -1,10 +1,12 @@
 import { Routes } from '@angular/router';
 
 import { PermissionFlags } from '../../core/authorization/constants/permission-flags.constants';
+import { permissionGuard } from '../../core/guards/permissions.guard';
 
 export const ADMINISTRATION_ROUTES: Routes = [
   {
     path: 'users',
+    canActivate: [permissionGuard],
     data: {
       permission: {
         module: 'User Management',
@@ -16,6 +18,7 @@ export const ADMINISTRATION_ROUTES: Routes = [
 
   {
     path: 'roles',
+    canActivate: [permissionGuard],
     data: {
       permission: {
         module: 'Role Management',
@@ -27,6 +30,7 @@ export const ADMINISTRATION_ROUTES: Routes = [
 
   {
     path: 'modules',
+    canActivate: [permissionGuard],
     data: {
       permission: {
         module: 'Module Management',
@@ -38,6 +42,7 @@ export const ADMINISTRATION_ROUTES: Routes = [
 
   {
     path: 'permissions',
+    canActivate: [permissionGuard],
     data: {
       permission: {
         module: 'Permission Management',

@@ -19,6 +19,12 @@ export const routes: Routes = [
   },
 
   {
+    path: 'unauthorized',
+    loadComponent: () =>
+      import('./features/auth/unauthorized-page/unauthorized-page').then((m) => m.UnauthorizedPage),
+  },
+
+  {
     path: '**',
     redirectTo: 'page-not-found',
   },
