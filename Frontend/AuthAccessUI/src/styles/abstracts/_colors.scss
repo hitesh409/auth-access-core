@@ -1,0 +1,83 @@
+/* =========================================
+   MIDNIGHT GOVERNANCE THEME
+   COLOR TOKENS
+========================================= */
+
+/* =========================================
+   PRIMARY
+========================================= */
+
+$primary-400: #818cf8;
+$primary-500: #6366f1;
+$primary-600: #4f46e5;
+$primary-700: #4338ca;
+
+/* =========================================
+   SURFACES
+========================================= */
+
+$surface-900: #0f172a;
+$surface-800: #111827;
+$surface-700: #1e293b;
+$surface-600: #334155;
+$surface-500: #475569;
+
+/* =========================================
+   TEXT
+========================================= */
+
+$text-primary: #f8fafc;
+$text-secondary: #cbd5e1;
+$text-muted: #94a3b8;
+
+/* =========================================
+   BORDERS
+========================================= */
+
+$border-primary: #334155;
+$border-secondary: #475569;
+
+/* =========================================
+   STATES
+========================================= */
+
+$success: #10b981;
+$warning: #f59e0b;
+$danger: #ef4444;
+$info: #3b82f6;
+
+/* =========================================
+   CSS VARIABLES
+========================================= */
+
+:root {
+  /* Primary */
+  --color-primary: #{$primary-500};
+  --color-primary-hover: #{$primary-600};
+  --color-primary-active: #{$primary-700};
+
+  /* Surfaces */
+  --surface-app: #{$surface-900};
+  --surface-sidebar: #{$surface-800};
+  --surface-navbar: rgba(17, 24, 39, 0.9);
+  --surface-card: #{$surface-700};
+  --surface-hover: #{$surface-600};
+
+  /* Text */
+  --text-primary: #{$text-primary};
+  --text-secondary: #{$text-secondary};
+  --text-muted: #{$text-muted};
+
+  /* Borders */
+  --border-primary: #{$border-primary};
+  --border-secondary: #{$border-secondary};
+
+  /* States */
+  --color-success: #{$success};
+  --color-warning: #{$warning};
+  --color-danger: #{$danger};
+  --color-info: #{$info};
+
+  /* Effects */
+  --backdrop-blur: blur(16px);
+}

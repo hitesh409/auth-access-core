@@ -1,0 +1,110 @@
+@use '../abstracts/spacing' as *;
+@use '../abstracts/typography' as *;
+
+/* =========================================
+   GLOBAL STYLES
+========================================= */
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    font-family: $font-family-base;
+    font-size: $font-size-md;
+    font-weight: $font-weight-regular;
+    line-height: $line-height-normal;
+
+    background-color: var(--surface-app);
+    color: var(--text-primary);
+
+    overflow-x: hidden;
+}
+
+/* =========================================
+   ROOT APP
+========================================= */
+
+app-root {
+    display: block;
+    min-height: 100%;
+}
+
+/* =========================================
+   TYPOGRAPHY
+========================================= */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: var(--text-primary);
+    font-weight: $font-weight-semibold;
+    line-height: $line-height-tight;
+}
+
+h1 {
+    font-size: $font-size-4xl;
+}
+
+h2 {
+    font-size: $font-size-3xl;
+}
+
+h3 {
+    font-size: $font-size-2xl;
+}
+
+h4 {
+    font-size: $font-size-xl;
+}
+
+h5 {
+    font-size: $font-size-lg;
+}
+
+h6 {
+    font-size: $font-size-md;
+}
+
+p {
+    color: var(--text-secondary);
+}
+
+small {
+    font-size: $font-size-sm;
+    color: var(--text-muted);
+}
+
+/* =========================================
+   SELECTION
+========================================= */
+
+::selection {
+    background: rgba(99, 102, 241, 0.25);
+}
+
+/* =========================================
+   SCROLLBAR
+========================================= */
+
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--surface-sidebar);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border-secondary);
+    border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--surface-hover);
+}
