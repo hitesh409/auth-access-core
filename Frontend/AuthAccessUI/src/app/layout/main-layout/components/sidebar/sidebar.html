@@ -1,14 +1,29 @@
 <aside class="sidebar" [class.collapsed]="isSidebarCollapsed()">
   <nav class="sidebar-nav">
-    @for (item of navigationItems; track item.route) {
-    <a class="sidebar-link" [routerLink]="item.route" routerLinkActive="active">
-      @if (item.icon) {
-        <i [class]="item.icon"></i>
-      }
-      @if (!isSidebarCollapsed()) {
-        <span>{{ item.label }}</span>
-      }
-    </a>
+    @for (item of navigationItems(); track item.label) {
+      <div class="sidebar-item">
+        @if (item.route) {
+          <a [routerLink]="item.route">
+            <i [class]="item.icon"></i>
+            <span>{{ item.label }}</span>
+          </a>
+        }
+
+        @if (item.children?.length) {
+          <div class="sidebar-group-title">
+            <i [class]="item.icon"></i>
+            <span>{{ item.label }}</span>
+          </div>
+
+          <div class="sidebar-children">
+            @for (child of item.children; track child.label) {
+              <a [routerLink]="child.route">
+                {{ child.label }}
+              </a>
+            }
+          </div>
+        }
+      </div>
     }
   </nav>
 </aside>
