@@ -15,10 +15,9 @@ export const permissionGuard: CanActivateFn = (
   const authorizationService = inject(AuthorizationService);
   const router = inject(Router);
 
-  const permissions = route.data['permissions'] as RoutePermission[] | undefined;
+  const permissions = route.data['permission'] as RoutePermission[] | undefined;
 
   if (!permissions || permissions.length === 0) return true;
-
   const hasAccess = permissions.every((permission) =>
     authorizationService.hasPermission(permission.module, permission.access),
   );

@@ -9,7 +9,7 @@ export class PermissionService{
         this.permissions.clear();
         permissions.forEach(p=>{
             const [module, value] = p.split(':');
-            this.permissions.set(module,Number(value));
+            this.permissions.set(module.trim(),Number(value));
         });
     }
 

@@ -8,10 +8,12 @@ export const SETTINGS_ROUTES: Routes = [
     path: 'profile',
     canActivate: [permissionGuard],
     data: {
-      permission: {
-        module: 'Profile Settings',
-        access: PermissionFlags.Update,
-      },
+      permission: [
+        {
+          module: 'Profile Settings',
+          access: PermissionFlags.Update,
+        },
+      ],
     },
     loadComponent: () => import('./profile/profile').then((m) => m.Profile),
   },
@@ -20,10 +22,12 @@ export const SETTINGS_ROUTES: Routes = [
     path: 'security',
     canActivate: [permissionGuard],
     data: {
-      permission: {
-        module: 'Security Settings',
-        access: PermissionFlags.View,
-      },
+      permission: [
+        {
+          module: 'Security Settings',
+          access: PermissionFlags.View,
+        },
+      ],
     },
     loadComponent: () =>
       import('./security-settings/security-settings').then((m) => m.SecuritySettings),
@@ -33,10 +37,12 @@ export const SETTINGS_ROUTES: Routes = [
     path: 'application',
     canActivate: [permissionGuard],
     data: {
-      permission: {
-        module: 'Application Settings',
-        access: PermissionFlags.View,
-      },
+      permission: [
+        {
+          module: 'Application Settings',
+          access: PermissionFlags.View,
+        },
+      ],
     },
     loadComponent: () =>
       import('./application-settings/application-settings').then((m) => m.ApplicationSettings),

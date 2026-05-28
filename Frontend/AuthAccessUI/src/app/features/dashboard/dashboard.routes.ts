@@ -6,10 +6,12 @@ export const DASHBOARD_ROUTES: Routes = [
   {
     path: '',
     data: {
-      permission: {
-        module: 'Dashboard',
-        access: PermissionFlags.View,
-      },
+      permission: [
+        {
+          module: 'Dashboard',
+          access: PermissionFlags.View,
+        },
+      ],
     },
     loadComponent: () => import('./dashboard').then((m) => m.Dashboard),
   },

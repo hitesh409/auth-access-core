@@ -21,7 +21,7 @@ export const MAIN_LAYOUT_ROUTES: Routes = [
       },
 
       {
-        path: 'administration',
+        path: 'admin',
         loadChildren: () =>
           import('../../features/admin/admin.routes').then(
             (m) => m.ADMINISTRATION_ROUTES,

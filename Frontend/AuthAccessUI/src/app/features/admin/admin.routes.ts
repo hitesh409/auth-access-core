@@ -8,10 +8,12 @@ export const ADMINISTRATION_ROUTES: Routes = [
     path: 'users',
     canActivate: [permissionGuard],
     data: {
-      permission: {
-        module: 'User Management',
-        access: PermissionFlags.View,
-      },
+      permission: [
+        {
+          module: 'User Management',
+          access: PermissionFlags.View,
+        },
+      ],
     },
     loadComponent: () => import('./users/users').then((m) => m.Users),
   },
@@ -20,10 +22,12 @@ export const ADMINISTRATION_ROUTES: Routes = [
     path: 'roles',
     canActivate: [permissionGuard],
     data: {
-      permission: {
-        module: 'Role Management',
-        access: PermissionFlags.View,
-      },
+      permission: [
+        {
+          module: 'Role Management',
+          access: PermissionFlags.View,
+        },
+      ],
     },
     loadComponent: () => import('./roles/roles').then((m) => m.Roles),
   },
@@ -32,10 +36,12 @@ export const ADMINISTRATION_ROUTES: Routes = [
     path: 'modules',
     canActivate: [permissionGuard],
     data: {
-      permission: {
-        module: 'Module Management',
-        access: PermissionFlags.View,
-      },
+      permission: [
+        {
+          module: 'Module Management',
+          access: PermissionFlags.View,
+        },
+      ],
     },
     loadComponent: () => import('./modules/modules').then((m) => m.Modules),
   },
@@ -44,10 +50,12 @@ export const ADMINISTRATION_ROUTES: Routes = [
     path: 'permissions',
     canActivate: [permissionGuard],
     data: {
-      permission: {
-        module: 'Permission Management',
-        access: PermissionFlags.View,
-      },
+      permission: [
+        {
+          module: 'Permission Management',
+          access: PermissionFlags.View,
+        },
+      ],
     },
     loadComponent: () => import('./permissions/permissions').then((m) => m.Permissions),
   },
