@@ -1,19 +1,20 @@
 import { Component, inject, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { NavigationService } from '../../../../core/navigation/navigation.service';
 import { LayoutService } from '../../../../core/layout/layout.service';
 
 @Component({
   selector: 'app-sidebar',
-  imports: [RouterLink, RouterLinkActive],
+  imports: [RouterLink, RouterLinkActive, FontAwesomeModule],
   templateUrl: './sidebar.html',
   styleUrl: './sidebar.scss',
 })
 export class Sidebar {
   readonly layoutService = inject(LayoutService);
   readonly navigationService = inject(NavigationService);
-  readonly navigationItems = this.navigationService.filteredItems;
+  readonly navigationItems = this.navigationService.navigationItems;
   readonly isMobileView = this.layoutService.isMobileView;
   readonly isMobileSidebarOpen = this.layoutService.isMobileSidebarOpen;
   readonly expandedGroups = signal<string[]>([]);

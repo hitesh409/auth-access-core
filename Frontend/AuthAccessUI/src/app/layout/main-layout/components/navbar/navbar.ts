@@ -5,10 +5,12 @@ import { ToastrService } from 'ngx-toastr';
 
 import { AuthService } from '../../../../core/auth/auth.service';
 import { LayoutService } from '../../../../core/layout/layout.service';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faRightToBracket } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-navbar',
-  imports: [],
+  imports: [FontAwesomeModule],
   templateUrl: './navbar.html',
   styleUrl: './navbar.scss',
 })

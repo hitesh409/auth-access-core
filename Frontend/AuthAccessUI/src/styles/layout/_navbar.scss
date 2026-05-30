@@ -6,11 +6,12 @@
     align-items: center;
     justify-content: space-between;
     padding: 0 1.5rem;
+    background: var(--surface-navbar);
+    border-bottom: 1px solid var(--border-primary);
     position: sticky;
     top: 0;
     z-index: 100;
-    background: var(--surface-navbar);
-    border-bottom: 1px solid var(--border-primary);
+    flex-shrink: 0;
     box-shadow: $shadow-xs;
 }
 
@@ -22,12 +23,6 @@
 
 .navbar-left {
     gap: 1rem;
-}
-
-.navbar-brand {
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--text-primary);
 }
 
 .user-section {

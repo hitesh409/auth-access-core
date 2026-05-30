@@ -2,7 +2,7 @@
   <div class="navbar-left">
     @if (layoutService.isMobileView()) {
       <button type="button" class="btn-shell" (click)="toggleSidebar()">
-        <i class="bi bi-list"></i>
+        <fa-icon [icon]="['fas', 'bars']"></fa-icon>
       </button>
     }
     <div class="navbar-brand-section">
@@ -22,7 +22,7 @@
       </div>
       <button type="button" class="btn-shell-action" (click)="logout()" [disabled]="isLoading()">
         @if (!isLoading()) {
-          <i class="bi bi-box-arrow-right"></i>
+          <fa-icon  class="btn-icon" [icon]="['fas', 'right-to-bracket']"></fa-icon>
           <span>Logout</span>
         } @else {
           <span class="spinner-border spinner-border-sm"> </span>

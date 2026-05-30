@@ -6,7 +6,7 @@ import { provideClientHydration, withEventReplay } from '@angular/platform-brows
 import { provideToastr } from 'ngx-toastr'; 
 import { importProvidersFrom } from '@angular/core';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
-import { faKey, faRightFromBracket, faEye, faEyeSlash, faUserPlus, faUserShield } from '@fortawesome/free-solid-svg-icons';
+import { faKey, faRightFromBracket, faEye, faEyeSlash, faUserPlus, faUserShield, faBars, faRightToBracket } from '@fortawesome/free-solid-svg-icons';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { authInterceptor } from './core/Interceptors/auth.interceptor';
 import { authInitializer } from './core/auth/auth.initializer';
@@ -24,7 +24,7 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(FontAwesomeModule),{
       provide: 'FA_ICONS_INIT',
       useFactory: (library:FaIconLibrary)=>{
-        library.addIcons(faKey, faRightFromBracket, faEye, faEyeSlash, faUserPlus, faUserShield);
+        library.addIcons(faKey, faRightFromBracket, faEye, faEyeSlash, faUserPlus, faUserShield, faBars, faRightToBracket);
         return true;
       },
       deps: [FaIconLibrary]

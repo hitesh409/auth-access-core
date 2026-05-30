@@ -1,20 +1,42 @@
 import { PermissionFlags } from '../../authorization/constants/permission-flags.constants';
 import { NavigationItem } from '../models/navigation-items.model';
+import {
+  faUserShield,
+  faUsers,
+  faUserTag,
+  faCubes,
+  faKey,
+  faShieldHalved,
+  faLaptop,
+  faFileShield,
+  faDesktop,
+  faChartLine,
+  faClipboardList,
+  faRightToBracket,
+  faGear,
+  faLock,
+  faUserCircle,
+  faHome,
+  faFingerprint,
+} from '@fortawesome/free-solid-svg-icons';
 
 export const NAVIGATION_ITEMS: NavigationItem[] = [
   {
+    id: 0,
     label: 'Dashboard',
-    icon: 'bi bi-grid',
+    icon: faHome,
     route: '/dashboard',
   },
 
   {
+    id: 1,
     label: 'Administration',
-    icon: 'bi bi-person-gear',
+    icon: faUserShield,
     children: [
       {
+        id: 1001,
         label: 'Users',
-        icon: 'bi bi-people',
+        icon: faUsers,
         route: '/admin/users',
         permissions: [
           {
@@ -24,8 +46,9 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
         ],
       },
       {
+        id: 1002, 
         label: 'Roles',
-        icon: ' bi bi-person-badge',
+        icon: faUserTag,
         route: '/admin/roles',
         permissions: [
           {
@@ -35,8 +58,9 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
         ],
       },
       {
+        id: 1003,
         label: 'Modules',
-        icon : 'bi bi-boxes',
+        icon : faCubes,
         route: '/admin/modules',
         permissions: [
           {
@@ -45,9 +69,10 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
           },
         ],
       },
-      {
+      { 
+        id: 1004,
         label: 'Permissions',
-        icon: 'bi bi-shield-check',
+        icon: faFingerprint,
         route: '/admin/permissions',
         permissions: [
           {
@@ -60,12 +85,14 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
   },
 
   {
+    id: 2,
     label: 'Security',
-    icon: 'bi bi-shield-lock',
+    icon: faShieldHalved,
     children: [
       {
+        id: 2001,
         label: 'Sessions',
-        icon: 'bi bi-clock-history',
+        icon: faLaptop,
         route: '/security/sessions',
         permissions: [
           {
@@ -75,8 +102,9 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
         ],
       },
       {
+        id: 2002,
         label: 'Access Policies',
-        icon: 'bi bi-shield-exclamation',
+        icon: faFileShield,
         route: '/security/access-policies',
         permissions: [
           {
@@ -86,8 +114,9 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
         ],
       },
       {
+        id: 2003,
         label: 'Token Activity',
-        icon: 'bi bi-ticket-perforated',
+        icon: faKey,
         route: '/security/token-activity',
         permissions: [
           {
@@ -97,8 +126,9 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
         ],
       },
       {
+        id: 2004, 
         label: 'Device Activity',
-        icon: 'bi bi-pc-display',
+        icon: faDesktop,
         route: '/security/device-activity',
         permissions: [
           {
@@ -111,12 +141,14 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
   },
 
   {
+    id: 3,
     label: 'Reports',
-    icon: 'bi bi-bar-chart-line',
+    icon: faChartLine,
     children: [
       {
+        id: 3001,
         label: 'Audit Logs',
-        icon: 'bi bi-journal-text',
+        icon: faClipboardList,
         route: '/reports/audit-logs',
         permissions: [
           {
@@ -126,8 +158,9 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
         ],
       },
       {
+        id: 3002,
         label: 'Login Activity',
-        icon: 'bi bi-box-arrow-in-right',
+        icon: faRightToBracket,
         route: '/reports/login-activity',
         permissions: [
           {
@@ -140,17 +173,20 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
   },
 
   {
+    id: 4,
     label: 'Settings',
-    icon: 'bi bi-gear',
+    icon: faGear,
     children: [
       {
+        id: 4001,
         label: 'Profile Settings',
-        icon: 'bi bi-person-circle',
+        icon: faUserCircle,
         route: '/settings/profile',
       },
       {
+        id: 4002,
         label: 'Security Settings',
-        icon: 'bi bi-shield-lock',
+        icon: faLock,
         route: '/settings/security',
         permissions: [
           {

@@ -18,7 +18,7 @@
             routerLinkActive="sidebar-link-active"
             [routerLinkActiveOptions]="{ exact: false }"
           >
-            <i [class]="item.icon"></i>
+            <fa-icon  class="nav-icon" [icon]="item.icon"></fa-icon>
             <span> {{ item.label }} </span>
           </a>
         }
@@ -26,7 +26,7 @@
         @if (item.children?.length) {
           <div class="sidebar-group-title" (click)="toggleGroup(item.label)">
             <div class="sidebar-group-left">
-              <i [class]="item.icon"></i>
+              <fa-icon  class="nav-icon" [icon]="item.icon"></fa-icon>
               <span> {{ item.label }}</span>
             </div>
             <i
@@ -43,7 +43,7 @@
                   [routerLink]="child.route"
                   routerLinkActive="sidebar-child-active"
                 >
-                  <i [class]="child.icon"></i>
+                  <fa-icon  class="nav-icon" [icon]="child.icon"></fa-icon>
                   <span> {{ child.label }}</span>
                 </a>
               }
