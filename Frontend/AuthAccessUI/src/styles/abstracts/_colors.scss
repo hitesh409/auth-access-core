@@ -1,6 +1,5 @@
 /* =========================================
-   MIDNIGHT GOVERNANCE THEME
-   COLOR TOKENS
+   ARCTIC GOVERNANCE THEME
 ========================================= */
 
 /* =========================================
@@ -16,26 +15,26 @@ $primary-700: #4338ca;
    SURFACES
 ========================================= */
 
-$surface-900: #0f172a;
-$surface-800: #111827;
-$surface-700: #1e293b;
-$surface-600: #334155;
-$surface-500: #475569;
+$surface-app: #f8fafc;
+$surface-sidebar: #ffffff;
+$surface-navbar: #ffffff;
+$surface-card: #ffffff;
+$surface-hover: #f1f5f9;
 
 /* =========================================
    TEXT
 ========================================= */
 
-$text-primary: #f8fafc;
-$text-secondary: #cbd5e1;
-$text-muted: #94a3b8;
+$text-primary: #0f172a;
+$text-secondary: #475569;
+$text-muted: #64748b;
 
 /* =========================================
    BORDERS
 ========================================= */
 
-$border-primary: #334155;
-$border-secondary: #475569;
+$border-primary: #e2e8f0;
+$border-secondary: #cbd5e1;
 
 /* =========================================
    STATES
@@ -46,38 +45,28 @@ $warning: #f59e0b;
 $danger: #ef4444;
 $info: #3b82f6;
 
-/* =========================================
-   CSS VARIABLES
-========================================= */
-
 :root {
-  /* Primary */
-  --color-primary: #{$primary-500};
-  --color-primary-hover: #{$primary-600};
-  --color-primary-active: #{$primary-700};
+   --color-primary: #{$primary-500};
+   --color-primary-hover: #{$primary-600};
+   --color-primary-active: #{$primary-700};
 
-  /* Surfaces */
-  --surface-app: #{$surface-900};
-  --surface-sidebar: #{$surface-800};
-  --surface-navbar: rgba(17, 24, 39, 0.9);
-  --surface-card: #{$surface-700};
-  --surface-hover: #{$surface-600};
+   --surface-app: #{$surface-app};
+   --surface-sidebar: #{$surface-sidebar};
+   --surface-navbar: #{$surface-navbar};
+   --surface-card: #{$surface-card};
+   --surface-hover: #{$surface-hover};
 
-  /* Text */
-  --text-primary: #{$text-primary};
-  --text-secondary: #{$text-secondary};
-  --text-muted: #{$text-muted};
+   --text-primary: #{$text-primary};
+   --text-secondary: #{$text-secondary};
+   --text-muted: #{$text-muted};
 
-  /* Borders */
-  --border-primary: #{$border-primary};
-  --border-secondary: #{$border-secondary};
+   --border-primary: #{$border-primary};
+   --border-secondary: #{$border-secondary};
 
-  /* States */
-  --color-success: #{$success};
-  --color-warning: #{$warning};
-  --color-danger: #{$danger};
-  --color-info: #{$info};
+   --color-success: #{$success};
+   --color-warning: #{$warning};
+   --color-danger: #{$danger};
+   --color-info: #{$info};
 
-  /* Effects */
-  --backdrop-blur: blur(16px);
+   --backdrop-blur: blur(16px);
 }

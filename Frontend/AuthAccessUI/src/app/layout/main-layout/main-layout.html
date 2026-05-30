@@ -1,9 +1,9 @@
-<div class="main-layout">
+<div class="app-shell">
+  <app-sidebar />
+  <div class="app-shell__content">
     <app-navbar />
-    <div class="layout-body">
-        <app-sidebar />
-        <main class="layout-content">
-            <router-outlet />
-        </main>
+    <div class="page-container">
+      <router-outlet />
     </div>
+  </div>
 </div>

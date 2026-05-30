@@ -1,5 +1,5 @@
 /* =========================================
-   ABSTRACTS
+ABSTRACTS
 ========================================= */
 
 @use './styles/abstracts/colors';
@@ -16,3 +16,26 @@
 @use './styles/base/reset';
 @use './styles/base/global';
 @use './styles/base/utilities';
+
+/* =========================================
+   LAYOUT
+========================================= */
+
+@use './styles/layout/shell';
+@use './styles/layout/sidebar';
+@use './styles/layout/navbar';
+@use './styles/layout/content';
+
+/* =========================================
+   COMPONENTS
+========================================= */
+
+@use './styles/components/buttons';
+@use './styles/components/cards';
+@use './styles/components/forms';
+@use './styles/components/tables';
+@use './styles/components/modals';
+@use './styles/components/page-header';
+
+
+@import 'bootstrap-icons/font/bootstrap-icons.css';

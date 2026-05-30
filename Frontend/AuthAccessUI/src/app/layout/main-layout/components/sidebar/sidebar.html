@@ -1,29 +1,60 @@
-<aside class="sidebar" [class.collapsed]="isSidebarCollapsed()">
+<aside class="sidebar" [class.mobile-open]="isMobileSidebarOpen()">
+  <div class="sidebar-brand">
+    <div class="sidebar-logo" routerLink="/">
+      <img src="assets/logo.png" alt="AuthAccess Logo" />
+    </div>
+    <div class="sidebar-brand-info">
+      <div class="sidebar-brand-title">Enterprise</div>
+      <div class="sidebar-brand-subtitle">Access Platform</div>
+    </div>
+  </div>
   <nav class="sidebar-nav">
     @for (item of navigationItems(); track item.label) {
       <div class="sidebar-item">
         @if (item.route) {
-          <a [routerLink]="item.route">
+          <a
+            class="sidebar-link"
+            [routerLink]="item.route"
+            routerLinkActive="sidebar-link-active"
+            [routerLinkActiveOptions]="{ exact: false }"
+          >
             <i [class]="item.icon"></i>
-            <span>{{ item.label }}</span>
+            <span> {{ item.label }} </span>
           </a>
         }
 
         @if (item.children?.length) {
-          <div class="sidebar-group-title">
-            <i [class]="item.icon"></i>
-            <span>{{ item.label }}</span>
+          <div class="sidebar-group-title" (click)="toggleGroup(item.label)">
+            <div class="sidebar-group-left">
+              <i [class]="item.icon"></i>
+              <span> {{ item.label }}</span>
+            </div>
+            <i
+              class="bi bi-chevron-down sidebar-chevron"
+              [class.sidebar-chevron-open]="isExpanded(item.label)"
+            ></i>
           </div>
 
-          <div class="sidebar-children">
-            @for (child of item.children; track child.label) {
-              <a [routerLink]="child.route">
-                {{ child.label }}
-              </a>
-            }
-          </div>
+          @if (isExpanded(item.label)) {
+            <div class="sidebar-children">
+              @for (child of item.children; track child.label) {
+                <a
+                  class="sidebar-child-link"
+                  [routerLink]="child.route"
+                  routerLinkActive="sidebar-child-active"
+                >
+                  <i [class]="child.icon"></i>
+                  <span> {{ child.label }}</span>
+                </a>
+              }
+            </div>
+          }
         }
       </div>
     }
   </nav>
 </aside>
+
+@if (isMobileView() && isMobileSidebarOpen()) {
+  <div class="sidebar-backdrop" (click)="layoutService.closeMobileSidebar()"></div>
+}

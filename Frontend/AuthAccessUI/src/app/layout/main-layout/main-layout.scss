@@ -1,17 +1,25 @@
-.main-layout {
-  height: 100vh;
+.app-shell {
+  display: flex;
+  min-height: 100vh;
+  background: var(--surface-app);
+}
+
+.app-shell__content {
+  flex: 1;
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
-.layout-body {
+.page-container {
   flex: 1;
-  display: flex;
-  overflow: hidden;
-}
-
-.layout-content {
-  flex: 1;
+  padding: 2rem;
   overflow-y: auto;
-  padding: 1rem;
+  background: var(--surface-app);
+}
+
+@media (max-width: 991px) {
+  .page-container {
+    padding: 1rem;
+  }
 }

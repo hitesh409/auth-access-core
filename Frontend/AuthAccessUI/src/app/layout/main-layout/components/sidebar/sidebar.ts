@@ -1,17 +1,41 @@
-import { Component, inject } from '@angular/core';
-import { LayoutService } from '../../../layout.service';
-import { RouterLink } from '@angular/router';
+import { Component, inject, signal } from '@angular/core';
+import { RouterLink, RouterLinkActive } from '@angular/router';
+
 import { NavigationService } from '../../../../core/navigation/navigation.service';
+import { LayoutService } from '../../../../core/layout/layout.service';
 
 @Component({
   selector: 'app-sidebar',
-  imports: [RouterLink],
+  imports: [RouterLink, RouterLinkActive],
   templateUrl: './sidebar.html',
   styleUrl: './sidebar.scss',
 })
 export class Sidebar {
-  private readonly layoutService = inject(LayoutService);
-  private readonly navigationService = inject(NavigationService);
+  readonly layoutService = inject(LayoutService);
+  readonly navigationService = inject(NavigationService);
   readonly navigationItems = this.navigationService.filteredItems;
-  readonly isSidebarCollapsed = this.layoutService.isSidebarCollapsed;
+  readonly isMobileView = this.layoutService.isMobileView;
+  readonly isMobileSidebarOpen = this.layoutService.isMobileSidebarOpen;
+  readonly expandedGroups = signal<string[]>([]);
+
+  constructor() {
+    const defaultExpandedGroups = this.navigationItems()
+      .filter((item) => item.children)
+      .map((item) => item.label);
+    this.expandedGroups.set(defaultExpandedGroups);
+  }
+
+  isExpanded(label: string): boolean {
+    return this.expandedGroups().includes(label);
+  }
+
+  toggleGroup(label: string): void {
+    this.expandedGroups.update((groups) => {
+      if (groups.includes(label)) {
+        return groups.filter((group) => group !== label);
+      } else {
+        return [...groups, label];
+      }
+    });
+  }
 }

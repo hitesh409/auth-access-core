@@ -4,16 +4,17 @@ import { NavigationItem } from '../models/navigation-items.model';
 export const NAVIGATION_ITEMS: NavigationItem[] = [
   {
     label: 'Dashboard',
-    icon: 'fa-solid fa-grid-2',
+    icon: 'bi bi-grid',
     route: '/dashboard',
   },
 
   {
     label: 'Administration',
-    icon: 'fa-solid fa-user-shield',
+    icon: 'bi bi-person-gear',
     children: [
       {
         label: 'Users',
+        icon: 'bi bi-people',
         route: '/admin/users',
         permissions: [
           {
@@ -22,9 +23,9 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
           },
         ],
       },
-
       {
         label: 'Roles',
+        icon: ' bi bi-person-badge',
         route: '/admin/roles',
         permissions: [
           {
@@ -33,9 +34,9 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
           },
         ],
       },
-
       {
         label: 'Modules',
+        icon : 'bi bi-boxes',
         route: '/admin/modules',
         permissions: [
           {
@@ -44,9 +45,9 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
           },
         ],
       },
-
       {
         label: 'Permissions',
+        icon: 'bi bi-shield-check',
         route: '/admin/permissions',
         permissions: [
           {
@@ -60,10 +61,11 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
 
   {
     label: 'Security',
-    icon: 'fa-solid fa-shield-halved',
+    icon: 'bi bi-shield-lock',
     children: [
       {
         label: 'Sessions',
+        icon: 'bi bi-clock-history',
         route: '/security/sessions',
         permissions: [
           {
@@ -72,20 +74,20 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
           },
         ],
       },
-
       {
         label: 'Access Policies',
+        icon: 'bi bi-shield-exclamation',
         route: '/security/access-policies',
         permissions: [
           {
-            module: 'Access Policies',
+            module: 'Access Reports',
             access: PermissionFlags.View,
           },
         ],
       },
-
       {
         label: 'Token Activity',
+        icon: 'bi bi-ticket-perforated',
         route: '/security/token-activity',
         permissions: [
           {
@@ -94,9 +96,9 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
           },
         ],
       },
-
       {
         label: 'Device Activity',
+        icon: 'bi bi-pc-display',
         route: '/security/device-activity',
         permissions: [
           {
@@ -110,10 +112,11 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
 
   {
     label: 'Reports',
-    icon: 'fa-solid fa-chart-column',
+    icon: 'bi bi-bar-chart-line',
     children: [
       {
         label: 'Audit Logs',
+        icon: 'bi bi-journal-text',
         route: '/reports/audit-logs',
         permissions: [
           {
@@ -122,9 +125,9 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
           },
         ],
       },
-
       {
         label: 'Login Activity',
+        icon: 'bi bi-box-arrow-in-right',
         route: '/reports/login-activity',
         permissions: [
           {
@@ -138,16 +141,17 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
 
   {
     label: 'Settings',
-    icon: 'fa-solid fa-gear',
+    icon: 'bi bi-gear',
     children: [
       {
         label: 'Profile Settings',
-        route: '/settings/profile-settings',
+        icon: 'bi bi-person-circle',
+        route: '/settings/profile',
       },
-
       {
         label: 'Security Settings',
-        route: '/settings/security-settings',
+        icon: 'bi bi-shield-lock',
+        route: '/settings/security',
         permissions: [
           {
             module: 'Security Settings',
