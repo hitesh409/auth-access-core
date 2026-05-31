@@ -1,0 +1,20 @@
+:root {
+    /* Border Radius */
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 14px;
+
+    /* Component Heights */
+    --control-height-sm: 32px;
+    --control-height-md: 40px;
+    --control-height-lg: 48px;
+
+    /* Animation */
+    --transition-fast: 150ms ease;
+    --transition-base: 250ms ease;
+
+    /* Z Layers */
+    --z-dropdown: 1000;
+    --z-overlay: 1050;
+    --z-modal: 1100;
+}
