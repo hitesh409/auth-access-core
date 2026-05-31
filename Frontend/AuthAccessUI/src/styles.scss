@@ -38,5 +38,14 @@ ABSTRACTS
 @use './styles/components/page-header';
 @use './styles/components/icon';
 
+@import '@angular/cdk/overlay-prebuilt.css';
+
+.cdk-overlay-container {
+  z-index: 2000;
+}
+
+.navigation-overlay-panel {
+  z-index: 2001;
+}
 
 @import 'bootstrap-icons/font/bootstrap-icons.css';

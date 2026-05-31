@@ -1,0 +1,47 @@
+.navigation-overlay {
+    min-width: 260px;
+    background: var(--surface-primary, #ffffff);
+    border: 1px solid var(--border-primary);
+    border-radius: 16px;
+    overflow: visible;
+    box-shadow:
+        0 20px 25px -5px rgb(0 0 0 / 0.1),
+        0 8px 10px -6px rgb(0 0 0 / 0.1);
+    position: relative;
+}
+
+.navigation-overlay::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -7px;
+    width: 14px;
+    height: 14px;
+    background: var(--surface-primary, #ffffff);
+    border-left: 1px solid var(--border-primary);
+    border-bottom: 1px solid var(--border-primary);
+    transform: translateY(-50%) rotate(45deg);
+    z-index: 0;
+}
+
+.navigation-overlay-link {
+    position: relative;
+    z-index: 1;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0 1rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+}
+
+.navigation-overlay-link:hover {
+    background: var(--surface-hover);
+}
+
+.navigation-overlay-link-active {
+    background: rgba(99, 102, 241, 0.12);
+    color: var(--color-primary);
+    font-weight: 600;
+}

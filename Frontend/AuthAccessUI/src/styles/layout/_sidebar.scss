@@ -5,7 +5,9 @@
     flex-direction: column;
     background: var(--surface-sidebar);
     border-right: 1px solid var(--border-primary);
-    overflow: hidden;
+    overflow-x: visible;
+    overflow-y: hidden;
+    position: relative;
 }
 
 .sidebar-nav {

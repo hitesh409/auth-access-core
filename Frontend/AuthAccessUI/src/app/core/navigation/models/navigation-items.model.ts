@@ -7,5 +7,4 @@ export interface NavigationItem {
   route?: string;
   permissions?: RoutePermission[];
   children?: NavigationItem[];
-  expanded?: boolean;
 }

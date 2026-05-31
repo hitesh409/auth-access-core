@@ -1,58 +1,70 @@
 <aside class="sidebar" [class.mobile-open]="isMobileSidebarOpen()">
-  <div class="sidebar-brand">
-    <div class="sidebar-logo" routerLink="/">
-      <img src="assets/logo.png" alt="AuthAccess Logo" />
+  @if (isMobileView() && mobileParent(); as parent) {
+    <div class="sidebar-brand sidebar-secondary-header">
+      <button class="sidebar-back-button" type="button" aria-label="Back to main navigation" (click)="backToMainNavigation()">
+        <i class="bi bi-arrow-left"></i>
+      </button>
+      <div class="sidebar-brand-info">
+        <div class="sidebar-brand-title">{{ parent.label }}</div>
+        <div class="sidebar-brand-subtitle">Navigation</div>
+      </div>
     </div>
-    <div class="sidebar-brand-info">
-      <div class="sidebar-brand-title">Enterprise</div>
-      <div class="sidebar-brand-subtitle">Access Platform</div>
-    </div>
-  </div>
-  <nav class="sidebar-nav">
-    @for (item of navigationItems(); track item.label) {
-      <div class="sidebar-item">
-        @if (item.route) {
+
+    <nav class="sidebar-nav">
+      @for (child of parent.children ?? []; track child.id) {
+        <div class="sidebar-item">
           <a
             class="sidebar-link"
-            [routerLink]="item.route"
+            [routerLink]="child.route"
             routerLinkActive="sidebar-link-active"
             [routerLinkActiveOptions]="{ exact: false }"
+            (click)="navigateMobile()"
           >
-            <fa-icon  class="nav-icon" [icon]="item.icon"></fa-icon>
-            <span> {{ item.label }} </span>
+            <fa-icon class="nav-icon" [icon]="child.icon!"> </fa-icon>
+            <span> {{ child.label }}</span>
           </a>
-        }
+        </div>
+      }
+    </nav>
+  } @else {
+    <div class="sidebar-brand">
+      <div class="sidebar-logo" routerLink="/" (click)="navigateMobile()">
+        <img src="assets/logo.png" alt="AuthAccess Logo" />
+      </div>
+      <div class="sidebar-brand-info">
+        <div class="sidebar-brand-title">Enterprise</div>
+        <div class="sidebar-brand-subtitle">Access Platform</div>
+      </div>
+    </div>
 
-        @if (item.children?.length) {
-          <div class="sidebar-group-title" (click)="toggleGroup(item.label)">
-            <div class="sidebar-group-left">
-              <fa-icon  class="nav-icon" [icon]="item.icon"></fa-icon>
+    <nav class="sidebar-nav">
+      @for (item of navigationItems(); track item.id) {
+        <div class="sidebar-item">
+          @if (item.route) {
+            <a
+              class="sidebar-link"
+              [routerLink]="item.route"
+              routerLinkActive="sidebar-link-active"
+              [routerLinkActiveOptions]="{ exact: false }"
+              (click)="navigateMobile()"
+            >
+              <fa-icon class="nav-icon" [icon]="item.icon!"> </fa-icon>
               <span> {{ item.label }}</span>
-            </div>
-            <i
-              class="bi bi-chevron-down sidebar-chevron"
-              [class.sidebar-chevron-open]="isExpanded(item.label)"
-            ></i>
-          </div>
+            </a>
+          }
 
-          @if (isExpanded(item.label)) {
-            <div class="sidebar-children">
-              @for (child of item.children; track child.label) {
-                <a
-                  class="sidebar-child-link"
-                  [routerLink]="child.route"
-                  routerLinkActive="sidebar-child-active"
-                >
-                  <fa-icon  class="nav-icon" [icon]="child.icon"></fa-icon>
-                  <span> {{ child.label }}</span>
-                </a>
-              }
+          @if (item.children?.length) {
+            <div class="sidebar-group-title" [class.sidebar-link-active]="isParentActive(item)" (click)="openNavigation($event, item)">
+              <div class="sidebar-group-left">
+                <fa-icon class="nav-icon" [icon]="item.icon!"> </fa-icon>
+                <span> {{ item.label }}</span>
+              </div>
             </div>
           }
-        }
-      </div>
-    }
-  </nav>
+        </div>
+      }
+    </nav>
+  }
 </aside>
 
 @if (isMobileView() && isMobileSidebarOpen()) {

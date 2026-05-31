@@ -1,0 +1,15 @@
+@if (parent) {
+  <div class="navigation-overlay" role="menu">
+    @for (child of parent.children ?? []; track child.id) {
+      <a
+        class="navigation-overlay-link"
+        [routerLink]="child.route"
+        routerLinkActive="navigation-overlay-link-active"
+        (click)="overlayService.close()"
+      >
+        <fa-icon class="nav-icon" [icon]="child.icon!"> </fa-icon>
+        <span> {{ child.label }}</span>
+      </a>
+    }
+  </div>
+}

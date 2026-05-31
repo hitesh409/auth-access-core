@@ -20,11 +20,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(
-    135deg,
-    var(--color-primary) 0%,
-    #8b5cf6 100%
-  );
+  background: linear-gradient(135deg,
+      var(--color-primary) 0%,
+      #8b5cf6 100%);
 }
 
 .sidebar-logo img {
@@ -46,11 +44,34 @@
 
 .sidebar-chevron {
   font-size: 0.75rem;
-  transition: transform 0.2s ease;
 }
 
-.sidebar-chevron-open {
-  transform: rotate(180deg);
+.sidebar-secondary-header {
+  gap: 0.5rem;
+}
+
+.sidebar-back-button {
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  border: 1px solid var(--border-primary);
+  border-radius: 12px;
+  color: var(--text-secondary);
+  background: var(--surface-primary, #ffffff);
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.sidebar-back-button:hover {
+  color: var(--color-primary);
+  background: var(--surface-hover);
+  border-color: var(--border-secondary);
 }
 
 .sidebar-backdrop {
@@ -58,4 +79,65 @@
   inset: 0;
   background: rgba(15, 23, 42, 0.4);
   z-index: 999;
+}
+
+.navigation-context-menu {
+  position: absolute;
+  left: calc(100% - 12px);
+  width: 260px;
+  z-index: 1200;
+  background: var(--surface-primary);
+  border: 1px solid var(--border-primary);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow:
+    0 20px 25px -5px rgb(0 0 0 / 0.1),
+    0 8px 10px -6px rgb(0 0 0 / 0.1);
+  animation: context-menu-enter 150ms ease-out;
+}
+
+.navigation-context-menu::before {
+  content: '';
+  position: absolute;
+  left: -6px;
+  top: 18px;
+  width: 12px;
+  height: 12px;
+  background: var(--surface-primary);
+  transform: rotate(45deg);
+  border-left: 1px solid var(--border-primary);
+  border-bottom: 1px solid var(--border-primary);
+}
+
+.context-menu-link {
+  height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0 1rem;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.context-menu-link:hover {
+  background: var(--surface-hover);
+}
+
+.context-menu-link-active {
+  background: rgba(99, 102, 241, 0.12);
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+@keyframes context-menu-enter {
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
