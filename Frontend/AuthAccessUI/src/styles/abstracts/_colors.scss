@@ -20,6 +20,7 @@ $surface-primary: #ffffff;
 $surface-sidebar: #ffffff;
 $surface-navbar: #ffffff;
 $surface-card: #ffffff;
+$surface-secondary: #f1f5f9;
 $surface-hover: #f1f5f9;
 
 /* =========================================
@@ -36,6 +37,7 @@ $text-muted: #64748b;
 
 $border-primary: #e2e8f0;
 $border-secondary: #cbd5e1;
+$surface-border: $border-primary;
 
 /* =========================================
    STATES
@@ -56,6 +58,7 @@ $info: #3b82f6;
    --surface-sidebar: #{$surface-sidebar};
    --surface-navbar: #{$surface-navbar};
    --surface-card: #{$surface-card};
+   --surface-secondary: #{$surface-secondary};
    --surface-hover: #{$surface-hover};
 
    --text-primary: #{$text-primary};
@@ -64,6 +67,7 @@ $info: #3b82f6;
 
    --border-primary: #{$border-primary};
    --border-secondary: #{$border-secondary};
+   --surface-border: #{$surface-border};
 
    --color-success: #{$success};
    --color-warning: #{$warning};
@@ -121,5 +125,14 @@ $info: #3b82f6;
          transparent);
    --empty-state-icon-color: var(--color-primary);
    --empty-state-border: var(--surface-border);
+
+   /* ==========================================================
+   SKELETON
+========================================================== */
+
+   --skeleton-base: var(--surface-secondary);
+   --skeleton-highlight: color-mix(in srgb,
+         white 45%,
+         var(--surface-secondary));
 
 }
