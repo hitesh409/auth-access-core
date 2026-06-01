@@ -2,9 +2,7 @@
   <!-- Mobile Title -->
 
   <div class="page-context__mobile-title">
-    <span class="page-context__mobile-title-text">
-      {{ title() }}
-    </span>
+    <span class="page-context__mobile-title-text"> {{ title() }} </span>
   </div>
 
   <!-- Context Toolbar -->
@@ -30,10 +28,7 @@
             @if (breadcrumbs().length === 1 && breadcrumb.icon) {
               <fa-icon [icon]="breadcrumb.icon!" class="breadcrumb-item__icon"> </fa-icon>
             }
-
-            <span>
-              {{ breadcrumb.label }}
-            </span>
+            <span> {{ breadcrumb.label }}</span>
           </button>
         }
 
@@ -44,13 +39,13 @@
     </div>
 
     <div class="page-context__actions">
-      <button type="button" class="nav-button" aria-label="Go Back" (click)="goBack()">
+      <app-button variant="navigation" size="sm">
         <fa-icon [icon]="faChevronLeft" />
-      </button>
+      </app-button>
 
-      <button type="button" class="nav-button" aria-label="Go Forward" (click)="goForward()">
+      <app-button variant="navigation" size="sm">
         <fa-icon [icon]="faChevronRight" />
-      </button>
+      </app-button>
 
       <ng-content select="[page-actions]" />
     </div>

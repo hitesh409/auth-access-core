@@ -5,10 +5,11 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
 import { BreadcrumbItem } from '../../models/breadcrumb.model';
+import { ButtonComponent } from "../button/button";
 
 @Component({
   selector: 'app-page-header',
-  imports: [FontAwesomeModule],
+  imports: [FontAwesomeModule, ButtonComponent],
   templateUrl: './page-header.html',
   styleUrl: './page-header.scss',
 })
