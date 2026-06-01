@@ -1,0 +1,120 @@
+/* =========================================
+   BASE
+========================================= */
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    border-radius: 999px;
+    font-weight: 600;
+    white-space: nowrap;
+    border: 1px solid transparent;
+}
+
+/* =========================================
+   SIZES
+========================================= */
+
+.badge--sm {
+    height: 24px;
+    padding-inline: 0.625rem;
+    font-size: 0.75rem;
+}
+
+.badge--md {
+    height: 28px;
+    padding-inline: 0.75rem;
+    font-size: 0.8125rem;
+}
+
+/* =========================================
+   DOT
+========================================= */
+
+.badge__dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.badge__icon {
+    font-size: 0.75rem;
+    flex-shrink: 0;
+}
+
+.badge__content {
+    display: inline-flex;
+    align-items: center;
+}
+
+/* =========================================
+   SUCCESS
+========================================= */
+
+.badge--success {
+    background: var(--status-success-bg);
+    border-color: var(--status-success-border);
+    color: var(--status-success-text);
+}
+
+.badge--success .badge__dot {
+    background: var(--status-success);
+}
+
+/* =========================================
+   WARNING
+========================================= */
+
+.badge--warning {
+    background: var(--status-warning-bg);
+    border-color: var(--status-warning-border);
+    color: var(--status-warning-text);
+}
+
+.badge--warning .badge__dot {
+    background: var(--status-warning);
+}
+
+/* =========================================
+   ERROR
+========================================= */
+
+.badge--error {
+    background: var(--status-error-bg);
+    border-color: var(--status-error-border);
+    color: var(--status-error-text);
+}
+
+.badge--error .badge__dot {
+    background: var(--status-error);
+}
+
+/* =========================================
+   INFO
+========================================= */
+
+.badge--info {
+    background: var(--status-info-bg);
+    border-color: var(--status-info-border);
+    color: var(--status-info-text);
+}
+
+.badge--info .badge__dot {
+    background: var(--status-info);
+}
+
+/* =========================================
+   NEUTRAL
+========================================= */
+
+.badge--neutral {
+    background: var(--status-neutral-bg);
+    border-color: var(--status-neutral-border);
+    color: var(--status-neutral-text);
+}
+
+.badge--neutral .badge__dot {
+    background: var(--status-neutral);
+}
