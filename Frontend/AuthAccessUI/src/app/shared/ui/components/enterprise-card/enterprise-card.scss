@@ -1,0 +1,53 @@
+.enterprise-card {
+    position: relative;
+    background: var(--surface-primary);
+    border: 1px solid var(--surface-border);
+    border-radius: 16px;
+    padding: 1.25rem;
+    transition:
+        border-color 180ms ease,
+        box-shadow 180ms ease,
+        transform 180ms ease;
+}
+
+/* =========================================
+   DEFAULT
+========================================= */
+
+.enterprise-card--default {
+    box-shadow: var(--shadow-xs);
+}
+
+/* =========================================
+   METRIC
+========================================= */
+
+.enterprise-card--metric {
+    box-shadow: var(--shadow-xs);
+    overflow: hidden;
+}
+
+.enterprise-card--metric::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--color-primary);
+}
+
+/* =========================================
+   INTERACTIVE
+========================================= */
+
+.enterprise-card--interactive {
+    cursor: pointer;
+    box-shadow: var(--shadow-xs);
+}
+
+.enterprise-card--interactive:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-md);
+}
