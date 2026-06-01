@@ -135,4 +135,13 @@ $info: #3b82f6;
          white 45%,
          var(--surface-secondary));
 
+   /* ==========================================================
+   LOADING OVERLAY
+========================================================== */
+
+   --loading-overlay-bg: rgba(255, 255, 255, 0.72);
+   --loading-overlay-backdrop: blur(4px);
+   --loading-spinner-color: var(--color-primary);
+   --loading-message-color: var(--text-primary);
+
 }
