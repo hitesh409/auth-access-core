@@ -112,4 +112,14 @@ $info: #3b82f6;
    --status-neutral-border: var(--surface-border);
    --status-neutral-text: var(--text-secondary);
 
+   /* ==========================================================
+   EMPTY STATE
+========================================================== */
+
+   --empty-state-icon-bg: color-mix(in srgb,
+         var(--color-primary) 8%,
+         transparent);
+   --empty-state-icon-color: var(--color-primary);
+   --empty-state-border: var(--surface-border);
+
 }
