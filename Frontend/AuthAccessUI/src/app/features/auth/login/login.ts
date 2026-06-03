@@ -21,9 +21,6 @@ export class Login {
   constructor(
     private toastr: ToastrService,
     private authService: AuthService,
-    private tokenService: TokenService,
-    private jwtService: JwtService,
-    private permissionService: PermissionService,
     private router: Router,
     private route: ActivatedRoute
   ) {}
@@ -69,15 +66,10 @@ export class Login {
 
     this.authService.login(this.loginForm.value).subscribe({
       next: (res: any) => {
-        this.tokenService.setToken(res.accessToken);
-
-        const decoded = this.jwtService.decodeToken(res.accessToken);
-        this.permissionService.setPermissions(decoded.module);
-
         this.isLoading.set(false);
-        this.toastr.success('Login successful', 'Welcome Back!');
         const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
         this.router.navigate([returnUrl]);
+        this.toastr.success('Login successful', 'Welcome Back!');
       },
       error: () => {
         this.isLoading.set(false);

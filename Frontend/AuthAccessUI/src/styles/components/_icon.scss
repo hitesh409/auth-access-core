@@ -1,0 +1,56 @@
+fa-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+.nav-icon {
+    width: 20px;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    transition: color 0.2s ease;
+}
+
+.btn-icon {
+    font-size: 0.875rem;
+}
+
+.input-icon {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+}
+
+.toolbar-icon {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+}
+
+.metric-icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    font-size: 1.25rem;
+    background: rgba(99, 102, 241, 0.08);
+    color: var(--color-primary);
+}
+
+.status-icon-success {
+    color: var(--color-success);
+}
+
+.status-icon-warning {
+    color: var(--color-warning);
+}
+
+.status-icon-danger {
+    color: var(--color-danger);
+}
+
+.status-icon-info {
+    color: var(--color-primary);
+}

@@ -1,0 +1,22 @@
+/* =========================================
+   ENTERPRISE SHELL
+========================================= */
+
+.app-shell {
+    display: flex;
+    min-height: 100vh;
+    background-color: var(--surface-app);
+    color: var(--text-primary);
+}
+
+.app-shell__content {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.app-shell__page {
+    flex: 1;
+    padding: 1.5rem;
+}

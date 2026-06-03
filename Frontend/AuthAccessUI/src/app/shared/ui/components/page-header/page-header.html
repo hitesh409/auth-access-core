@@ -1,0 +1,53 @@
+<section class="page-context">
+  <!-- Mobile Title -->
+
+  <div class="page-context__mobile-title">
+    <span class="page-context__mobile-title-text"> {{ title() }} </span>
+  </div>
+
+  <!-- Context Toolbar -->
+
+  <div class="page-context__toolbar">
+    <div class="breadcrumbs">
+      @for (
+        breadcrumb of breadcrumbs();
+        track breadcrumb.route ?? breadcrumb.label;
+        let first = $first;
+        let last = $last
+      ) {
+        @if (first && !last) {
+          <button type="button" class="breadcrumb-parent" (click)="navigate(breadcrumb.route)">
+            @if (breadcrumb.icon) {
+              <fa-icon [icon]="breadcrumb.icon!" />
+            }
+          </button>
+        }
+
+        @if (!first || breadcrumbs().length === 1) {
+          <button type="button" class="breadcrumb-item" (click)="navigate(breadcrumb.route)">
+            @if (breadcrumbs().length === 1 && breadcrumb.icon) {
+              <fa-icon [icon]="breadcrumb.icon!" class="breadcrumb-item__icon"> </fa-icon>
+            }
+            <span> {{ breadcrumb.label }}</span>
+          </button>
+        }
+
+        @if (!last) {
+          <span class="breadcrumbs__separator"> / </span>
+        }
+      }
+    </div>
+
+    <div class="page-context__actions">
+      <app-button variant="navigation" size="sm">
+        <fa-icon [icon]="faChevronLeft" />
+      </app-button>
+
+      <app-button variant="navigation" size="sm">
+        <fa-icon [icon]="faChevronRight" />
+      </app-button>
+
+      <ng-content select="[page-actions]" />
+    </div>
+  </div>
+</section>

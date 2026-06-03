@@ -1,0 +1,8 @@
+<div class="empty-state">
+  <div class="empty-state__icon"><fa-icon [icon]="icon()" /></div>
+  <h3 class="empty-state__title">{{ title() }}</h3>
+  <p class="empty-state__description">{{ description() }}</p>
+  <div class="empty-state__actions">
+    <ng-content select="[empty-actions]" />
+  </div>
+</div>

@@ -1,0 +1,7 @@
+<span [class]="classes()">
+  <span class="badge__dot"></span>
+  @if (icon()) {
+    <fa-icon [icon]="icon()!" class="badge__icon"> </fa-icon>
+  }
+  <span class="badge__content"> <ng-content /> </span>
+</span>

@@ -1,0 +1,221 @@
+@use '../abstracts/spacing' as *;
+
+/* =========================================
+   DISPLAY
+========================================= */
+
+.d-flex {
+    display: flex;
+}
+
+.d-inline-flex {
+    display: inline-flex;
+}
+
+.d-block {
+    display: block;
+}
+
+.d-none {
+    display: none;
+}
+
+/* =========================================
+   FLEX
+========================================= */
+
+.flex-column {
+    flex-direction: column;
+}
+
+.flex-wrap {
+    flex-wrap: wrap;
+}
+
+.flex-1 {
+    flex: 1;
+}
+
+.align-center {
+    align-items: center;
+}
+
+.align-start {
+    align-items: flex-start;
+}
+
+.align-end {
+    align-items: flex-end;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
+.justify-end {
+    justify-content: flex-end;
+}
+
+/* =========================================
+   GAP
+========================================= */
+
+.gap-1 {
+    gap: $space-1;
+}
+
+.gap-2 {
+    gap: $space-2;
+}
+
+.gap-3 {
+    gap: $space-3;
+}
+
+.gap-4 {
+    gap: $space-4;
+}
+
+.gap-5 {
+    gap: $space-5;
+}
+
+.gap-6 {
+    gap: $space-6;
+}
+
+.gap-8 {
+    gap: $space-8;
+}
+
+/* =========================================
+   MARGIN
+========================================= */
+
+.mt-1 {
+    margin-top: $space-1;
+}
+
+.mt-2 {
+    margin-top: $space-2;
+}
+
+.mt-3 {
+    margin-top: $space-3;
+}
+
+.mt-4 {
+    margin-top: $space-4;
+}
+
+.mt-6 {
+    margin-top: $space-6;
+}
+
+.mb-1 {
+    margin-bottom: $space-1;
+}
+
+.mb-2 {
+    margin-bottom: $space-2;
+}
+
+.mb-3 {
+    margin-bottom: $space-3;
+}
+
+.mb-4 {
+    margin-bottom: $space-4;
+}
+
+.mb-6 {
+    margin-bottom: $space-6;
+}
+
+/* =========================================
+   PADDING
+========================================= */
+
+.p-1 {
+    padding: $space-1;
+}
+
+.p-2 {
+    padding: $space-2;
+}
+
+.p-3 {
+    padding: $space-3;
+}
+
+.p-4 {
+    padding: $space-4;
+}
+
+.p-6 {
+    padding: $space-6;
+}
+
+/* =========================================
+   WIDTH
+========================================= */
+
+.w-100 {
+    width: 100%;
+}
+
+/* =========================================
+   TEXT
+========================================= */
+
+.text-center {
+    text-align: center;
+}
+
+.text-primary {
+    color: var(--text-primary);
+}
+
+.text-secondary {
+    color: var(--text-secondary);
+}
+
+.text-muted {
+    color: var(--text-muted);
+}
+
+.text-success {
+    color: var(--color-success);
+}
+
+.text-danger {
+    color: var(--color-danger);
+}
+
+.text-warning {
+    color: var(--color-warning);
+}
+
+/* =========================================
+   BORDER RADIUS
+========================================= */
+
+.rounded-sm {
+    border-radius: 0.375rem;
+}
+
+.rounded-md {
+    border-radius: 0.5rem;
+}
+
+.rounded-lg {
+    border-radius: 0.75rem;
+}
+
+.rounded-xl {
+    border-radius: 1rem;
+}

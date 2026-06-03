@@ -1,0 +1,11 @@
+@if (loading()) {
+  <div class="loading-overlay">
+    <div class="loading-overlay__content">
+      <div class="loading-overlay__spinner"></div>
+
+      <div class="loading-overlay__message">
+        {{ message() }}
+      </div>
+    </div>
+  </div>
+}

@@ -1,0 +1,8 @@
+<button type="button" [disabled]="disabled() || loading()" [class]="classes()">
+  @if (loading()) {
+    <span class="btn__spinner"></span>
+  } @else if (icon() && variant() !== 'ghost') {
+    <fa-icon [icon]="icon()!" class="btn__icon"> </fa-icon>
+  }
+  <span class="btn__content"> <ng-content /></span>
+</button>

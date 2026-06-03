@@ -20,7 +20,7 @@ namespace AuthAccessCore.API.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
-            var userId = await _authService.RegisterAsync(request.Email,request.FirstName,request.LastName, request.Password, Roles.Employee);
+            var userId = await _authService.RegisterAsync(request.Email,request.FirstName,request.LastName, request.Password, Roles.User);
             return Ok(new { userId, message = "User registed successfully" });
         }
 
@@ -36,7 +36,7 @@ namespace AuthAccessCore.API.Controllers
                 SameSite = SameSiteMode.Strict
             });
 
-            return Ok(new { accessToken = result.AccessToken });
+            return Ok(new { accessToken = result.AccessToken, userContext = result.UserContext });
         }
 
         [HttpPost("refresh")]
@@ -54,7 +54,8 @@ namespace AuthAccessCore.API.Controllers
 
             return Ok(new
             {
-                accessToken = result.AccessToken
+                accessToken = result.AccessToken,
+                userContext = result.UserContext
             });
         }
 

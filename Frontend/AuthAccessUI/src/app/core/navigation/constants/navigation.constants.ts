@@ -1,0 +1,3 @@
+export const SIDEBAR_WIDTH = 280;
+export const FLYOUT_WIDTH = 320;
+export const NAVIGATION_ANIMATION_DURATION = 180;

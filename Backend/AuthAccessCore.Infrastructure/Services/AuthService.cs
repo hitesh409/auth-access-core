@@ -80,7 +80,15 @@ namespace AuthAccessCore.Infrastructure.Services
             return new LoginResult
             {
                 AccessToken = accessToken,
-                RefreshToken = refreshToken
+                RefreshToken = refreshToken,
+                UserContext = new
+                    {
+                        user.FirstName,
+                        user.LastName,
+                        user.Email,
+                        Role = user.Role.ToString(),
+                        permissions = SerializePermission(modulePermission, await _moduleRepo.GetAllAsync())
+                }
             };
         }
         
@@ -114,7 +122,15 @@ namespace AuthAccessCore.Infrastructure.Services
             return new LoginResult
             {
                 AccessToken = accessToken,
-                RefreshToken = newRefreshToken
+                RefreshToken = newRefreshToken,
+                UserContext = new
+                {
+                    user.FirstName,
+                    user.LastName,
+                    user.Email,
+                    Role = user.Role.ToString(),
+                    permissions = SerializePermission(modulePermissions, await _moduleRepo.GetAllAsync())
+                }
             };
         }
 
@@ -140,6 +156,15 @@ namespace AuthAccessCore.Infrastructure.Services
             }
 
             return result;
+        }
+
+        private string[] SerializePermission(Dictionary<Guid, Permissions> permissions, IEnumerable<Module> modules)
+        {
+            return permissions.Select(p =>
+            {
+                var module = modules.First(m => m.ModuleId == p.Key);
+                return $"{module.ModuleName} : {(int)p.Value}";
+            }).ToArray();
         }
 
     }

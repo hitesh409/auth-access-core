@@ -1,0 +1,14 @@
+<div class="app-shell">
+  <app-sidebar />
+  <div class="app-shell__content">
+    <app-navbar />
+    <div class="route-progress" [class.route-progress--active]="isNavigating()" aria-hidden="true">
+      <div class="route-progress__track">
+        <div class="route-progress__bar"></div>
+      </div>
+    </div>
+    <div class="page-container">
+      <router-outlet />
+    </div>
+  </div>
+</div>

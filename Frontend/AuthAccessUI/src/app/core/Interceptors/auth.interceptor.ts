@@ -11,11 +11,14 @@ let refreshTokenSubject = new BehaviorSubject<string | null>(null);
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const tokenService = inject(TokenService);
   const authService = inject(AuthService);
-
   let authReq = req;
+  const isAuthEndpoint =  req.url.includes('/login') ||  req.url.includes('/refresh') ||  req.url.includes('/register');
+
+  if (isAuthEndpoint) {
+    return next(req);
+  }
 
   const token = tokenService.getToken();
-  debugger;
   // Attach token
   if (token) {
     authReq = req.clone({

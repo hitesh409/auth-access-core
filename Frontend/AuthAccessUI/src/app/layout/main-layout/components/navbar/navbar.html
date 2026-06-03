@@ -1,0 +1,34 @@
+<header class="navbar">
+  <div class="navbar-left">
+    @if (layoutService.isMobileView()) {
+      <button type="button" class="btn-shell" (click)="toggleSidebar()">
+        <fa-icon [icon]="['fas', 'bars']"></fa-icon>
+      </button>
+    }
+    <div class="navbar-brand-section">
+      <h1 class="navbar-title">Enterprise Access Platform</h1>
+      <span class="navbar-subtitle"> Access Governance & Authorization </span>
+    </div>
+  </div>
+  <div class="navbar-right">
+    <div class="user-section">
+      <div class="user-info">
+        <div class="user-name">
+          {{ fullName() }}
+        </div>
+        <div class="user-email">
+          {{ email() }}
+        </div>
+      </div>
+      <button type="button" class="btn-shell-action" (click)="logout()" [disabled]="isLoading()">
+        @if (!isLoading()) {
+          <fa-icon  class="btn-icon" [icon]="['fas', 'right-to-bracket']"></fa-icon>
+          <span>Logout</span>
+        } @else {
+          <span class="spinner-border spinner-border-sm"> </span>
+          <span>Logging out...</span>
+        }
+      </button>
+    </div>
+  </div>
+</header>

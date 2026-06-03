@@ -1,18 +1,17 @@
 import { inject } from "@angular/core";
 import { CanActivateFn, Router } from "@angular/router";
-import { TokenService } from "../services/token.service";
+import { AuthService } from "../auth/auth.service";
 
 export const authGuard: CanActivateFn = (route, state)=>{
-    const tokenService = inject(TokenService);
+    const authService = inject(AuthService);
     const router = inject(Router);
-    debugger;
-    const token = tokenService.getToken();
-    if(token){
+    const isAuthenticated  = authService.isAuthenticated();
+    if(isAuthenticated ){
         return true;
     }
 
     // Preserve attempted URL for redirect after login
-    return router.createUrlTree(['/login'],{
+    return router.createUrlTree(['/auth/login'],{
         queryParams: { returnUrl: state.url }
     });
 }

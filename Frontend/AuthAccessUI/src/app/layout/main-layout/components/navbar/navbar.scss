@@ -1,0 +1,42 @@
+.navbar-brand-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.navbar-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.navbar-subtitle {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  line-height: 1.2;
+}
+
+@media (max-width: 991px) {
+  .navbar {
+    padding: 0 1rem;
+  }
+
+  .navbar-subtitle {
+    display: none;
+  }
+
+  .user-email {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .navbar-title {
+    font-size: 0.875rem;
+  }
+
+  .user-info {
+    display: none;
+  }
+}

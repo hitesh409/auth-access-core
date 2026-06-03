@@ -1,0 +1,23 @@
+// Focus ring
+@mixin focus-ring {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+}
+
+// Hover elevation
+@mixin hover-elevation {
+    transition:
+        transform var(--transition-fast),
+        box-shadow var(--transition-fast);
+
+    &:hover {
+        transform: translateY(-2px);
+    }
+}
+
+// card base
+@mixin card-base {
+    background: var(--surface-primary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+}

@@ -75,7 +75,7 @@ export class Register {
           next: (res: any) => {
             this.toastr.success('Registration successful', 'Welcome!');
             this.isLoading.set(false);
-            this.router.navigate(['/login']);
+            this.router.navigate(['/auth/login']);
           },
           error: (ex: any) => {
             this.isLoading.set(false);
