@@ -1,0 +1,126 @@
+.quick-actions-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.action-card {
+  --action-accent: var(--color-primary);
+  display: flex;
+  min-height: 110px;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  cursor: pointer;
+}
+
+.action-card--success {
+  --action-accent: var(--color-success);
+}
+
+.action-card--warning {
+  --action-accent: var(--color-warning);
+}
+
+.action-card--info {
+  --action-accent: var(--color-info);
+}
+
+.action-card:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--action-accent) 28%, transparent);
+  outline-offset: 4px;
+}
+
+.action-card:focus-within {
+  border-radius: 12px;
+}
+
+.action-card__main {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.action-card__title-row {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-bottom: 0.55rem;
+}
+
+.action-card__icon {
+  display: inline-flex;
+  width: 40px;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid color-mix(in srgb, var(--action-accent) 18%, transparent);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--action-accent) 10%, transparent);
+  color: var(--action-accent);
+}
+
+.action-title {
+  color: var(--text-primary);
+  font-weight: 700;
+  line-height: 1.25;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.action-description {
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  line-height: 1.4;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.action-card__open {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 0.4rem;
+  flex: 0 0 auto;
+  color: var(--color-primary);
+  font-size: 0.8125rem;
+  font-weight: 700;
+}
+
+@media (max-width: 1200px) {
+  .quick-actions-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .quick-actions-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .quick-actions-grid {
+    gap: 0.75rem;
+  }
+
+  .action-card {
+    min-height: 104px;
+  }
+
+  .action-card__icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+  }
+
+  .action-title {
+    font-size: 0.95rem;
+  }
+
+  .action-description {
+    font-size: 0.82rem;
+  }
+}

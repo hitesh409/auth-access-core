@@ -1,0 +1,33 @@
+<app-dashboard-widget-shell title="Quick Actions" subtitle="Jump into the workflows your access team uses most.">
+  <div class="quick-actions-grid">
+    @for (action of actions; track action.title) {
+      <app-enterprise-card variant="interactive">
+        <div
+          [class]="'action-card action-card--' + action.tone"
+          role="button"
+          tabindex="0"
+          [attr.aria-label]="action.ariaLabel"
+          (click)="openAction(action.route)"
+          (keydown.enter)="openAction(action.route)"
+          (keydown.space)="openActionFromSpace($event, action.route)"
+        >
+          <div class="action-card__main">
+            <div class="action-card__title-row">
+              <span class="action-card__icon">
+                <fa-icon [icon]="action.icon" />
+              </span>
+              <div class="action-title">{{ action.title }}</div>
+            </div>
+
+            <div class="action-description">{{ action.description }}</div>
+          </div>
+
+          <span class="action-card__open">
+            Open
+            <fa-icon [icon]="arrowIcon" />
+          </span>
+        </div>
+      </app-enterprise-card>
+    }
+  </div>
+</app-dashboard-widget-shell>

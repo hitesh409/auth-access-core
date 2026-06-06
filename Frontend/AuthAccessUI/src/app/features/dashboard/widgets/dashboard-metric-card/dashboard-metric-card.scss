@@ -1,0 +1,111 @@
+.metric-card {
+    --metric-accent: var(--color-primary);
+    display: flex;
+    min-height: 128px;
+    flex-direction: column;
+}
+
+.metric-card--success {
+    --metric-accent: var(--color-success);
+}
+
+.metric-card--warning {
+    --metric-accent: var(--color-warning);
+}
+
+.metric-card--danger {
+    --metric-accent: var(--color-danger);
+}
+
+.metric-card--info {
+    --metric-accent: var(--color-info);
+}
+
+.metric-card__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.1rem;
+}
+
+.metric-card__title {
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    font-weight: 700;
+    line-height: 1.35;
+    text-transform: uppercase;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.metric-card__icon-wrap {
+    display: inline-flex;
+    width: 42px;
+    height: 42px;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    border: 1px solid color-mix(in srgb, var(--metric-accent) 18%, transparent);
+    border-radius: 12px;
+    background: color-mix(in srgb, var(--metric-accent) 10%, transparent);
+    color: var(--metric-accent);
+}
+
+.metric-card__icon {
+    font-size: 1rem;
+}
+
+.metric-card__value {
+    color: var(--text-primary);
+    font-size: 1.8rem;
+    font-weight: 800;
+    line-height: 1.1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.metric-card__status {
+    display: flex;
+    align-items: center;
+    min-height: 2rem;
+}
+
+.metric-card__subtitle {
+    margin-top: 0.65rem;
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    line-height: 1.35;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.metric-card__loading {
+    display: grid;
+    gap: 0.75rem;
+    margin-top: auto;
+}
+
+@media (max-width: 480px) {
+    .metric-card {
+        min-height: 118px;
+    }
+
+    .metric-card__header {
+        margin-bottom: 0.85rem;
+    }
+
+    .metric-card__icon-wrap {
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+    }
+
+    .metric-card__value {
+        font-size: 1.75rem;
+    }
+
+}

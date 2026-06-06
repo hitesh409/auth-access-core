@@ -1,8 +1,10 @@
-<section class="page-context">
+<section class="page-context" [class.page-context--compact]="scrolled()">
   <!-- Mobile Title -->
 
   <div class="page-context__mobile-title">
-    <span class="page-context__mobile-title-text"> {{ title() }} </span>
+    <span class="page-context__mobile-title-text">
+      {{ title() }}
+    </span>
   </div>
 
   <!-- Context Toolbar -->
@@ -28,7 +30,8 @@
             @if (breadcrumbs().length === 1 && breadcrumb.icon) {
               <fa-icon [icon]="breadcrumb.icon!" class="breadcrumb-item__icon"> </fa-icon>
             }
-            <span> {{ breadcrumb.label }}</span>
+
+            <span>{{ breadcrumb.label }}</span>
           </button>
         }
 
@@ -39,11 +42,11 @@
     </div>
 
     <div class="page-context__actions">
-      <app-button variant="navigation" size="sm">
+      <app-button variant="navigation" size="sm" aria-label="Go back" (click)="goBack()">
         <fa-icon [icon]="faChevronLeft" />
       </app-button>
 
-      <app-button variant="navigation" size="sm">
+      <app-button variant="navigation" size="sm" aria-label="Go forward" (click)="goForward()">
         <fa-icon [icon]="faChevronRight" />
       </app-button>
 

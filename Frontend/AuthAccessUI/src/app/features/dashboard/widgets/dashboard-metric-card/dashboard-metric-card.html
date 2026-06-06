@@ -1,0 +1,33 @@
+<app-enterprise-card variant="metric">
+  <div [class]="'metric-card metric-card--' + tone()">
+    <div class="metric-card__header">
+      <span class="metric-card__title">
+        {{ title() }}
+      </span>
+      <span class="metric-card__icon-wrap">
+        <fa-icon class="metric-card__icon" [icon]="icon()"> </fa-icon>
+      </span>
+    </div>
+
+    @if (loading()) {
+      <div class="metric-card__loading" aria-label="Loading metric">
+        <app-skeleton-loader variant="title" width="46%" />
+        <app-skeleton-loader variant="text" width="68%" />
+      </div>
+    } @else {
+      @if (displayAs() === 'badge') {
+        <div class="metric-card__status">
+          <app-badge [variant]="statusVariant()" size="md">{{ value() }}</app-badge>
+        </div>
+      } @else {
+        <div class="metric-card__value">
+          {{ value() }}
+        </div>
+      }
+
+      <div class="metric-card__subtitle">
+        {{ subtitle() }}
+      </div>
+    }
+  </div>
+</app-enterprise-card>

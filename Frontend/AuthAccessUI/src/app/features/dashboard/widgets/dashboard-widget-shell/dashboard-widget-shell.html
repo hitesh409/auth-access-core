@@ -1,0 +1,17 @@
+<app-enterprise-card>
+  <div class="widget-shell__header">
+    <div>
+      <h3 class="widget-shell__title">{{ title() }}</h3>
+      @if (subtitle()) {
+        <p class="widget-shell__subtitle">{{ subtitle() }}</p>
+      }
+    </div>
+
+    @if (actionText()) {
+      <app-button variant="ghost" size="sm">{{ actionText() }}</app-button>
+    }
+  </div>
+  <div class="widget-shell__body">
+    <ng-content />
+  </div>
+</app-enterprise-card>

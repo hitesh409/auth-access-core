@@ -1,0 +1,46 @@
+.widget-shell__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--surface-border);
+}
+
+.widget-shell__title {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.widget-shell__subtitle {
+    margin: 0.25rem 0 0;
+    color: var(--text-secondary);
+    font-size: 0.82rem;
+    line-height: 1.4;
+}
+
+.widget-shell__header app-button {
+    flex: 0 0 auto;
+}
+
+.widget-shell__body {
+    min-height: 120px;
+}
+
+@media (max-width: 480px) {
+    .widget-shell__header {
+        gap: 0.65rem;
+        flex-direction: column;
+    }
+
+    .widget-shell__title {
+        font-size: 0.95rem;
+    }
+
+    .widget-shell__subtitle {
+        font-size: 0.78rem;
+    }
+}

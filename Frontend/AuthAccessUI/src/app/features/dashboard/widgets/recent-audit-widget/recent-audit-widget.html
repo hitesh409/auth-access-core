@@ -1,0 +1,44 @@
+<app-dashboard-widget-shell
+  title="Recent Audit Events"
+  subtitle="Policy and access changes captured by the audit pipeline."
+  actionText="View All"
+>
+  @if (loading()) {
+    @for (row of skeletonRows; track row) {
+      <div class="audit-row audit-row--skeleton">
+        <div class="audit-row__content">
+          <app-skeleton-loader variant="title" width="170px" />
+          <app-skeleton-loader variant="text" width="220px" />
+        </div>
+        <app-skeleton-loader variant="text" width="90px" />
+      </div>
+    }
+  } @else if (events().length === 0) {
+    <app-empty-state
+      [icon]="emptyIcon"
+      title="No Audit Activity"
+      description="No audit events have been captured."
+    />
+  } @else {
+    @for (event of events(); track event.id) {
+      <div class="audit-row">
+        <div class="audit-row__content">
+          <div class="audit-row__action">
+            {{ event.action }}
+          </div>
+
+          <div class="audit-row__actor">
+            {{ event.actor }} in {{ event.module }}
+          </div>
+        </div>
+
+        <div class="audit-row__status">
+          <app-badge [variant]="event.severity" size="sm">
+            {{ event.severity }}
+          </app-badge>
+          <span class="audit-row__time">{{ event.timestamp }}</span>
+        </div>
+      </div>
+    }
+  }
+</app-dashboard-widget-shell>

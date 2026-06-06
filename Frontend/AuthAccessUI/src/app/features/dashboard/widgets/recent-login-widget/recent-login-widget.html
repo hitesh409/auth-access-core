@@ -1,0 +1,44 @@
+<app-dashboard-widget-shell
+  title="Recent Logins"
+  subtitle="Successful sign-ins from trusted identities."
+  actionText="View All"
+>
+  @if (loading()) {
+    @for (row of skeletonRows; track row) {
+      <div class="login-row login-row--skeleton">
+        <app-skeleton-loader variant="avatar" width="36px" height="36px" />
+        <div class="login-row__identity">
+          <app-skeleton-loader variant="title" width="140px" />
+          <app-skeleton-loader variant="text" width="190px" />
+        </div>
+        <app-skeleton-loader variant="text" width="76px" />
+      </div>
+    }
+  } @else if (logins().length === 0) {
+    <app-empty-state
+      [icon]="emptyIcon"
+      title="No Recent Logins"
+      description="No successful sign-ins have been recorded."
+    >
+      <app-button empty-actions variant="ghost" size="sm" (click)="viewActivity()">View Activity</app-button>
+    </app-empty-state>
+  } @else {
+    @for (login of logins(); track login.id) {
+      <div class="login-row">
+        <div class="login-row__avatar" aria-hidden="true">
+          {{ login.userName[0] || '?' }}
+        </div>
+
+        <div class="login-row__identity">
+          <div class="user">{{ login.userName }}</div>
+          <a class="email" href="mailto:{{ login.email }}">{{ login.email }}</a>
+        </div>
+
+        <div class="login-row__status">
+          <app-badge variant="success" size="sm">Verified</app-badge>
+          <span class="login-row__time"> {{ login.loginTime }} </span>
+        </div>
+      </div>
+    }
+  }
+</app-dashboard-widget-shell>

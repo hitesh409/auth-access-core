@@ -1,17 +1,20 @@
 .sidebar {
     width: 260px;
     height: 100vh;
+    height: 100dvh;
     display: flex;
     flex-direction: column;
     background: var(--surface-sidebar);
     border-right: 1px solid var(--border-primary);
     overflow-x: visible;
     overflow-y: hidden;
-    position: relative;
+    position: sticky;
+    top: 0;
 }
 
 .sidebar-nav {
     flex: 1;
+    min-height: 0;
     overflow-y: auto;
     padding: 1rem;
     scrollbar-width: thin;
@@ -107,6 +110,7 @@
         left: 0;
         top: 0;
         z-index: 1000;
+        width: min(320px, 86vw);
         transform: translateX(-100%);
         transition: transform 0.25s ease;
     }

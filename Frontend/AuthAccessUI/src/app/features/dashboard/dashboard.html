@@ -1,13 +1,49 @@
-<div class="container py-5">
-  <h2 class="fw-bold">Dashboard</h2>
+<app-page-header title="Dashboard" [breadcrumbs]="breadcrumbs"> </app-page-header>
 
-  <p class="text-muted">
-    Welcome to your secure access control system.
-  </p>
-
-  <div class="mt-4">
-    <div class="alert alert-success">
-      ✅ You are authenticated
-    </div>
+<section class="dashboard-hero" aria-label="Security overview">
+  <div class="dashboard-hero__content">
+    <div class="dashboard-hero__eyebrow">Access command center</div>
+    <h1 class="dashboard-hero__title">Identity posture is healthy across core systems</h1>
+    <p class="dashboard-hero__copy">
+      Monitor authentication volume, privileged access, policy changes and user risk from one
+      operational view.
+    </p>
   </div>
+
+  <div class="dashboard-hero__status-panel">
+    <app-badge variant="success"> Live Monitoring </app-badge>
+    <div class="dashboard-hero__score">96</div>
+    <div class="dashboard-hero__score-label">Security health score</div>
+    <app-button variant="ghost">
+      View Control Room
+      <fa-icon [icon]="arrowIcon" />
+    </app-button>
+  </div>
+</section>
+
+<div class="dashboard-stack">
+  <section class="metrics-grid" aria-label="Dashboard metrics">
+    @for (metric of metrics(); track metric.title) {
+      <app-dashboard-metric-card
+        [title]="metric.title"
+        [value]="metric.value"
+        [subtitle]="metric.subtitle"
+        [icon]="metric.icon"
+        [tone]="metric.tone ?? 'primary'"
+        [displayAs]="metric.displayAs ?? 'value'"
+        [statusVariant]="metric.statusVariant ?? 'success'"
+        [loading]="loading()"
+      >
+      </app-dashboard-metric-card>
+    }
+  </section>
+
+  <section class="quick-actions-section" aria-label="Quick actions">
+    <app-quick-action-widget />
+  </section>
+
+  <section class="content-grid" aria-label="Recent security activity">
+    <app-recent-login-widget />
+    <app-recent-audit-widget />
+  </section>
 </div>
