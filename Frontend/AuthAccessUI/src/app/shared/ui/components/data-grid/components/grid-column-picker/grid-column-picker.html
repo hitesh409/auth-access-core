@@ -1,0 +1,12 @@
+<div class="column-picker">
+  @for (column of columns(); track column.key) {
+    <label class="column-picker__item">
+      <input
+        type="checkbox"
+        [checked]="selectedColumns().includes(column.key.toString())"
+        (change)="toggle(column.key.toString())"
+      />
+      {{ column.header }}
+    </label>
+  }
+</div>

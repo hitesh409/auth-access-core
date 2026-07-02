@@ -1,0 +1,120 @@
+:host {
+    display: block;
+}
+
+.grid-toolbar {
+    display: grid;
+    grid-template-columns: minmax(360px, 1fr) auto;
+    gap: 1rem;
+    align-items: center;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--surface-border);
+}
+
+/* =========================================
+   SEARCH
+========================================= */
+
+.grid-toolbar__search {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 44px;
+    padding-inline: 0.875rem;
+    border: 1px solid var(--surface-border);
+    border-radius: 14px;
+    background: var(--surface-secondary);
+    transition:
+        border-color 180ms ease,
+        box-shadow 180ms ease,
+        background-color 180ms ease;
+}
+
+.grid-toolbar__search:focus-within {
+    background: var(--surface-primary);
+    border-color: var(--color-primary);
+
+}
+
+.grid-toolbar__search-icon {
+    flex-shrink: 0;
+    margin-right: 0.75rem;
+    color: var(--text-tertiary);
+}
+
+.grid-toolbar__search-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+}
+
+.grid-toolbar__search-input::placeholder {
+    color: var(--text-tertiary);
+}
+
+.grid-toolbar__clear {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border: none;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition:
+        background-color 150ms ease,
+        color 150ms ease;
+}
+
+.grid-toolbar__clear:hover {
+    background: var(--surface-primary);
+    color: var(--text-primary);
+}
+
+/* =========================================
+   RIGHT SIDE
+========================================= */
+
+.grid-toolbar__right {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.grid-toolbar__selection {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.45rem 0.8rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--color-primary) 8%, transparent);
+    border: 1px solid color-mix(in srgb, var(--color-primary) 12%, transparent);
+    color: var(--color-primary);
+    font-size: 0.8125rem;
+    font-weight: 600;
+}
+
+.grid-toolbar__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 768px) {
+
+    .grid-toolbar {
+        grid-template-columns: 1fr;
+    }
+
+    .grid-toolbar__right {
+        justify-content: space-between;
+    }
+}

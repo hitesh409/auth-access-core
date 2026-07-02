@@ -1,1 +1,11 @@
-<p>search-bar works!</p>
+<div class="search-box">
+  <fa-icon class="search-box__icon" [icon]="icon.search"> </fa-icon>
+
+  <input
+    class="search-box__input"
+    type="text"
+    [placeholder]="placeholder()"
+    [ngModel]="value()"
+    (ngModelChange)="valueChange.emit($event)"
+  />
+</div>

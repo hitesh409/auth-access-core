@@ -1,0 +1,136 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+/* =========================================
+   BASE
+========================================= */
+
+.master-detail {
+    position: relative;
+    flex: 1;
+    min-height: 0;
+}
+
+/* =========================================
+   SPLIT — Desktop ≥1024px
+========================================= */
+
+.master-detail--split {
+    display: grid;
+    grid-template-columns: minmax(380px, 420px) minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr);
+    gap: 1.5rem;
+    min-height: 0;
+}
+
+.master-detail__master,
+.master-detail__detail {
+    min-height: 0;
+    height: 100%;
+    overflow: hidden;
+}
+
+/* =========================================
+   MASTER
+========================================= */
+
+.master-detail__master {
+    min-width: 0;
+    border-radius: 24px;
+    overflow: hidden;
+    background: linear-gradient(180deg, var(--surface-secondary), var(--surface-primary));
+    border: 1px solid var(--surface-border);
+    box-shadow: var(--shadow-xs);
+    transition:
+        transform .3s cubic-bezier(.4, 0, .2, 1),
+        box-shadow .3s ease;
+}
+
+/* =========================================
+   DETAIL
+========================================= */
+
+.master-detail__detail {
+    min-width: 0;
+    border-radius: 24px;
+    overflow: hidden;
+    background: var(--surface-primary);
+    border: 1px solid var(--surface-border);
+    box-shadow: var(--shadow-sm);
+}
+
+/* =========================================
+   BACKDROP
+   Hidden on desktop, fades in on tablet/mobile
+   when navigator is open
+========================================= */
+
+.master-detail__backdrop {
+    display: none;
+    position: absolute;
+    inset: 0;
+    z-index: 40;
+    background: rgba(15, 23, 42, .45);
+    backdrop-filter: blur(2px);
+    border-radius: 24px;
+    opacity: 0;
+    pointer-events: none;
+    cursor: pointer;
+    transition: opacity .3s ease;
+}
+
+/* =========================================
+   TABLET + MOBILE — below 1024px
+   Master list fills the full screen.
+   Detail is shown in an app-modal overlay,
+   not inside this layout at all.
+========================================= */
+
+@media (max-width: 1023px) {
+
+    .master-detail--split {
+        display: block;
+        position: relative;
+        height: 100%;
+    }
+
+    /* Master fills the entire container */
+    .master-detail__master {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        display: block;
+        border-radius: 20px;
+        box-shadow: none;
+        transition: none;
+    }
+
+    /* Detail is never shown inline — lives in modal */
+    .master-detail__detail {
+        display: none;
+    }
+
+    .master-detail__backdrop {
+        display: none;
+    }
+}
+
+/* =========================================
+   GRID ONLY
+========================================= */
+
+.master-detail--grid-only {
+    grid-template-columns: 1fr;
+}
+
+/* =========================================
+   FULLSCREEN
+========================================= */
+
+.master-detail--fullscreen {
+    grid-template-columns: 1fr;
+}

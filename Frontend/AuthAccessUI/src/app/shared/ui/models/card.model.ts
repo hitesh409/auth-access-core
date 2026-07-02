@@ -1,1 +1,1 @@
-export type CardVariant = 'default' | 'metric' | 'interactive';
+export type CardVariant = 'default' | 'metric' | 'interactive' | 'workspace';

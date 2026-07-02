@@ -1,0 +1,423 @@
+:host {
+    display: block;
+    height: 100%;
+    min-height: 0;
+}
+
+.entity-navigator {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+
+/* =========================================
+   TOOLBAR
+========================================= */
+
+.entity-navigator__toolbar {
+    flex-shrink: 0;
+    background: var(--surface-primary);
+    border-bottom: 1px solid var(--surface-border);
+    padding: 1rem;
+}
+
+.entity-navigator__search-row {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+}
+
+.entity-navigator__search-row app-search-box {
+    flex: 1;
+    min-width: 0;
+}
+
+/* =========================================
+   FILTER BUTTON + DROPDOWN
+========================================= */
+
+.entity-navigator__filter-wrap {
+    position: relative;
+    flex-shrink: 0;
+}
+
+.entity-navigator__filter-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+}
+
+.entity-navigator__filter-btn {
+    display: flex;
+    align-items: center;
+    gap: .375rem;
+    height: 42px;
+    padding: 0 .875rem;
+    border: 1px solid var(--surface-border);
+    border-radius: 12px;
+    background: var(--surface-primary);
+    font-size: .8125rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    cursor: pointer;
+    white-space: nowrap;
+    font-family: inherit;
+    transition:
+        border-color .18s ease,
+        color .18s ease,
+        background .18s ease,
+        box-shadow .18s ease;
+}
+
+.entity-navigator__filter-btn:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+}
+
+.entity-navigator__filter-btn--active {
+    border-color: color-mix(in srgb, var(--color-primary) 35%, var(--surface-border));
+    color: var(--color-primary);
+    background: color-mix(in srgb, var(--color-primary) 6%, var(--surface-primary));
+}
+
+.entity-navigator__filter-chevron {
+    transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.entity-navigator__filter-chevron--open {
+    transform: rotate(180deg);
+}
+
+.entity-navigator__filter-dropdown {
+    position: absolute;
+    top: calc(100% + .375rem);
+    right: 0;
+    background: var(--surface-primary);
+    border: 1px solid var(--surface-border);
+    border-radius: 14px;
+    box-shadow:
+        0 8px 24px rgba(15, 23, 42, .10),
+        0 2px 8px rgba(15, 23, 42, .06);
+    min-width: 152px;
+    padding: .375rem;
+    z-index: 101;
+
+    /* closed state */
+    visibility: hidden;
+    opacity: 0;
+    transform: scale(0.94) translateY(-6px);
+    transform-origin: top right;
+    pointer-events: none;
+    transition:
+        opacity 200ms cubic-bezier(0.16, 1, 0.3, 1),
+        transform 200ms cubic-bezier(0.16, 1, 0.3, 1),
+        visibility 0s 200ms;
+}
+
+.entity-navigator__filter-dropdown--open {
+    visibility: visible;
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    pointer-events: auto;
+    transition:
+        opacity 200ms cubic-bezier(0.16, 1, 0.3, 1),
+        transform 200ms cubic-bezier(0.16, 1, 0.3, 1),
+        visibility 0s 0s;
+}
+
+.entity-navigator__filter-option {
+    display: flex;
+    align-items: center;
+    gap: .625rem;
+    width: 100%;
+    padding: .5rem .75rem;
+    border: none;
+    border-radius: 8px;
+    background: none;
+    font-size: .8125rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    cursor: pointer;
+    text-align: left;
+    font-family: inherit;
+    transition: background .12s ease, color .12s ease;
+}
+
+.entity-navigator__filter-option:hover {
+    background: var(--surface-secondary);
+    color: var(--text-primary);
+}
+
+.entity-navigator__filter-option--active {
+    color: var(--color-primary);
+    font-weight: 700;
+}
+
+.entity-navigator__filter-option--active .entity-navigator__filter-dot {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.entity-navigator__filter-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    border: 2px solid var(--surface-border);
+    background: transparent;
+    transition: background .12s ease, border-color .12s ease;
+}
+
+.entity-navigator__summary {
+    margin-top: .625rem;
+    font-size: .75rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+/* =========================================
+   LIST
+========================================= */
+
+.entity-navigator__list {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    padding: 1rem;
+
+    /* scroll shadow — fades reveal as user scrolls */
+    background:
+        linear-gradient(var(--surface-primary), transparent) center top    / 100% 40px no-repeat local,
+        linear-gradient(transparent, var(--surface-primary)) center bottom  / 100% 40px no-repeat local,
+        radial-gradient(farthest-side at 50% 0,   rgba(15,23,42,.07), transparent) center top    / 100% 16px no-repeat scroll,
+        radial-gradient(farthest-side at 50% 100%, rgba(15,23,42,.07), transparent) center bottom / 100% 16px no-repeat scroll,
+        var(--surface-primary);
+}
+
+/* =========================================
+   EMPTY STATE
+========================================= */
+
+.entity-navigator__empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 3rem 1.5rem;
+    gap: .5rem;
+}
+
+.entity-navigator__empty-icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    background: color-mix(in srgb, var(--color-primary) 8%, transparent);
+    color: var(--color-primary);
+    font-size: 1.25rem;
+    margin-bottom: .375rem;
+}
+
+.entity-navigator__empty-title {
+    font-size: .9375rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.entity-navigator__empty-hint {
+    font-size: .8125rem;
+    color: var(--text-tertiary);
+    margin: 0;
+}
+
+/* =========================================
+   ITEM
+========================================= */
+
+.entity-navigator__item {
+    position: relative;
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: 18px;
+    cursor: pointer;
+    border: 1px solid var(--surface-border);
+    transition:
+        background .2s ease,
+        border-color .2s ease,
+        box-shadow .2s ease,
+        transform .2s ease;
+    margin-bottom: .75rem;
+}
+
+.entity-navigator__item:hover {
+    background: var(--surface-secondary);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(15, 23, 42, .06);
+}
+
+.entity-navigator__item--active,
+.entity-navigator__item--active:hover {
+    background: color-mix(in srgb, var(--color-primary) 7%, var(--surface-primary));
+    border-color: color-mix(in srgb, var(--color-primary) 28%, var(--surface-border));
+    box-shadow: 0 2px 12px color-mix(in srgb, var(--color-primary) 14%, transparent);
+    transform: none;
+}
+
+.entity-navigator__item--active .entity-navigator__title {
+    color: var(--color-primary);
+}
+
+.entity-navigator__item--active::before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    bottom: 10px;
+    left: -1px;
+    width: 4px;
+    border-radius: 999px;
+    background: var(--color-primary);
+}
+
+/* suppress hover lift on touch devices */
+@media (hover: none) {
+    .entity-navigator__item:hover {
+        background: transparent;
+        transform: none;
+        box-shadow: none;
+    }
+
+    .entity-navigator__item--active:hover {
+        background: color-mix(in srgb, var(--color-primary) 7%, var(--surface-primary));
+    }
+}
+
+/* =========================================
+   AVATAR — palette colours applied via [ngStyle]
+========================================= */
+
+.entity-navigator__avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: .95rem;
+    flex-shrink: 0;
+    transition: box-shadow .2s ease;
+}
+
+/* =========================================
+   CONTENT
+========================================= */
+
+.entity-navigator__content {
+    flex: 1;
+    min-width: 0;
+}
+
+.entity-navigator__title {
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.entity-navigator__subtitle {
+    margin-top: .25rem;
+    color: var(--text-secondary);
+    font-size: .875rem;
+}
+
+app-badge {
+    display: inline-flex;
+    margin-top: .75rem;
+}
+
+/* =========================================
+   DETAIL REDIRECT BUTTON
+   Hidden on desktop (split view handles detail).
+   Always visible on tablet + mobile where the
+   detail lives in a modal.
+========================================= */
+
+.entity-navigator__detail-btn {
+    display: none;
+}
+
+@media (max-width: 1023px) {
+    .entity-navigator__detail-btn {
+        display: flex;
+        flex-shrink: 0;
+        align-self: center;
+    }
+}
+
+/* =========================================
+   FOOTER
+========================================= */
+
+.entity-navigator__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .5rem;
+    padding: .625rem .75rem;
+    border-top: 1px solid var(--surface-border);
+    flex-shrink: 0;
+}
+
+.entity-navigator__page-info {
+    font-size: .75rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    white-space: nowrap;
+}
+
+.entity-navigator__pagination {
+    display: flex;
+    align-items: center;
+    gap: .125rem;
+}
+
+.entity-navigator__page-num {
+    font-size: .75rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    min-width: 2.75rem;
+    text-align: center;
+}
+
+.entity-navigator__description {
+    margin-top: .375rem;
+    font-size: .8125rem;
+    color: var(--text-tertiary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.entity-navigator__footer-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .75rem;
+    margin-top: .875rem;
+}
+
+.entity-navigator__metadata {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    color: var(--text-secondary);
+    font-size: .75rem;
+    white-space: nowrap;
+}

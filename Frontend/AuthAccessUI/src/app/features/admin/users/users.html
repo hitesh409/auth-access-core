@@ -1,1 +1,30 @@
-<p>users works!</p>
+<app-page-header title="Users" [breadcrumbs]="breadcrumbs"> </app-page-header>
+
+<app-master-detail-layout variant="split" [hasSelection]="selectedUser() !== null">
+  <div master>
+    <app-entity-navigator
+      [items]="users()"
+      [selected]="selectedUser()"
+      [template]="navigatorTemplate"
+      (selectionChanged)="onUserSelected($event)"
+      (detailOpened)="onDetailOpened($event)"
+    >
+    </app-entity-navigator>
+  </div>
+
+  <!-- Desktop only: detail in split view -->
+  <div detail class="users-inspector">
+    <app-entity-workspace
+      class="users-inspector__workspace"
+      [entity]="selectedUser()"
+      [template]="workspaceTemplate"
+    >
+    </app-entity-workspace>
+  </div>
+</app-master-detail-layout>
+
+<!-- Mobile + Tablet: detail in modal -->
+<app-modal [isOpen]="modalOpen()" [title]="modalTitle()" [subtitle]="modalSubtitle()" (closed)="closeModal()">
+  <app-entity-workspace [entity]="selectedUser()" [template]="workspaceTemplate">
+  </app-entity-workspace>
+</app-modal>

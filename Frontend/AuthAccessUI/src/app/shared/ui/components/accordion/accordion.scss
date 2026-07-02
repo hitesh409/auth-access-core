@@ -1,0 +1,43 @@
+:host {
+    display: block;
+}
+
+.accordion {
+    display: flex;
+    flex-direction: column;
+    gap: .75rem;
+}
+
+.accordion__item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.accordion__content {
+    min-width: 0;
+    text-align: left;
+}
+
+.accordion__title {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.accordion__description {
+    margin-top: .25rem;
+    color: var(--text-secondary);
+    font-size: .8125rem;
+}
+
+.accordion__icon {
+    flex-shrink: 0;
+    transition: transform .2s ease, color .2s ease;
+}
+
+.accordion__icon--active {
+    transform: rotate(180deg);
+    color: var(--color-primary);
+}

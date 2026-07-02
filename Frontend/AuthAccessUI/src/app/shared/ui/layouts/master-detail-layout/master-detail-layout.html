@@ -1,0 +1,13 @@
+<div [class]="classes()">
+  <div class="master-detail__master">
+    <ng-content select="[master]"></ng-content>
+  </div>
+
+  @if (variant() !== 'grid-only') {
+    <div class="master-detail__detail">
+      <ng-content select="[detail]"></ng-content>
+    </div>
+  }
+
+  <div class="master-detail__backdrop" (click)="panelService.close()"></div>
+</div>

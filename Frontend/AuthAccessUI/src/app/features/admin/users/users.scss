@@ -1,0 +1,46 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+    overflow: hidden;
+}
+
+
+app-page-header {
+    flex-shrink: 0;
+}
+
+app-master-detail-layout {
+    flex: 1;
+    min-height: 0;
+}
+
+div[master] {
+    height: 100%;
+    min-height: 0;
+}
+.users-inspector {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+    overflow: hidden;
+}
+
+
+@media (max-width: 1023px) {
+    :host {
+        overflow: clip;
+    }
+}
+
+
+/* =========================================
+   WORKSPACE
+========================================= */
+
+.users-inspector__workspace {
+    flex: 1;
+    min-height: 0;
+}

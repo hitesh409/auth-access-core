@@ -1,0 +1,98 @@
+:host {
+    display: block;
+}
+
+.detail-stat-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: .5rem;
+}
+
+.detail-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: .875rem .5rem .75rem;
+    border-radius: 12px;
+    background: color-mix(in srgb, var(--color-primary) 5%, var(--surface-secondary));
+    border: 1px solid color-mix(in srgb, var(--color-primary) 14%, var(--surface-border));
+    position: relative;
+    overflow: hidden;
+
+    /* top accent line */
+    &::before {
+        content: '';
+        position: absolute;
+        inset: 0 0 auto 0;
+        height: 3px;
+        background: linear-gradient(
+            90deg,
+            var(--color-primary),
+            color-mix(in srgb, var(--color-primary) 40%, transparent)
+        );
+    }
+}
+
+.detail-stat__value {
+    color: var(--color-primary);
+    font-size: 1.125rem;
+    font-weight: 700;
+    line-height: 1.2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+}
+
+.detail-stat__label {
+    font-size: .5625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .07em;
+    color: var(--text-tertiary);
+    margin-top: .3rem;
+    white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+    .detail-stat-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Single-column horizontal rows on tiny screens.
+   Label pinned left, value pinned right — avoids
+   value truncation that occurs in the 2-col card layout. */
+@media (max-width: 374px) {
+    .detail-stat-grid {
+        grid-template-columns: 1fr;
+        gap: .375rem;
+    }
+
+    .detail-stat {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        text-align: left;
+        padding: .625rem .875rem;
+
+        &::before {
+            inset: 0 auto 0 0;
+            width: 3px;
+            height: auto;
+        }
+    }
+
+    .detail-stat__label {
+        margin-top: 0;
+        order: 1;
+        flex-shrink: 0;
+    }
+
+    .detail-stat__value {
+        font-size: 1rem;
+        order: 2;
+        text-align: right;
+    }
+}

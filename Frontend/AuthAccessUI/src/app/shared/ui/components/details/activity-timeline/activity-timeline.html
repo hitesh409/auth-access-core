@@ -1,0 +1,34 @@
+@if (items().length) {
+  <div class="timeline">
+    @for (item of items(); track item.id; let last = $last) {
+      <div class="timeline__item">
+
+        <!-- dot + connector line -->
+        <div class="timeline__track">
+          <div class="timeline__dot">
+            @if (item.icon) {
+              <fa-icon [icon]="item.icon" class="timeline__dot-icon"></fa-icon>
+            }
+          </div>
+          @if (!last) {
+            <div class="timeline__connector"></div>
+          }
+        </div>
+
+        <!-- card + timestamp -->
+        <div class="timeline__body">
+          <div class="timeline__card">
+            <div class="timeline__title">{{ item.title }}</div>
+            @if (item.description) {
+              <div class="timeline__description">{{ item.description }}</div>
+            }
+          </div>
+          <div class="timeline__timestamp">{{ item.timestamp }}</div>
+        </div>
+
+      </div>
+    }
+  </div>
+} @else {
+  <div class="timeline-empty">No activity recorded.</div>
+}

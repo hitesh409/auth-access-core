@@ -1,0 +1,17 @@
+<section class="detail-section">
+  <div class="detail-section__header">
+    <h3 class="detail-section__title">
+      {{ title() }}
+    </h3>
+
+    @if (description()) {
+      <p class="detail-section__description">
+        {{ description() }}
+      </p>
+    }
+  </div>
+
+  <div class="detail-section__content">
+    <ng-content />
+  </div>
+</section>

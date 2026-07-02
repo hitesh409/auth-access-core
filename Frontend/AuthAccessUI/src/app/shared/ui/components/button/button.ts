@@ -1,9 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
-
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
-import { ButtonVariant, ButtonSize } from '../../models/button.model';
-
+import { ButtonSize, ButtonVariant } from '../../models/button.model';
 
 @Component({
   selector: 'app-button',
@@ -14,12 +12,15 @@ import { ButtonVariant, ButtonSize } from '../../models/button.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ButtonComponent {
-  variant = input<ButtonVariant>('primary');
-  size = input<ButtonSize>('md');
-  icon = input<IconDefinition | null>(null);
-  loading = input(false);
-  disabled = input(false);
+  readonly variant = input<ButtonVariant>('primary');
+  readonly size = input<ButtonSize>('md');
+  readonly icon = input<IconDefinition | undefined>(undefined);
+  readonly loading = input<boolean>(false);
+  readonly disabled = input<boolean>(false);
+  readonly active = input(false);
   protected readonly classes = computed(() =>
-    ['btn', `btn--${this.variant()}`, `btn--${this.size()}`].join(' '),
+    ['btn', `btn--${this.variant()}`, `btn--${this.size()}`, this.active() ? 'btn--active' : '']
+      .filter(Boolean)
+      .join(' '),
   );
 }

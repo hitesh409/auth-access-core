@@ -1,0 +1,16 @@
+.detail-tabs {
+    position: sticky;
+    top: 109px;
+    z-index: 19;
+    display: flex;
+    gap: .5rem;
+    padding: 1rem 1.5rem;
+    background: var(--surface-card);
+    border-bottom: 1px solid var(--surface-border);
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.detail-tabs::-webkit-scrollbar {
+    display: none;
+}

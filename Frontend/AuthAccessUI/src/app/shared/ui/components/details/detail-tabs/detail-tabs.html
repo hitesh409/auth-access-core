@@ -1,0 +1,11 @@
+<nav class="detail-tabs">
+  @for (tab of tabs(); track tab.id) {
+    <app-button
+      variant="detail-tab"
+      [active]="activeTabId() === tab.id"
+      (click)="selectTab(tab.id)"
+    >
+      {{ tab.label }}
+    </app-button>
+  }
+</nav>

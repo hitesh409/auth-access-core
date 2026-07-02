@@ -1,0 +1,10 @@
+<div class="detail-stat-grid">
+  @for (item of items(); track item.label) {
+    <div class="detail-stat">
+      <div class="detail-stat__value" [title]="item.value?.toString() ?? ''">
+        {{ item.value }}
+      </div>
+      <div class="detail-stat__label">{{ item.label }}</div>
+    </div>
+  }
+</div>

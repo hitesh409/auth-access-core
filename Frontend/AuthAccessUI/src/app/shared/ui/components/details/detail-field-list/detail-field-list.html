@@ -1,0 +1,8 @@
+<div class="detail-field-list">
+  @for (field of fields(); track field.label) {
+    <div class="detail-field">
+      <div class="detail-field__label">{{ field.label }}</div>
+      <div class="detail-field__value" [title]="field.value?.toString() ?? ''">{{ field.value }}</div>
+    </div>
+  }
+</div>

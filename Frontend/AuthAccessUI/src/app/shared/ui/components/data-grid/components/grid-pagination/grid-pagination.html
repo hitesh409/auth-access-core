@@ -1,0 +1,16 @@
+<div class="grid-pagination">
+  <div class="grid-pagination__summary">
+    Showing {{ (page() - 1) * pageSize() + 1 }} -
+    {{ Math.min(page() * pageSize(), totalItems()) }} of {{ totalItems() }}
+  </div>
+
+  <div class="grid-pagination__controls">
+    <app-button variant="ghost" size="sm" [disabled]="page() === 1" (click)="previous()">
+      <
+    </app-button>
+    <div class="grid-pagination__page">{{ page() }} / {{ totalPages() }}</div>
+    <app-button variant="ghost" size="sm" [disabled]="page() === totalPages()" (click)="next()">
+      >
+    </app-button>
+  </div>
+</div>

@@ -1,0 +1,114 @@
+@if (entity(); as entity) {
+  <app-detail-panel>
+    <!-- =========================================
+         HEADER — always visible, never scrolls
+    ========================================= -->
+    <app-detail-header
+      [title]="template().title(entity)"
+      [subtitle]="template().subtitle?.(entity) ?? ''"
+      [status]="template().status?.(entity) ?? ''"
+      [statusVariant]="template().statusVariant?.(entity) ?? 'neutral'"
+      [metadata]="template().metadata?.(entity) ?? []"
+    >
+      @if (template().actions?.length) {
+        <div header-actions>
+          @for (action of template().actions!; track action.label) {
+            <app-button
+              [variant]="action.variant ?? 'secondary'"
+              [icon]="action.icon"
+              (click)="action.action(entity)"
+            >
+              {{ action.label }}
+            </app-button>
+          }
+        </div>
+      }
+    </app-detail-header>
+
+    <!-- =========================================
+         SCROLLABLE BODY — accordion sections
+    ========================================= -->
+    <div class="entity-workspace__body">
+      @for (section of scrollableSections(); track section.id) {
+        <section
+          class="workspace-section"
+          [class.workspace-section--expanded]="isExpanded(section.id, section.defaultExpanded)"
+        >
+          <app-button
+            variant="accordion"
+            [active]="isExpanded(section.id, section.defaultExpanded)"
+            (click)="toggle(section.id)"
+          >
+            <div class="workspace-section__header">
+              @if (section.icon) {
+                <div class="workspace-section__icon-badge">
+                  <fa-icon [icon]="section.icon"></fa-icon>
+                </div>
+              }
+
+              <div class="workspace-section__info">
+                <div class="workspace-section__title">
+                  {{ section.title }}
+                </div>
+
+                @if (section.description) {
+                  <div class="workspace-section__description">
+                    {{ section.description }}
+                  </div>
+                }
+              </div>
+
+              <fa-icon
+                [icon]="icons.chevronDown"
+                class="workspace-section__chevron"
+                [class.workspace-section__chevron--expanded]="
+                  isExpanded(section.id, section.defaultExpanded)
+                "
+              >
+              </fa-icon>
+            </div>
+          </app-button>
+
+          <div
+            class="workspace-section__content"
+            [class.workspace-section__content--expanded]="
+              isExpanded(section.id, section.defaultExpanded)
+            "
+          >
+            <div class="workspace-section__body">
+              @if (section.description) {
+                <p class="workspace-section__body-desc">{{ section.description }}</p>
+              }
+
+              @switch (section.type) {
+                @case ('overview') {
+                  <app-detail-overview [fields]="section.overview!(entity).fields">
+                  </app-detail-overview>
+                }
+                @case ('stat-grid') {
+                  <app-detail-stat-grid [items]="section.stats!(entity)"> </app-detail-stat-grid>
+                }
+                @case ('fields') {
+                  <app-detail-field-list [fields]="section.fields!(entity)">
+                  </app-detail-field-list>
+                }
+                @case ('timeline') {
+                  <app-activity-timeline [items]="section.timeline!(entity)">
+                  </app-activity-timeline>
+                }
+              }
+            </div>
+          </div>
+        </section>
+      }
+    </div>
+  </app-detail-panel>
+} @else {
+  <div class="entity-workspace__empty">
+    <div class="entity-workspace__empty-icon">
+      <fa-icon [icon]="icons.circleInfo"></fa-icon>
+    </div>
+    <p class="entity-workspace__empty-title">No record selected</p>
+    <p class="entity-workspace__empty-hint">Select an item from the list to view its details</p>
+  </div>
+}

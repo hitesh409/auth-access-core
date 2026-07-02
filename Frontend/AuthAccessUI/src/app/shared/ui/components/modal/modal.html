@@ -1,0 +1,29 @@
+@if (isOpen()) {
+  <div class="modal-overlay" (click)="close()">
+    <div class="modal" (click)="$event.stopPropagation()">
+
+      <div class="modal__handle"></div>
+
+      <div class="modal__header">
+        <div class="modal__header-text">
+          @if (title()) {
+            <h2 class="modal__title">{{ title() }}</h2>
+          }
+          @if (subtitle()) {
+            <p class="modal__subtitle">{{ subtitle() }}</p>
+          }
+        </div>
+        <app-button
+          variant="action"
+          [icon]="icons.close"
+          (click)="close()"
+        ></app-button>
+      </div>
+
+      <div class="modal__body">
+        <ng-content></ng-content>
+      </div>
+
+    </div>
+  </div>
+}

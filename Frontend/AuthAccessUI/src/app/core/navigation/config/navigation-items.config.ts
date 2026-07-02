@@ -1,42 +1,25 @@
+import { APP_ICONS } from '../../../shared/icons/font-awesome.icons';
 import { PermissionFlags } from '../../authorization/constants/permission-flags.constants';
 import { NavigationItem } from '../models/navigation-items.model';
-import {
-  faUserShield,
-  faUsers,
-  faUserTag,
-  faCubes,
-  faKey,
-  faShieldHalved,
-  faLaptop,
-  faFileShield,
-  faDesktop,
-  faChartLine,
-  faClipboardList,
-  faRightToBracket,
-  faGear,
-  faLock,
-  faUserCircle,
-  faHome,
-  faFingerprint,
-} from '@fortawesome/free-solid-svg-icons';
+
 
 export const NAVIGATION_ITEMS: NavigationItem[] = [
   {
     id: 0,
     label: 'Dashboard',
-    icon: faHome,
+    icon: APP_ICONS.home,
     route: '/dashboard',
   },
 
   {
     id: 1,
     label: 'Administration',
-    icon: faUserShield,
+    icon: APP_ICONS.userShield,
     children: [
       {
         id: 1001,
         label: 'Users',
-        icon: faUsers,
+        icon: APP_ICONS.users,
         route: '/admin/users',
         permissions: [
           {
@@ -48,7 +31,7 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
       {
         id: 1002, 
         label: 'Roles',
-        icon: faUserTag,
+        icon: APP_ICONS.roles,
         route: '/admin/roles',
         permissions: [
           {
@@ -60,7 +43,7 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
       {
         id: 1003,
         label: 'Modules',
-        icon : faCubes,
+        icon : APP_ICONS.modules,
         route: '/admin/modules',
         permissions: [
           {
@@ -72,7 +55,7 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
       { 
         id: 1004,
         label: 'Permissions',
-        icon: faFingerprint,
+        icon: APP_ICONS.permission,
         route: '/admin/permissions',
         permissions: [
           {
@@ -87,12 +70,12 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
   {
     id: 2,
     label: 'Security',
-    icon: faShieldHalved,
+    icon: APP_ICONS.security,
     children: [
       {
         id: 2001,
         label: 'Sessions',
-        icon: faLaptop,
+        icon: APP_ICONS.sessions,
         route: '/security/sessions',
         permissions: [
           {
@@ -104,7 +87,7 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
       {
         id: 2002,
         label: 'Access Policies',
-        icon: faFileShield,
+        icon: APP_ICONS.policies,
         route: '/security/access-policies',
         permissions: [
           {
@@ -116,7 +99,7 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
       {
         id: 2003,
         label: 'Token Activity',
-        icon: faKey,
+        icon: APP_ICONS.key,
         route: '/security/token-activity',
         permissions: [
           {
@@ -128,7 +111,7 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
       {
         id: 2004, 
         label: 'Device Activity',
-        icon: faDesktop,
+        icon: APP_ICONS.device,
         route: '/security/device-activity',
         permissions: [
           {
@@ -143,12 +126,12 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
   {
     id: 3,
     label: 'Reports',
-    icon: faChartLine,
+    icon: APP_ICONS.chart,
     children: [
       {
         id: 3001,
         label: 'Audit Logs',
-        icon: faClipboardList,
+        icon: APP_ICONS.audit,
         route: '/reports/audit-logs',
         permissions: [
           {
@@ -160,7 +143,7 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
       {
         id: 3002,
         label: 'Login Activity',
-        icon: faRightToBracket,
+        icon: APP_ICONS.signin,
         route: '/reports/login-activity',
         permissions: [
           {
@@ -175,18 +158,18 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
   {
     id: 4,
     label: 'Settings',
-    icon: faGear,
+    icon: APP_ICONS.settings,
     children: [
       {
         id: 4001,
         label: 'Profile Settings',
-        icon: faUserCircle,
+        icon: APP_ICONS.profile,
         route: '/settings/profile',
       },
       {
         id: 4002,
         label: 'Security Settings',
-        icon: faLock,
+        icon: APP_ICONS.lock,
         route: '/settings/security',
         permissions: [
           {

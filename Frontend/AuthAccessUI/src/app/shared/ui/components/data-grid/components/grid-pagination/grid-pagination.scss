@@ -1,0 +1,41 @@
+:host {
+    display: block;
+}
+
+.grid-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.grid-pagination__summary {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+.grid-pagination__controls {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.grid-pagination__page {
+    min-width: 64px;
+    text-align: center;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+@media (max-width: 768px) {
+
+    .grid-pagination {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .grid-pagination__controls {
+        justify-content: center;
+    }
+}

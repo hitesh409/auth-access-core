@@ -1,0 +1,167 @@
+<div class="entity-navigator">
+  <!-- =========================================
+       TOOLBAR
+  ========================================= -->
+
+  <div class="entity-navigator__toolbar">
+    <div class="entity-navigator__search-row">
+      <app-search-box
+        [placeholder]="'Search ' + (template().entityLabel ?? 'items').toLowerCase() + '...'"
+        [value]="search()"
+        (valueChange)="search.set($event)"
+      >
+      </app-search-box>
+
+      @if (template().filters?.length) {
+        <div class="entity-navigator__filter-wrap">
+          @if (filterOpen()) {
+            <div class="entity-navigator__filter-backdrop" (click)="filterOpen.set(false)"></div>
+          }
+
+          <button
+            class="entity-navigator__filter-btn"
+            [class.entity-navigator__filter-btn--active]="statusFilter() !== 'all'"
+            (click)="toggleFilter()"
+          >
+            <fa-icon [icon]="icons.filter"></fa-icon>
+            <span>{{ activeFilterLabel() }}</span>
+            <fa-icon
+              class="entity-navigator__filter-chevron"
+              [class.entity-navigator__filter-chevron--open]="filterOpen()"
+              [icon]="icons.chevronDown"
+            ></fa-icon>
+          </button>
+
+          <div
+            class="entity-navigator__filter-dropdown"
+            [class.entity-navigator__filter-dropdown--open]="filterOpen()"
+          >
+            @for (filter of template().filters!; track filter.value) {
+              <button
+                class="entity-navigator__filter-option"
+                [class.entity-navigator__filter-option--active]="statusFilter() === filter.value"
+                (click)="selectFilter(filter.value)"
+              >
+                <span class="entity-navigator__filter-dot"></span>
+                {{ filter.label }}
+              </button>
+            }
+          </div>
+        </div>
+      }
+    </div>
+
+    <div class="entity-navigator__summary">
+      @if (totalItems() < totalUnfilteredItems()) {
+        {{ totalItems() }} of {{ totalUnfilteredItems() }} {{ template().entityLabel ?? 'Items' }}
+      } @else {
+        {{ totalItems() }} {{ template().entityLabel ?? 'Items' }}
+      }
+    </div>
+  </div>
+
+  <!-- =========================================
+       LIST
+  ========================================= -->
+
+  <div class="entity-navigator__list">
+    @if (paginatedItems().length === 0) {
+      <div class="entity-navigator__empty">
+        <div class="entity-navigator__empty-icon">
+          <fa-icon [icon]="icons.search"></fa-icon>
+        </div>
+        <p class="entity-navigator__empty-title">No {{ (template().entityLabel ?? 'items').toLowerCase() }} found</p>
+        <p class="entity-navigator__empty-hint">Try adjusting your search or filter</p>
+      </div>
+    }
+    @for (item of paginatedItems(); track item) {
+      <div
+        class="entity-navigator__item"
+        [class.entity-navigator__item--active]="selected() === item"
+        (click)="select(item)"
+      >
+        <div class="entity-navigator__avatar" [ngStyle]="avatarStyle(item)">
+          {{ template().avatar?.(item) ?? '?' }}
+        </div>
+
+        <div class="entity-navigator__content">
+          <div class="entity-navigator__title">
+            {{ template().title(item) }}
+          </div>
+
+          @if (template().subtitle) {
+            <div class="entity-navigator__subtitle">
+              {{ template().subtitle!(item) }}
+            </div>
+          }
+
+          @if (template().description) {
+            <div class="entity-navigator__description">
+              {{ template().description!(item) }}
+            </div>
+          }
+
+          <div class="entity-navigator__footer-row">
+            @if (template().status) {
+              <app-badge size="sm" [variant]="template().statusVariant?.(item) ?? 'neutral'">
+                {{ template().status!(item) }}
+              </app-badge>
+            }
+
+            @if (template().metadata?.(item)?.length) {
+              <div class="entity-navigator__metadata">
+                @for (meta of template().metadata!(item); track meta.label) {
+                  <span>{{ meta.value }} {{ meta.label }}</span>
+                }
+              </div>
+            }
+          </div>
+        </div>
+
+        <app-button
+          class="entity-navigator__detail-btn"
+          variant="action"
+          [icon]="icons.detailView"
+          (click)="openDetail(item, $event)"
+        ></app-button>
+      </div>
+    }
+  </div>
+
+  <!-- =========================================
+       FOOTER — Pagination
+  ========================================= -->
+
+  <div class="entity-navigator__footer">
+    <span class="entity-navigator__page-info">
+      @if (totalItems() > 0) {
+        {{ pageStart() }}–{{ pageEnd() }} of {{ totalItems() }}
+        {{ (template().entityLabel ?? 'Items').toLowerCase() }}
+      } @else {
+        No {{ (template().entityLabel ?? 'items').toLowerCase() }} found
+      }
+    </span>
+
+    <div class="entity-navigator__pagination">
+      <app-button
+        variant="ghost"
+        size="sm"
+        [icon]="icons.chevronLeft"
+        [disabled]="!canGoPrev()"
+        (click)="prevPage()"
+      ></app-button>
+
+      <span class="entity-navigator__page-num">
+        {{ currentPage() }} / {{ totalPages() }}
+      </span>
+
+      <app-button
+        variant="ghost"
+        size="sm"
+        [icon]="icons.chevronRight"
+        [disabled]="!canGoNext()"
+        (click)="nextPage()"
+      ></app-button>
+    </div>
+  </div>
+</div>

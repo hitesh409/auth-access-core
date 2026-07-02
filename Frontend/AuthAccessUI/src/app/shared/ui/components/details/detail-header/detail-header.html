@@ -1,0 +1,66 @@
+<header class="detail-header">
+  <div class="detail-header__top">
+    <div class="detail-header__identity">
+      <div class="detail-header__avatar">
+        @if (avatarUrl()) {
+          <img [src]="avatarUrl()" [alt]="title()" />
+        } @else {
+          <span>
+            {{ initials() }}
+          </span>
+        }
+      </div>
+
+      <div class="detail-header__content">
+        <h2 class="detail-header__title">
+          {{ title() }}
+        </h2>
+
+        @if (subtitle()) {
+          <p class="detail-header__subtitle">
+            {{ subtitle() }}
+          </p>
+        }
+
+        @if (status()) {
+          <div class="detail-header__status">
+            <app-badge [variant]="statusVariant()">
+              {{ status() }}
+            </app-badge>
+          </div>
+        }
+      </div>
+    </div>
+
+    <div class="detail-header__actions">
+      <ng-content select="[header-actions]"> </ng-content>
+    </div>
+  </div>
+
+  @if (metadata().length) {
+    <div class="detail-header__metadata">
+      @for (item of metadata(); track item.label) {
+        <div class="detail-header__meta">
+          <div class="detail-header__meta-label">
+            {{ item.label }}
+          </div>
+
+          <div
+            class="detail-header__meta-value"
+            [class.detail-header__meta-value--success]="item.variant === 'success'"
+            [class.detail-header__meta-value--warning]="item.variant === 'warning'"
+            [class.detail-header__meta-value--error]="item.variant === 'error'"
+            [class.detail-header__meta-value--info]="item.variant === 'info'"
+          >
+            @if (item.icon) {
+              <fa-icon [icon]="item.icon" class="detail-header__meta-icon"></fa-icon>
+            }
+            <span class="detail-header__meta-text" [title]="item.value?.toString() ?? ''">
+              {{ item.value }}
+            </span>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</header>

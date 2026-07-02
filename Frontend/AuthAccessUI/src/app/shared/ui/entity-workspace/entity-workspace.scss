@@ -1,0 +1,298 @@
+/* Pure height:100% chain, identical to entity-navigator.
+   Host is a block with height:100%; the app-detail-panel layer just
+   passes the height straight through to its inner flex column. */
+:host {
+    display: block;
+    height: 100%;
+    min-height: 0;
+}
+
+app-detail-panel {
+    display: block;
+    height: 100%;
+    min-height: 0;
+}
+
+
+
+app-detail-header {
+    flex-shrink: 0;
+}
+
+.entity-workspace__pinned {
+    flex-shrink: 0;
+    border-bottom: 1px solid var(--surface-border);
+    background: var(--surface-card);
+}
+
+.workspace-pinned {
+    padding: 1.25rem 1.5rem;
+}
+
+.workspace-pinned + .workspace-pinned {
+    border-top: 1px solid var(--surface-border);
+}
+
+/* =========================================
+   SCROLLABLE BODY — accordion sections
+========================================= */
+
+.entity-workspace__body {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1.25rem 1.5rem;
+    padding-bottom: 2rem;
+}
+
+/* =========================================
+   SECTION
+========================================= */
+
+.workspace-section {
+    flex-shrink: 0;
+    border: 1px solid var(--surface-border);
+    border-radius: 20px;
+    overflow: hidden;
+    background: var(--surface-primary);
+    transition:
+        border-color .25s ease,
+        box-shadow .25s ease;
+}
+
+.workspace-section--expanded {
+    border-color: color-mix(in srgb, var(--color-primary) 30%, var(--surface-border));
+    box-shadow: 0 4px 20px color-mix(in srgb, var(--color-primary) 8%, transparent);
+}
+
+.workspace-section__header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: .875rem;
+}
+
+.workspace-section__icon-badge {
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: .8125rem;
+    background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+    color: var(--color-primary);
+}
+
+.workspace-section__icon-badge[data-variant="success"] {
+    background: var(--status-success-bg);
+    color: var(--status-success-text);
+}
+
+.workspace-section__icon-badge[data-variant="warning"] {
+    background: var(--status-warning-bg);
+    color: var(--status-warning-text);
+}
+
+.workspace-section__icon-badge[data-variant="error"] {
+    background: var(--status-error-bg);
+    color: var(--status-error-text);
+}
+
+.workspace-section__icon-badge[data-variant="info"] {
+    background: var(--status-info-bg);
+    color: var(--status-info-text);
+}
+
+.workspace-section__info {
+    flex: 1;
+    min-width: 0;
+    text-align: left;
+}
+
+.workspace-section__title {
+    font-size: .95rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.workspace-section__description {
+    margin-top: .25rem;
+    font-size: .8125rem;
+    color: var(--text-secondary);
+}
+
+.workspace-section__chevron {
+    transition:
+        transform .25s ease,
+        color .25s ease;
+}
+
+.workspace-section__chevron--expanded {
+    transform: rotate(180deg);
+    color: var(--color-primary);
+}
+
+/* =========================================
+   CONTENT ANIMATION
+========================================= */
+
+.workspace-section__content {
+    display: grid;
+    grid-template-rows: 0fr;
+    overflow: hidden;
+
+    opacity: 0;
+
+    transition:
+        grid-template-rows .28s ease,
+        opacity .28s ease;
+}
+
+.workspace-section__content>* {
+    overflow: hidden;
+    min-height: 0;
+}
+
+.workspace-section__content--expanded {
+    grid-template-rows: 1fr;
+    opacity: 1;
+}
+
+.workspace-section__content--expanded>* {
+    padding: 1.5rem;
+    border-top: 1px solid var(--surface-border);
+}
+
+/* =========================================
+   EMPTY STATE — no entity selected
+========================================= */
+
+.entity-workspace__empty {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+    gap: .625rem;
+}
+
+.entity-workspace__empty-icon {
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 16px;
+    background: color-mix(in srgb, var(--color-primary) 8%, transparent);
+    color: var(--color-primary);
+    font-size: 1.375rem;
+    margin-bottom: .375rem;
+}
+
+.entity-workspace__empty-title {
+    font-size: 1.0625rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.entity-workspace__empty-hint {
+    font-size: .875rem;
+    color: var(--text-tertiary);
+    margin: 0;
+    max-width: 240px;
+    line-height: 1.5;
+}
+
+/* Description shown inside the body only on small screens */
+.workspace-section__body-desc {
+    display: none;
+    margin: 0;
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 768px) {
+
+    .entity-workspace__pinned,
+    .workspace-pinned {
+        padding: .75rem 1rem;
+    }
+
+    .entity-workspace__body {
+        padding: .75rem 1rem;
+        padding-bottom: 1.5rem;
+    }
+
+    .workspace-section__content--expanded>* {
+        padding: 1rem;
+    }
+}
+
+/* =========================================
+   MOBILE M (≤ 400px)
+   Tighter spacing + inline title·description
+   row so both stay visible without taking
+   up two lines of height.
+========================================= */
+
+@media (max-width: 400px) {
+
+    .entity-workspace__body {
+        padding: .5rem .625rem;
+        padding-bottom: 1.25rem;
+        gap: .625rem;
+    }
+
+    .workspace-section {
+        border-radius: 14px;
+    }
+
+    .workspace-section__content--expanded>* {
+        padding: .75rem;
+    }
+
+    .workspace-section__header {
+        gap: .5rem;
+    }
+
+    .workspace-section__icon-badge {
+        width: 28px;
+        height: 28px;
+        border-radius: 7px;
+        font-size: .6875rem;
+    }
+
+    .workspace-section__title {
+        font-size: .875rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /* Header description hidden — moved into the accordion body below */
+    .workspace-section__description {
+        display: none;
+    }
+
+    /* Shown as a caption at the top of the opened content */
+    .workspace-section__body-desc {
+        display: block;
+        margin: 0 0 .875rem;
+        padding-bottom: .75rem;
+        font-size: .8125rem;
+        line-height: 1.4;
+        color: var(--text-tertiary);
+        border-bottom: 1px solid var(--surface-border);
+    }
+}

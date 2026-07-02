@@ -1,0 +1,19 @@
+<div class="grid-row-menu" (click)="$event.stopPropagation()">
+  <app-button
+    variant="toolbar"
+    [icon]="faEllipsisVertical"
+    appTooltip="More Actions"
+    (click)="toggle()"
+  >
+  </app-button>
+
+  @if (open()) {
+    <div class="grid-row-menu__dropdown">
+      @for (action of actions(); track action.label) {
+        <app-button variant="menu" [icon]="action.icon ?? undefined" (click)="execute(action)">
+          {{ action.label }}
+        </app-button>
+      }
+    </div>
+  }
+</div>

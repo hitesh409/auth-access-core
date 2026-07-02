@@ -1,0 +1,18 @@
+<div class="grid-bulk-actions">
+  <div class="grid-bulk-actions__summary">
+    {{ selectedCount() }}
+    selected
+  </div>
+
+  <div class="grid-bulk-actions__buttons">
+    @for (action of actions(); track action.label) {
+      <app-button
+        [variant]="action.variant ?? 'secondary'"
+        size="sm"
+        (click)="execute.emit(action)"
+      >
+        {{ action.label }}
+      </app-button>
+    }
+  </div>
+</div>

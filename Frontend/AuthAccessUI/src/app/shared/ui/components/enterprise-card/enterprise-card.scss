@@ -51,3 +51,12 @@
     border-color: var(--color-primary);
     box-shadow: var(--shadow-md);
 }
+
+/* =========================================
+   WORKSPACE
+========================================= */
+
+.enterprise-card--workspace {
+    padding: 0;
+    overflow: hidden;
+}

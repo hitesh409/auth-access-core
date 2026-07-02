@@ -1,0 +1,76 @@
+:host {
+    display: block;
+}
+
+/* =========================================
+   2×2 PROPERTY CARDS
+========================================= */
+
+.detail-field-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: .5rem;
+}
+
+.detail-field {
+    padding: .75rem .875rem;
+    border-radius: 10px;
+    background: var(--surface-secondary);
+    border: 1px solid var(--surface-border);
+    min-width: 0;
+    transition: border-color .2s ease;
+
+    &:hover {
+        border-color: color-mix(in srgb, var(--color-primary) 25%, var(--surface-border));
+    }
+}
+
+/* =========================================
+   LABEL
+========================================= */
+
+.detail-field__label {
+    font-size: .625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .07em;
+    color: var(--text-tertiary);
+    margin-bottom: .35rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* =========================================
+   VALUE
+========================================= */
+
+.detail-field__value {
+    color: var(--text-primary);
+    font-size: .9rem;
+    font-weight: 600;
+    line-height: 1.3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* =========================================
+   MOBILE — single column
+========================================= */
+
+@media (max-width: 480px) {
+    .detail-field-list {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 374px) {
+    .detail-field {
+        padding: .625rem .75rem;
+    }
+
+    .detail-field__value {
+        font-size: .85rem;
+    }
+}

@@ -1,0 +1,63 @@
+<div class="grid-toolbar">
+  <div class="grid-toolbar__search">
+    <fa-icon [icon]="icons.search" class="grid-toolbar__search-icon"> </fa-icon>
+
+    <input
+      type="text"
+      class="grid-toolbar__search-input"
+      placeholder="Search users, email, role..."
+      [ngModel]="search()"
+      (ngModelChange)="searchChanged.emit($event)"
+    />
+
+    @if (search()) {
+      <button
+        type="button"
+        class="grid-toolbar__clear"
+        appTooltip="Clear Search"
+        aria-label="Clear Search"
+        (click)="searchChanged.emit('')"
+      >
+        ✕
+      </button>
+    }
+  </div>
+
+  <div class="grid-toolbar__right">
+    @if (selectedCount() > 0) {
+      <div class="grid-toolbar__selection">
+        {{ selectedCount() }}
+        selected
+      </div>
+    }
+
+    <div class="grid-toolbar__actions">
+      <app-button
+        variant="toolbar"
+        [icon]="icons.gridSettings"
+        appTooltip="Grid Settings"
+        aria-label="Grid Settings"
+        (click)="columnVisibility.emit()"
+      >
+      </app-button>
+
+      <app-button
+        variant="toolbar"
+        [icon]="icons.export"
+        appTooltip="Export Data"
+        aria-label="Export Data"
+        (click)="export.emit()"
+      >
+      </app-button>
+
+      <app-button
+        variant="toolbar"
+        [icon]="icons.refresh"
+        appTooltip="Refresh Grid"
+        aria-label="Refresh Grid"
+        (click)="refresh.emit()"
+      >
+      </app-button>
+    </div>
+  </div>
+</div>

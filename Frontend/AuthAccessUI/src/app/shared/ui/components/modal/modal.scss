@@ -1,0 +1,146 @@
+:host {
+    display: contents;
+}
+
+/* =========================================
+   OVERLAY
+========================================= */
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 300;
+    background: rgba(15, 23, 42, .55);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    overscroll-behavior: none;
+    overflow: hidden;
+}
+
+/* =========================================
+   SHEET — mobile: slides up from bottom
+========================================= */
+
+.modal {
+    position: relative;
+    width: 100%;
+    height: 80dvh;
+    background: var(--surface-app);
+    border-radius: 24px 24px 0 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow:
+        0 -8px 32px rgba(15, 23, 42, .12),
+        0 -2px 8px rgba(15, 23, 42, .06);
+}
+
+/* =========================================
+   DRAG HANDLE — visible on mobile
+========================================= */
+
+.modal__handle {
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    padding: .75rem 0 0;
+
+    &::before {
+        content: '';
+        width: 36px;
+        height: 4px;
+        border-radius: 999px;
+        background: var(--surface-border);
+    }
+}
+
+/* =========================================
+   HEADER
+========================================= */
+
+.modal__header {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .75rem;
+    padding: .75rem 1rem .5rem;
+    border-bottom: 1px solid var(--surface-border);
+}
+
+.modal__header-text {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: .125rem;
+}
+
+.modal__title {
+    margin: 0;
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.modal__subtitle {
+    margin: 0;
+    font-size: .8125rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* =========================================
+   BODY
+   Flex column so ng-content children receive
+   a bounded height — required for overflow-y: auto
+   on nested scroll containers (e.g. entity-workspace
+   accordion body) to activate correctly.
+========================================= */
+
+.modal__body {
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal__body > * {
+    flex: 1;
+    min-height: 0;
+}
+
+/* =========================================
+   TABLET — centered dialog
+========================================= */
+
+@media (min-width: 768px) {
+
+    .modal-overlay {
+        align-items: center;
+        padding: 1.5rem;
+    }
+
+    .modal {
+        width: 100%;
+        max-width: 720px;
+        height: 82dvh;
+        border-radius: 24px;
+    }
+
+    .modal__handle {
+        display: none;
+    }
+
+    .modal__header {
+        padding: 1rem 1.25rem .75rem;
+    }
+}

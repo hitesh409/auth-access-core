@@ -1,0 +1,151 @@
+<app-enterprise-card variant="workspace">
+  <app-grid-toolbar
+    [search]="state.search()"
+    [selectedCount]="isEmpty() ? 0 : selectedCount()"
+    (searchChanged)="onSearchChange($event)"
+    (refresh)="refreshGrid()"
+    (export)="exportGrid()"
+    (columnVisibility)="toggleColumnPicker()"
+  >
+  </app-grid-toolbar>
+
+  @if (showColumnPicker()) {
+    <app-grid-column-picker
+      [columns]="columns()"
+      [selectedColumns]="state.visibleColumns()"
+      (selectionChanged)="saveColumns($event)"
+    >
+    </app-grid-column-picker>
+  }
+
+  @if (selectedCount() > 0) {
+    <app-grid-bulk-actions
+      [selectedCount]="selectedCount()"
+      [actions]="bulkActions()"
+      (execute)="executeBulkAction($event)"
+    >
+    </app-grid-bulk-actions>
+  }
+
+  @if (loading()) {
+    <app-grid-loading />
+  } @else if (isEmpty()) {
+    <app-empty-state
+      [icon]="emptyStateIcon()"
+      title="No records found"
+      [description]="description()"
+    >
+    </app-empty-state>
+  } @else {
+    <div class="grid-table-wrapper">
+      <table class="grid-table">
+        <thead>
+          <tr>
+            <th class="grid-checkbox-column">
+              <input type="checkbox" [checked]="allSelected()" (change)="toggleAll()" />
+            </th>
+
+            @for (column of visibleColumns(); track column.key) {
+              <th
+                (click)="column.sortable && sort(column.key.toString())"
+                [class.grid-table__sortable]="column.sortable"
+                [class.grid-table__header--active]="isSortedColumn(column.key.toString())"
+              >
+                <div class="grid-table__header-content">
+                  <div class="grid-table__header-label">
+                    <span>
+                      {{ column.header }}
+                    </span>
+
+                    @if (isSortedColumn(column.key.toString())) {
+                      <fa-icon
+                        [icon]="isAscending(column.key.toString()) ? icons.sortAsc : icons.sortDesc"
+                        class="grid-table__sort-indicator"
+                      >
+                      </fa-icon>
+                    }
+                  </div>
+
+                  @if (column.sortable) {
+                    <span class="grid-table__header-menu" (click)="$event.stopPropagation()">
+                      <fa-icon [icon]="icons.more"> </fa-icon>
+                    </span>
+                  }
+                </div>
+              </th>
+            }
+          </tr>
+        </thead>
+
+        <tbody>
+          @for (row of pagedRows(); track row.id) {
+            <tr
+              class="grid-table__row"
+              (click)="selectRow(row)"
+              [class.grid-table__row--active]="activeRowId() === row.id"
+            >
+              <td class="grid-checkbox-column">
+                <input
+                  type="checkbox"
+                  [checked]="isSelected(row.id)"
+                  (change)="toggleSelection(row.id)"
+                />
+              </td>
+
+              @for (column of visibleColumns(); track column.key) {
+                <td>
+                  @switch (column.type) {
+                    @case ('badge') {
+                      <app-badge [variant]="column.badgeVariant?.(row) ?? 'neutral'">
+                        {{ getCellValue(row, column) }}
+                      </app-badge>
+                    }
+
+                    @case ('actions') {
+                      <div class="grid-row-actions">
+                        @for (
+                          action of getPrimaryActions(column.actions ?? []);
+                          track action.label
+                        ) {
+                          <app-button
+                            variant="toolbar"
+                            [icon]="action.icon"
+                            [attr.aria-label]="action.label"
+                            (click)="executeAction(action, row)"
+                          >
+                          </app-button>
+                        }
+
+                        @if (getSecondaryActions(column.actions ?? []).length > 0) {
+                          <app-grid-row-menu
+                            [actions]="getSecondaryActions(column.actions ?? [])"
+                            (actionClicked)="executeAction($event, row)"
+                          >
+                          </app-grid-row-menu>
+                        }
+                      </div>
+                    }
+
+                    @default {
+                      {{ getCellValue(row, column) }}
+                    }
+                  }
+                </td>
+              }
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+
+  @if (!loading() && !isEmpty()) {
+    <app-grid-pagination
+      [page]="state.page()"
+      [pageSize]="state.pageSize()"
+      [totalItems]="filteredRows().length"
+      (pageChanged)="state.setPage($event)"
+    >
+    </app-grid-pagination>
+  }
+</app-enterprise-card>
