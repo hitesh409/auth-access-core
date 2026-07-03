@@ -51,34 +51,34 @@
     z-index: 100;
 }
 
+/* filter toggle — app-button (variant="plain"); chrome lives on inner .btn */
 .entity-navigator__filter-btn {
-    display: flex;
-    align-items: center;
-    gap: .375rem;
+    display: inline-flex;
+}
+
+.entity-navigator__filter-btn ::ng-deep .btn {
     height: 42px;
     padding: 0 .875rem;
+    gap: .375rem;
     border: 1px solid var(--surface-border);
     border-radius: 12px;
     background: var(--surface-primary);
     font-size: .8125rem;
     font-weight: 600;
     color: var(--text-secondary);
-    cursor: pointer;
     white-space: nowrap;
-    font-family: inherit;
-    transition:
-        border-color .18s ease,
-        color .18s ease,
-        background .18s ease,
-        box-shadow .18s ease;
 }
 
-.entity-navigator__filter-btn:hover {
+.entity-navigator__filter-btn ::ng-deep .btn__content {
+    gap: .375rem;
+}
+
+.entity-navigator__filter-btn ::ng-deep .btn:hover:not(:disabled) {
     border-color: var(--color-primary);
     color: var(--color-primary);
 }
 
-.entity-navigator__filter-btn--active {
+.entity-navigator__filter-btn ::ng-deep .btn--active {
     border-color: color-mix(in srgb, var(--color-primary) 35%, var(--surface-border));
     color: var(--color-primary);
     background: color-mix(in srgb, var(--color-primary) 6%, var(--surface-primary));
@@ -129,30 +129,33 @@
         visibility 0s 0s;
 }
 
+/* filter option — app-button (variant="plain"); chrome lives on inner .btn */
 .entity-navigator__filter-option {
-    display: flex;
-    align-items: center;
-    gap: .625rem;
+    display: block;
+}
+
+.entity-navigator__filter-option ::ng-deep .btn {
     width: 100%;
+    justify-content: flex-start;
     padding: .5rem .75rem;
-    border: none;
     border-radius: 8px;
     background: none;
     font-size: .8125rem;
     font-weight: 500;
     color: var(--text-secondary);
-    cursor: pointer;
     text-align: left;
-    font-family: inherit;
-    transition: background .12s ease, color .12s ease;
 }
 
-.entity-navigator__filter-option:hover {
+.entity-navigator__filter-option ::ng-deep .btn__content {
+    gap: .625rem;
+}
+
+.entity-navigator__filter-option ::ng-deep .btn:hover:not(:disabled) {
     background: var(--surface-secondary);
     color: var(--text-primary);
 }
 
-.entity-navigator__filter-option--active {
+.entity-navigator__filter-option--active ::ng-deep .btn {
     color: var(--color-primary);
     font-weight: 700;
 }

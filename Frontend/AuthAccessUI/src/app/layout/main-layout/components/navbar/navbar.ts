@@ -5,12 +5,12 @@ import { ToastrService } from 'ngx-toastr';
 
 import { AuthService } from '../../../../core/auth/auth.service';
 import { LayoutService } from '../../../../core/layout/layout.service';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faRightToBracket } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faRightToBracket } from '@fortawesome/free-solid-svg-icons';
+import { ButtonComponent } from '../../../../shared/ui/components/button/button';
 
 @Component({
   selector: 'app-navbar',
-  imports: [FontAwesomeModule],
+  imports: [ButtonComponent],
   templateUrl: './navbar.html',
   styleUrl: './navbar.scss',
 })
@@ -19,6 +19,9 @@ export class Navbar {
   private readonly toastr = inject(ToastrService);
   private readonly router = inject(Router);
   readonly layoutService = inject(LayoutService);
+
+  protected readonly faBars = faBars;
+  protected readonly faRightToBracket = faRightToBracket;
 
   readonly currentUser = this.authService.currentUser;
   readonly fullName = computed(() => {

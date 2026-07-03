@@ -33,6 +33,41 @@
     align-items: center;
 }
 
+/* icon-only buttons: drop the empty content box so it doesn't
+   consume the flex gap and push the icon off-centre */
+.btn__content:empty {
+    display: none;
+}
+
+/* =========================================
+   BLOCK — full-width
+========================================= */
+
+:host(.btn--block-host) {
+    display: block;
+}
+
+.btn--block {
+    width: 100%;
+}
+
+/* =========================================
+   PLAIN — neutral base for bespoke buttons
+   whose full styling is supplied by the
+   consuming feature (via ::ng-deep on .btn).
+========================================= */
+
+.btn--plain {
+    height: auto;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    color: inherit;
+    font-weight: inherit;
+    box-shadow: none;
+}
+
 .btn__icon {
     font-size: 0.875rem;
     flex-shrink: 0;

@@ -11,15 +11,14 @@
     />
 
     @if (search()) {
-      <button
-        type="button"
+      <app-button
         class="grid-toolbar__clear"
+        variant="action"
+        [icon]="icons.close"
         appTooltip="Clear Search"
-        aria-label="Clear Search"
+        ariaLabel="Clear Search"
         (click)="searchChanged.emit('')"
-      >
-        ✕
-      </button>
+      ></app-button>
     }
   </div>
 

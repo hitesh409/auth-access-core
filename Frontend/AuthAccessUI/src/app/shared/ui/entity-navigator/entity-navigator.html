@@ -18,33 +18,35 @@
             <div class="entity-navigator__filter-backdrop" (click)="filterOpen.set(false)"></div>
           }
 
-          <button
+          <app-button
             class="entity-navigator__filter-btn"
-            [class.entity-navigator__filter-btn--active]="statusFilter() !== 'all'"
+            variant="plain"
+            [active]="statusFilter() !== 'all'"
+            [icon]="icons.filter"
             (click)="toggleFilter()"
           >
-            <fa-icon [icon]="icons.filter"></fa-icon>
             <span>{{ activeFilterLabel() }}</span>
             <fa-icon
               class="entity-navigator__filter-chevron"
               [class.entity-navigator__filter-chevron--open]="filterOpen()"
               [icon]="icons.chevronDown"
             ></fa-icon>
-          </button>
+          </app-button>
 
           <div
             class="entity-navigator__filter-dropdown"
             [class.entity-navigator__filter-dropdown--open]="filterOpen()"
           >
             @for (filter of template().filters!; track filter.value) {
-              <button
+              <app-button
                 class="entity-navigator__filter-option"
                 [class.entity-navigator__filter-option--active]="statusFilter() === filter.value"
+                variant="plain"
                 (click)="selectFilter(filter.value)"
               >
                 <span class="entity-navigator__filter-dot"></span>
                 {{ filter.label }}
-              </button>
+              </app-button>
             }
           </div>
         </div>

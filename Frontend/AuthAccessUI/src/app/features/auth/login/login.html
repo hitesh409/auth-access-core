@@ -30,7 +30,7 @@
             Password?</a>
     </div>
 
-    <button type="submit" class="btn btn-primary w-100 py-3 fw-bold" [disabled]="isLoading()">
+    <app-button type="submit" variant="primary" size="lg" [block]="true" [disabled]="isLoading()">
         @if (!isLoading()) {
         <fa-icon [icon]="['fas', 'right-from-bracket']" class="me-2"></fa-icon>
         SIGN IN
@@ -38,7 +38,7 @@
         <span class="spinner-border spinner-border-sm me-2"></span>
         Signing in...
         }
-    </button>
+    </app-button>
 </form>
 
 <div class="mt-5 text-center">

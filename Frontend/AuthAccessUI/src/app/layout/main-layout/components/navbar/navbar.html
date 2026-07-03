@@ -1,9 +1,12 @@
 <header class="navbar">
   <div class="navbar-left">
     @if (layoutService.isMobileView()) {
-      <button type="button" class="btn-shell" (click)="toggleSidebar()">
-        <fa-icon [icon]="['fas', 'bars']"></fa-icon>
-      </button>
+      <app-button
+        variant="navigation"
+        [icon]="faBars"
+        ariaLabel="Toggle sidebar"
+        (click)="toggleSidebar()"
+      ></app-button>
     }
     <div class="navbar-brand-section">
       <h1 class="navbar-title">Enterprise Access Platform</h1>
@@ -20,15 +23,15 @@
           {{ email() }}
         </div>
       </div>
-      <button type="button" class="btn-shell-action" (click)="logout()" [disabled]="isLoading()">
-        @if (!isLoading()) {
-          <fa-icon  class="btn-icon" [icon]="['fas', 'right-to-bracket']"></fa-icon>
-          <span>Logout</span>
-        } @else {
-          <span class="spinner-border spinner-border-sm"> </span>
-          <span>Logging out...</span>
-        }
-      </button>
+      <app-button
+        variant="secondary"
+        [icon]="faRightToBracket"
+        [loading]="isLoading()"
+        [disabled]="isLoading()"
+        (click)="logout()"
+      >
+        {{ isLoading() ? 'Logging out...' : 'Logout' }}
+      </app-button>
     </div>
   </div>
 </header>

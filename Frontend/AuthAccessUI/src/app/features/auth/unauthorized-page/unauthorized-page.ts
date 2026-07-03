@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { ButtonComponent } from '../../../shared/ui/components/button/button';
 
 @Component({
   selector: 'app-unauthorized-page',
-  imports: [],
+  imports: [ButtonComponent],
   templateUrl: './unauthorized-page.html',
   styleUrl: './unauthorized-page.scss',
 })

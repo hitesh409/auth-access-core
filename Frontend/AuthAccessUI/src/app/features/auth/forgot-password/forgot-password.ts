@@ -3,10 +3,11 @@ import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { ButtonComponent } from '../../../shared/ui/components/button/button';
 
 @Component({
   selector: 'app-forgot-password',
-  imports: [CommonModule, ReactiveFormsModule, FontAwesomeModule, RouterLink],
+  imports: [CommonModule, ReactiveFormsModule, FontAwesomeModule, RouterLink, ButtonComponent],
   templateUrl: './forgot-password.html',
   styleUrl: './forgot-password.scss',
 })

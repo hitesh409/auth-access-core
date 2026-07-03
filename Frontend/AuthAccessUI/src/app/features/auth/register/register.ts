@@ -5,10 +5,11 @@ import { Router, RouterLink } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AuthService } from '../../../core/auth/auth.service';
 import { ToastrService } from 'ngx-toastr';
+import { ButtonComponent } from '../../../shared/ui/components/button/button';
 
 @Component({
   selector: 'app-register',
-  imports: [ReactiveFormsModule, CommonModule, FontAwesomeModule, RouterLink],
+  imports: [ReactiveFormsModule, CommonModule, FontAwesomeModule, RouterLink, ButtonComponent],
   templateUrl: './register.html',
   styleUrl: './register.scss',
 })

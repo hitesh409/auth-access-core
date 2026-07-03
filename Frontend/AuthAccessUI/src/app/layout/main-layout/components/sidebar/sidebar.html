@@ -1,9 +1,12 @@
 <aside class="sidebar" [class.mobile-open]="isMobileSidebarOpen()">
   @if (isMobileView() && mobileParent(); as parent) {
     <div class="sidebar-brand sidebar-secondary-header">
-      <button class="sidebar-back-button" type="button" aria-label="Back to main navigation" (click)="backToMainNavigation()">
-        <i class="bi bi-arrow-left"></i>
-      </button>
+      <app-button
+        variant="navigation"
+        [icon]="faArrowLeft"
+        ariaLabel="Back to main navigation"
+        (click)="backToMainNavigation()"
+      ></app-button>
       <div class="sidebar-brand-info">
         <div class="sidebar-brand-title">{{ parent.label }}</div>
         <div class="sidebar-brand-subtitle">Navigation</div>

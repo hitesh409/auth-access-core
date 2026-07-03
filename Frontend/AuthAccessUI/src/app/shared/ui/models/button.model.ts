@@ -12,5 +12,6 @@ export type ButtonVariant =
   | 'workspace-tab'
   | 'detail-tab'
   | 'accordion'
-  | 'mobile-tab';
+  | 'mobile-tab'
+  | 'plain';
 export type ButtonSize = 'sm' | 'md' | 'lg';

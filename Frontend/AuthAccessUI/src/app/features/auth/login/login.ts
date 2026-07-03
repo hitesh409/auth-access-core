@@ -8,10 +8,11 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { ButtonComponent } from '../../../shared/ui/components/button/button';
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule, CommonModule, FontAwesomeModule, RouterLink],
+  imports: [ReactiveFormsModule, CommonModule, FontAwesomeModule, RouterLink, ButtonComponent],
   templateUrl: './login.html',
   styleUrl: './login.scss',
 })

@@ -51,14 +51,14 @@
         </span>
     </div>
 
-    <button type="submit" class="btn btn-primary w-100 py-3 fw-bold" [disabled]="isLoading()">
+    <app-button type="submit" variant="primary" size="lg" [block]="true" [disabled]="isLoading()">
         @if (!isLoading()) {
             <span >Create Account </span>
         }
         @else {
             <span ><span class="spinner-border spinner-border-sm me-2"></span> Creating Account...</span>
-        }        
-    </button>
+        }
+    </app-button>
 </form>
 <div class="mt-4 text-center">
     <p class="small text-muted"> Already have an account? <a routerLink="/auth/login" class="text-primary fw-bold text-decoration-none">Sign In</a></p>

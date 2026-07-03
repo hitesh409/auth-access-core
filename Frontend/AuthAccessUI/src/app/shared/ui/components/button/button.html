@@ -1,8 +1,13 @@
-<button type="button" [disabled]="disabled() || loading()" [class]="classes()">
+<button
+  [attr.type]="type()"
+  [disabled]="disabled() || loading()"
+  [attr.aria-label]="ariaLabel()"
+  [class]="classes()"
+>
   @if (loading()) {
     <span class="btn__spinner"></span>
   } @else if (icon()) {
     <fa-icon [icon]="icon()!" class="btn__icon"> </fa-icon>
   }
-  <div class="btn__content"> <ng-content /></div>
+  <div class="btn__content"><ng-content /></div>
 </button>
