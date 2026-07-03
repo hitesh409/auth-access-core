@@ -1,1 +1,31 @@
-<p>confirmation-modal works!</p>
+@if (isOpen()) {
+  <div class="confirm-overlay" (click)="cancel()">
+    <div
+      class="confirm"
+      [attr.data-tone]="tone()"
+      role="alertdialog"
+      aria-modal="true"
+      (click)="$event.stopPropagation()"
+    >
+      <div class="confirm__icon">
+        <fa-icon [icon]="resolvedIcon()"></fa-icon>
+      </div>
+
+      <h2 class="confirm__title">{{ title() }}</h2>
+
+      @if (message()) {
+        <p class="confirm__message">{{ message() }}</p>
+      }
+
+      <div class="confirm__actions">
+        <app-button variant="secondary" [disabled]="loading()" (click)="cancel()">
+          {{ cancelLabel() }}
+        </app-button>
+
+        <app-button [variant]="confirmVariant()" [loading]="loading()" (click)="confirm()">
+          {{ confirmLabel() }}
+        </app-button>
+      </div>
+    </div>
+  </div>
+}
