@@ -10,8 +10,8 @@
       [statusVariant]="template().statusVariant?.(entity) ?? 'neutral'"
       [metadata]="template().metadata?.(entity) ?? []"
     >
-      @if (template().actions?.length) {
-        <div header-actions>
+      <div header-actions class="workspace-header-actions">
+        @if (template().actions?.length) {
           @for (action of template().actions!; track action.label) {
             <app-button
               [variant]="action.variant ?? 'secondary'"
@@ -21,8 +21,9 @@
               {{ action.label }}
             </app-button>
           }
-        </div>
-      }
+        }
+        <ng-content select="[workspace-actions]"></ng-content>
+      </div>
     </app-detail-header>
 
     <!-- =========================================

@@ -41,14 +41,6 @@ export const USER_WORKSPACE_TEMPLATE: EntityWorkspaceTemplate<UserDemo> = {
     { label: 'Last Login',    value: user.lastLogin, icon: APP_ICONS.signin },
   ],
 
-  actions: [
-    {
-      variant: 'action',
-      icon: APP_ICONS.edit,
-      action: (user) => { console.log('Edit User', user); },
-    },
-  ],
-
   sections: [
     {
       id: 'identity',

@@ -19,6 +19,12 @@ app-detail-header {
     flex-shrink: 0;
 }
 
+.workspace-header-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+}
+
 .entity-workspace__pinned {
     flex-shrink: 0;
     border-bottom: 1px solid var(--surface-border);

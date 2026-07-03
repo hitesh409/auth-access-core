@@ -1,0 +1,28 @@
+@if (actions().length) {
+  <div class="record-menu">
+    @if (open()) {
+      <div class="record-menu__backdrop" (click)="open.set(false)"></div>
+    }
+
+    <app-button
+      class="record-menu__trigger"
+      variant="action"
+      [icon]="icons.more"
+      (click)="toggle()"
+    ></app-button>
+
+    <div class="record-menu__dropdown" [class.record-menu__dropdown--open]="open()">
+      @for (item of actions(); track item.label) {
+        <app-button
+          class="record-menu__item"
+          [class.record-menu__item--danger]="item.danger"
+          variant="menu"
+          [icon]="item.icon"
+          (click)="run(item)"
+        >
+          {{ item.label }}
+        </app-button>
+      }
+    </div>
+  </div>
+}
