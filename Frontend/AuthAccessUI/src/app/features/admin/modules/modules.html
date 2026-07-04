@@ -1,1 +1,47 @@
-<p>modules works!</p>
+<app-page-header title="Modules" [breadcrumbs]="breadcrumbs"></app-page-header>
+
+<app-master-detail-layout variant="split" [hasSelection]="selectedModule() !== null">
+  <div master>
+    <app-entity-navigator
+      [items]="modules()"
+      [selected]="selectedModule()"
+      [template]="navigatorTemplate"
+      (selectionChanged)="onModuleSelected($event)"
+      (detailOpened)="onDetailOpened($event)"
+    >
+    </app-entity-navigator>
+  </div>
+
+  <!-- Desktop only: detail in split view -->
+  <div detail class="modules-inspector">
+    <app-entity-workspace
+      class="modules-inspector__workspace"
+      [entity]="selectedModule()"
+      [template]="workspaceTemplate"
+    >
+      <app-record-actions-menu workspace-actions [actions]="selectedModuleActions()">
+      </app-record-actions-menu>
+    </app-entity-workspace>
+  </div>
+</app-master-detail-layout>
+
+<!-- Mobile + Tablet: detail in modal -->
+<app-modal [isOpen]="modalOpen()" [title]="modalTitle()" [subtitle]="modalSubtitle()" (closed)="closeModal()">
+  <app-entity-workspace [entity]="selectedModule()" [template]="workspaceTemplate">
+    <app-record-actions-menu workspace-actions [actions]="selectedModuleActions()">
+    </app-record-actions-menu>
+  </app-entity-workspace>
+</app-modal>
+
+<!-- Confirmation dialog for destructive / sensitive actions -->
+<app-confirmation-modal
+  [isOpen]="confirmOpen()"
+  [title]="confirmConfig()?.title ?? ''"
+  [message]="confirmConfig()?.message ?? ''"
+  [confirmLabel]="confirmConfig()?.confirmLabel ?? 'Confirm'"
+  [tone]="confirmConfig()?.tone ?? 'danger'"
+  [icon]="confirmConfig()?.icon"
+  (confirmed)="onConfirm()"
+  (cancelled)="onCancelConfirm()"
+>
+</app-confirmation-modal>

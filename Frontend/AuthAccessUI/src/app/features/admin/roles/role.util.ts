@@ -1,4 +1,4 @@
-import { PermissionFlags } from '../../../core/authorization/constants/permission-flags.constants';
+import { countAccessRights } from '../../../core/authorization/utils/access-rights.util';
 import { RoleDemo, RoleRight } from './role-demo.model';
 
 /** Build an editable module -> access-rights map from a role's rights. */
@@ -49,30 +49,5 @@ export function moduleCount(role: RoleDemo): number {
 
 /** Total individual access rights granted across all modules. */
 export function permissionCount(role: RoleDemo): number {
-  return activeRights(role).reduce((sum, r) => sum + countBits(r.allowedAccessRights), 0);
-}
-
-/** Decode a bitwise AllowedAccessRights value into readable labels. */
-export function decodeAccessRights(flags: number): string {
-  if (flags === PermissionFlags.None) {
-    return 'No Access';
-  }
-
-  const labels: string[] = [];
-  if (flags & PermissionFlags.View) labels.push('View');
-  if (flags & PermissionFlags.Create) labels.push('Create');
-  if (flags & PermissionFlags.Update) labels.push('Update');
-  if (flags & PermissionFlags.Delete) labels.push('Delete');
-  if (flags & PermissionFlags.Export) labels.push('Export');
-  return labels.join(', ');
-}
-
-function countBits(value: number): number {
-  let count = 0;
-  let bits = value;
-  while (bits) {
-    count += bits & 1;
-    bits >>= 1;
-  }
-  return count;
+  return activeRights(role).reduce((sum, r) => sum + countAccessRights(r.allowedAccessRights), 0);
 }
