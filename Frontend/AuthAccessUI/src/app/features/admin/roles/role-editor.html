@@ -1,0 +1,131 @@
+@if (role() || isNew()) {
+  <div class="role-editor">
+    <!-- =========================================
+         HEADER
+    ========================================= -->
+    <div class="role-editor__header">
+      <div class="role-editor__identity">
+        <div class="role-editor__avatar">{{ initials() }}</div>
+
+        <div class="role-editor__heading">
+          @if (editing()) {
+            <input
+              class="role-editor__name-input"
+              placeholder="Role name"
+              [ngModel]="draftName()"
+              (ngModelChange)="draftName.set($event)"
+            />
+            <input
+              class="role-editor__desc-input"
+              placeholder="Short description"
+              [ngModel]="draftDescription()"
+              (ngModelChange)="draftDescription.set($event)"
+            />
+          } @else {
+            <h2 class="role-editor__name">{{ role()!.name }}</h2>
+            <p class="role-editor__desc">{{ role()!.description }}</p>
+          }
+        </div>
+      </div>
+
+      <div class="role-editor__header-actions">
+        @if (editing()) {
+          <app-button variant="ghost" (click)="cancel()">Cancel</app-button>
+          <app-button variant="primary" [disabled]="!canSave()" (click)="save()">
+            {{ isNew() ? 'Create role' : 'Save changes' }}
+          </app-button>
+        } @else {
+          @if (!isSystem()) {
+            <app-button variant="secondary" [icon]="icons.edit" (click)="startEdit()">
+              Edit
+            </app-button>
+          }
+          <app-record-actions-menu [actions]="kebabActions()"></app-record-actions-menu>
+        }
+      </div>
+    </div>
+
+    <!-- =========================================
+         META — type + status
+    ========================================= -->
+    <div class="role-editor__meta">
+      <app-badge [variant]="!isNew() && role()!.type === 'System' ? 'info' : 'neutral'">
+        {{ isNew() ? 'Custom' : role()!.type }}
+      </app-badge>
+
+      <div class="role-editor__status">
+        <span class="role-editor__status-label">Status</span>
+        @if (editing()) {
+          <div class="role-editor__status-toggle">
+            <app-button
+              variant="workspace-tab"
+              [active]="draftStatus() === 'Active'"
+              (click)="draftStatus.set('Active')"
+            >
+              Active
+            </app-button>
+            <app-button
+              variant="workspace-tab"
+              [active]="draftStatus() === 'Inactive'"
+              (click)="draftStatus.set('Inactive')"
+            >
+              Inactive
+            </app-button>
+          </div>
+        } @else {
+          <app-badge [variant]="role()!.status === 'Active' ? 'success' : 'warning'">
+            {{ role()!.status }}
+          </app-badge>
+        }
+      </div>
+    </div>
+
+    @if (isSystem()) {
+      <div class="role-editor__system-note">
+        <fa-icon [icon]="icons.lock"></fa-icon>
+        System role — permissions are read-only
+      </div>
+    }
+
+    <!-- =========================================
+         BODY — permissions + assigned users
+    ========================================= -->
+    <div class="role-editor__body">
+      <section class="role-editor__section">
+        <h3 class="role-editor__section-title">Permissions</h3>
+        <app-permission-tree
+          [groups]="modules()"
+          [value]="draftRights()"
+          [disabled]="!editing()"
+          (valueChange)="onRightsChange($event)"
+        ></app-permission-tree>
+      </section>
+
+      <section class="role-editor__section">
+        <h3 class="role-editor__section-title">Assigned Users</h3>
+
+        <div class="role-editor__users-stat">
+          <div class="role-editor__users-icon">
+            <fa-icon [icon]="icons.users"></fa-icon>
+          </div>
+          <div class="role-editor__users-text">
+            <span class="role-editor__users-number">{{ usersCount() }}</span>
+            <span class="role-editor__users-label">
+              {{ usersCount() === 1 ? 'user is' : 'users are' }} assigned to this role
+            </span>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+} @else {
+  <div class="role-editor__placeholder">
+    <div class="role-editor__placeholder-icon">
+      <fa-icon [icon]="icons.roles"></fa-icon>
+    </div>
+    <p class="role-editor__placeholder-title">No role selected</p>
+    <p class="role-editor__placeholder-hint">
+      Select a role to view its permissions, or create a new one.
+    </p>
+  </div>
+}

@@ -1,1 +1,66 @@
-<p>roles works!</p>
+<app-page-header title="Roles" [breadcrumbs]="breadcrumbs">
+  <app-button
+    page-actions
+    variant="primary"
+    size="sm"
+    [icon]="icons.create"
+    (click)="onNewRole()"
+  >
+    New Role
+  </app-button>
+</app-page-header>
+
+<app-master-detail-layout variant="split" [hasSelection]="selectedRole() !== null || creating()">
+  <div master>
+    <app-entity-navigator
+      [items]="roles()"
+      [selected]="selectedRole()"
+      [template]="navigatorTemplate"
+      (selectionChanged)="onRoleSelected($event)"
+      (detailOpened)="onDetailOpened($event)"
+    >
+    </app-entity-navigator>
+  </div>
+
+  <!-- Desktop only: editor in split view -->
+  <div detail class="roles-inspector">
+    <app-role-editor
+      class="roles-inspector__editor"
+      [role]="activeRole()"
+      [modules]="modules"
+      [isNew]="creating()"
+      (saved)="onSaved($event)"
+      (cancelledCreate)="onCancelCreate()"
+      (requestDuplicate)="onDuplicate($event)"
+      (requestDelete)="onDelete($event)"
+    >
+    </app-role-editor>
+  </div>
+</app-master-detail-layout>
+
+<!-- Mobile + Tablet: editor in modal -->
+<app-modal [isOpen]="modalOpen()" [title]="modalTitle()" [subtitle]="modalSubtitle()" (closed)="closeModal()">
+  <app-role-editor
+    [role]="activeRole()"
+    [modules]="modules"
+    [isNew]="creating()"
+    (saved)="onSaved($event)"
+    (cancelledCreate)="onCancelCreate()"
+    (requestDuplicate)="onDuplicate($event)"
+    (requestDelete)="onDelete($event)"
+  >
+  </app-role-editor>
+</app-modal>
+
+<!-- Confirmation dialog for destructive actions -->
+<app-confirmation-modal
+  [isOpen]="confirmOpen()"
+  [title]="confirmConfig()?.title ?? ''"
+  [message]="confirmConfig()?.message ?? ''"
+  [confirmLabel]="confirmConfig()?.confirmLabel ?? 'Confirm'"
+  [tone]="confirmConfig()?.tone ?? 'danger'"
+  [icon]="confirmConfig()?.icon"
+  (confirmed)="onConfirm()"
+  (cancelled)="onCancelConfirm()"
+>
+</app-confirmation-modal>

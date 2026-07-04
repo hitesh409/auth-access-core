@@ -17,6 +17,7 @@ export interface EntityWorkspaceSection<T> {
   defaultExpanded?: boolean;
   pinned?: boolean;
   icon?: IconDefinition;
+  colorVariant?: SectionColorVariant;
   type: EntityWorkspaceSectionType;
   fields?: (entity: T) => any[];
   stats?: (entity: T) => any[];

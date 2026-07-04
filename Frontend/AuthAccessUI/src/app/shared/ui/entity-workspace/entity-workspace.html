@@ -42,7 +42,10 @@
           >
             <div class="workspace-section__header">
               @if (section.icon) {
-                <div class="workspace-section__icon-badge">
+                <div
+                  class="workspace-section__icon-badge"
+                  [attr.data-variant]="section.colorVariant ?? 'primary'"
+                >
                   <fa-icon [icon]="section.icon"></fa-icon>
                 </div>
               }

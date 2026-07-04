@@ -113,7 +113,10 @@
             @if (template().metadata?.(item)?.length) {
               <div class="entity-navigator__metadata">
                 @for (meta of template().metadata!(item); track meta.label) {
-                  <span>{{ meta.value }} {{ meta.label }}</span>
+                  <span class="entity-navigator__meta-item">
+                    <strong class="entity-navigator__meta-value">{{ meta.value }}</strong>
+                    <span class="entity-navigator__meta-label">{{ meta.label }}</span>
+                  </span>
                 }
               </div>
             }

@@ -36,7 +36,8 @@ import {
   faUserCircle,
   faChevronDown,
   faChevronUp,
-  faXmark
+  faXmark,
+  faClone
 } from '@fortawesome/free-solid-svg-icons';
 
 export const APP_ICONS = {
@@ -78,4 +79,5 @@ export const APP_ICONS = {
   detailView: faArrowUpRightFromSquare,
   email: faEnvelope,
   close: faXmark,
+  duplicate: faClone,
 } as const;

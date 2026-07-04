@@ -1,0 +1,66 @@
+<div class="perm-tree">
+  <!-- Legend -->
+  <div class="perm-legend">
+    @for (col of columns; track col.flag) {
+      <span class="perm-legend__item">
+        <span class="perm-legend__key">{{ col.short }}</span>
+        {{ col.label }}
+      </span>
+    }
+  </div>
+
+  @for (group of groups(); track group.name) {
+    <div class="perm-group" [class.perm-group--collapsed]="isCollapsed(group.name)">
+      <div class="perm-group__header" (click)="toggleGroup(group.name)">
+        <fa-icon
+          class="perm-group__chevron"
+          [class.perm-group__chevron--collapsed]="isCollapsed(group.name)"
+          [icon]="icons.chevronDown"
+        ></fa-icon>
+        <span class="perm-group__name">{{ group.name }}</span>
+        <span class="perm-group__count">{{ grantedCount(group) }}/{{ group.modules.length }}</span>
+
+        @if (!disabled()) {
+          <app-button
+            class="perm-group__all"
+            variant="ghost"
+            size="sm"
+            (click)="toggleGroupAll(group); $event.stopPropagation()"
+          >
+            {{ groupAllGranted(group) ? 'Clear' : 'Grant all' }}
+          </app-button>
+        }
+      </div>
+
+      @if (!isCollapsed(group.name)) {
+        <div class="perm-group__body">
+          @for (module of group.modules; track module) {
+            <div class="perm-row" [class.perm-row--active]="moduleActive(module)">
+              <span class="perm-row__module" [title]="module">{{ module }}</span>
+              <div class="perm-row__chips">
+                @for (col of columns; track col.flag) {
+                  <label
+                    class="perm-chip"
+                    [class.perm-chip--on]="hasFlag(module, col.flag)"
+                    [class.perm-chip--disabled]="disabled()"
+                    [title]="col.label"
+                  >
+                    <input
+                      type="checkbox"
+                      class="perm-chip__input"
+                      [attr.aria-label]="module + ' ' + col.label"
+                      [checked]="hasFlag(module, col.flag)"
+                      [disabled]="disabled()"
+                      (change)="toggle(module, col.flag)"
+                    />
+                    {{ col.short }}
+                  </label>
+                }
+              </div>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  }
+</div>
