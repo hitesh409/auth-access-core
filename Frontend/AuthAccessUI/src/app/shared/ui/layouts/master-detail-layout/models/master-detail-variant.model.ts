@@ -1,1 +1,1 @@
-export type MasterDetailVariant = 'grid-only' | 'split' | 'fullscreen';
+export type MasterDetailVariant = 'grid-only' | 'split' | 'grid-split' | 'fullscreen';

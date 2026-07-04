@@ -59,4 +59,18 @@
 .enterprise-card--workspace {
     padding: 0;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+}
+
+/* Only the workspace variant (data-grid) needs the host itself to
+   stretch to its container's height — other variants (default,
+   metric, interactive) size to their content. */
+:host:has(.enterprise-card--workspace) {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
 }

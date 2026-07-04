@@ -16,6 +16,7 @@ import { TooltipDirective } from '../../../../../directives/tooltip';
 export class GridToolbarComponent {
   search = input('');
   selectedCount = input(0);
+  searchPlaceholder = input('Search...');
   searchChanged = output<string>();
   refresh = output<void>();
   export = output<void>();

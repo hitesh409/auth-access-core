@@ -47,6 +47,7 @@ export class DataGrid {
   rows = input.required<any[]>();
   loading = input(false);
   gridId = input('users');
+  searchPlaceholder = input('Search...');
   bulkActions = input<GridBulkAction[]>([]);
   selectionMode = input<'none' | 'single' | 'multiple'>('multiple');
   readonly rowSelected = output<any>();

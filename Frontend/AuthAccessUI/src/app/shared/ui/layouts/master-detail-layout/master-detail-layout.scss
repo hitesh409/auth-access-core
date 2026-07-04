@@ -18,12 +18,23 @@
    SPLIT — Desktop ≥1024px
 ========================================= */
 
-.master-detail--split {
+.master-detail--split,
+.master-detail--grid-split {
     display: grid;
-    grid-template-columns: minmax(380px, 420px) minmax(0, 1fr);
     grid-template-rows: minmax(0, 1fr);
     gap: 1.5rem;
     min-height: 0;
+}
+
+.master-detail--split {
+    grid-template-columns: minmax(380px, 420px) minmax(0, 1fr);
+}
+
+/* Grid + Inspector: the master (data-grid) needs width for its
+   columns, so the ratio is reversed — wide master, fixed-width
+   inspector on the right. */
+.master-detail--grid-split {
+    grid-template-columns: minmax(0, 1fr) minmax(360px, 420px);
 }
 
 .master-detail__master,
@@ -91,7 +102,8 @@
 
 @media (max-width: 1023px) {
 
-    .master-detail--split {
+    .master-detail--split,
+    .master-detail--grid-split {
         display: block;
         position: relative;
         height: 100%;

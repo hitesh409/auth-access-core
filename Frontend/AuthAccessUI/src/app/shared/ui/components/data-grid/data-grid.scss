@@ -1,14 +1,38 @@
 :host {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+}
+
+/* Fixed rows (toolbar, optional panels, pagination) never shrink;
+   the table area is the only thing that scrolls. */
+app-grid-toolbar,
+app-grid-column-picker,
+app-grid-bulk-actions,
+app-grid-pagination {
+    flex-shrink: 0;
 }
 
 /* =========================================
-   TABLE WRAPPER
+   TABLE WRAPPER — the scrollable region
 ========================================= */
 
 .grid-table-wrapper {
-    overflow-x: auto;
+    flex: 1;
+    min-height: 0;
+    overflow: auto;
 }
+
+app-grid-loading,
+app-empty-state {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 /* =========================================
    TABLE
 ========================================= */
@@ -26,11 +50,13 @@
 }
 
 /* =========================================
-   HEADER
+   HEADER — sticky above the scrolling rows
 ========================================= */
 
 .grid-table th {
-    position: relative;
+    position: sticky;
+    top: 0;
+    z-index: 5;
     background: var(--surface-secondary);
     color: var(--text-secondary);
     font-size: 0.75rem;

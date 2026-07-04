@@ -1,1 +1,48 @@
-<p>sessions works!</p>
+<app-page-header title="Sessions" [breadcrumbs]="breadcrumbs"></app-page-header>
+
+<app-master-detail-layout variant="grid-split" [hasSelection]="selectedSession() !== null">
+  <div master>
+    <app-data-grid
+      [columns]="columns"
+      [rows]="sessions()"
+      gridId="sessions"
+      searchPlaceholder="Search sessions, users, IP..."
+      [bulkActions]="bulkActions"
+      (rowSelected)="onRowSelected($event)"
+    >
+    </app-data-grid>
+  </div>
+
+  <!-- Desktop only: detail in split view -->
+  <div detail class="sessions-inspector">
+    <app-entity-workspace
+      class="sessions-inspector__workspace"
+      [entity]="selectedSession()"
+      [template]="workspaceTemplate"
+    >
+      <app-record-actions-menu workspace-actions [actions]="selectedSessionActions()">
+      </app-record-actions-menu>
+    </app-entity-workspace>
+  </div>
+</app-master-detail-layout>
+
+<!-- Mobile + Tablet: detail in modal -->
+<app-modal [isOpen]="modalOpen()" [title]="modalTitle()" [subtitle]="modalSubtitle()" (closed)="closeModal()">
+  <app-entity-workspace [entity]="selectedSession()" [template]="workspaceTemplate">
+    <app-record-actions-menu workspace-actions [actions]="selectedSessionActions()">
+    </app-record-actions-menu>
+  </app-entity-workspace>
+</app-modal>
+
+<!-- Confirmation dialog for destructive actions -->
+<app-confirmation-modal
+  [isOpen]="confirmOpen()"
+  [title]="confirmConfig()?.title ?? ''"
+  [message]="confirmConfig()?.message ?? ''"
+  [confirmLabel]="confirmConfig()?.confirmLabel ?? 'Confirm'"
+  [tone]="confirmConfig()?.tone ?? 'danger'"
+  [icon]="confirmConfig()?.icon"
+  (confirmed)="onConfirm()"
+  (cancelled)="onCancelConfirm()"
+>
+</app-confirmation-modal>

@@ -5,7 +5,7 @@
     <input
       type="text"
       class="grid-toolbar__search-input"
-      placeholder="Search users, email, role..."
+      [placeholder]="searchPlaceholder()"
       [ngModel]="search()"
       (ngModelChange)="searchChanged.emit($event)"
     />

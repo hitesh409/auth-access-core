@@ -2,6 +2,7 @@
   <app-grid-toolbar
     [search]="state.search()"
     [selectedCount]="isEmpty() ? 0 : selectedCount()"
+    [searchPlaceholder]="searchPlaceholder()"
     (searchChanged)="onSearchChange($event)"
     (refresh)="refreshGrid()"
     (export)="exportGrid()"
