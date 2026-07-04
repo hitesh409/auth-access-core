@@ -199,6 +199,20 @@
     .breadcrumbs::-webkit-scrollbar {
         display: none;
     }
+
+    /* Projected page-actions buttons collapse to icon-only so a
+       primary action (e.g. "New Role") doesn't crowd out the
+       breadcrumbs. Text stays available to screen readers via
+       the button's ariaLabel input. */
+    .page-context__actions ::ng-deep [page-actions] .btn {
+        width: 34px;
+        padding-inline: 0;
+        justify-content: center;
+    }
+
+    .page-context__actions ::ng-deep [page-actions] .btn__content {
+        display: none;
+    }
 }
 
 /* =========================================
