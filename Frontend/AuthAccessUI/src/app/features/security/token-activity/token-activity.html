@@ -1,1 +1,50 @@
-<p>token-activity works!</p>
+<app-page-header title="Token Activity" [breadcrumbs]="breadcrumbs"></app-page-header>
+
+<app-master-detail-layout variant="grid-split" [hasSelection]="selectedToken() !== null">
+  <div master>
+    <app-data-grid
+      [columns]="columns"
+      [rows]="tokens()"
+      gridId="tokens"
+      searchPlaceholder="Search tokens, owners, clients..."
+      [bulkActions]="bulkActions"
+      (rowSelected)="onRowSelected($event)"
+      (detailOpened)="onDetailOpened($event)"
+      (refresh)="onGridRefresh()"
+    >
+    </app-data-grid>
+  </div>
+
+  <!-- Desktop only: detail in split view -->
+  <div detail class="token-inspector">
+    <app-entity-workspace
+      class="token-inspector__workspace"
+      [entity]="selectedToken()"
+      [template]="workspaceTemplate"
+    >
+      <app-record-actions-menu workspace-actions [actions]="selectedTokenActions()">
+      </app-record-actions-menu>
+    </app-entity-workspace>
+  </div>
+</app-master-detail-layout>
+
+<!-- Mobile + Tablet: detail in modal -->
+<app-modal [isOpen]="modalOpen()" [title]="modalTitle()" [subtitle]="modalSubtitle()" (closed)="closeModal()">
+  <app-entity-workspace [entity]="selectedToken()" [template]="workspaceTemplate">
+    <app-record-actions-menu workspace-actions [actions]="selectedTokenActions()">
+    </app-record-actions-menu>
+  </app-entity-workspace>
+</app-modal>
+
+<!-- Confirmation dialog for destructive actions -->
+<app-confirmation-modal
+  [isOpen]="confirmOpen()"
+  [title]="confirmConfig()?.title ?? ''"
+  [message]="confirmConfig()?.message ?? ''"
+  [confirmLabel]="confirmConfig()?.confirmLabel ?? 'Confirm'"
+  [tone]="confirmConfig()?.tone ?? 'danger'"
+  [icon]="confirmConfig()?.icon"
+  (confirmed)="onConfirm()"
+  (cancelled)="onCancelConfirm()"
+>
+</app-confirmation-modal>

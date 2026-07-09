@@ -1,1 +1,50 @@
-<p>device-activity works!</p>
+<app-page-header title="Device Activity" [breadcrumbs]="breadcrumbs"></app-page-header>
+
+<app-master-detail-layout variant="grid-split" [hasSelection]="selectedDevice() !== null">
+  <div master>
+    <app-data-grid
+      [columns]="columns"
+      [rows]="devices()"
+      gridId="devices"
+      searchPlaceholder="Search devices, owners, OS..."
+      [bulkActions]="bulkActions"
+      (rowSelected)="onRowSelected($event)"
+      (detailOpened)="onDetailOpened($event)"
+      (refresh)="onGridRefresh()"
+    >
+    </app-data-grid>
+  </div>
+
+  <!-- Desktop only: detail in split view -->
+  <div detail class="device-inspector">
+    <app-entity-workspace
+      class="device-inspector__workspace"
+      [entity]="selectedDevice()"
+      [template]="workspaceTemplate"
+    >
+      <app-record-actions-menu workspace-actions [actions]="selectedDeviceActions()">
+      </app-record-actions-menu>
+    </app-entity-workspace>
+  </div>
+</app-master-detail-layout>
+
+<!-- Mobile + Tablet: detail in modal -->
+<app-modal [isOpen]="modalOpen()" [title]="modalTitle()" [subtitle]="modalSubtitle()" (closed)="closeModal()">
+  <app-entity-workspace [entity]="selectedDevice()" [template]="workspaceTemplate">
+    <app-record-actions-menu workspace-actions [actions]="selectedDeviceActions()">
+    </app-record-actions-menu>
+  </app-entity-workspace>
+</app-modal>
+
+<!-- Confirmation dialog for destructive actions -->
+<app-confirmation-modal
+  [isOpen]="confirmOpen()"
+  [title]="confirmConfig()?.title ?? ''"
+  [message]="confirmConfig()?.message ?? ''"
+  [confirmLabel]="confirmConfig()?.confirmLabel ?? 'Confirm'"
+  [tone]="confirmConfig()?.tone ?? 'danger'"
+  [icon]="confirmConfig()?.icon"
+  (confirmed)="onConfirm()"
+  (cancelled)="onCancelConfirm()"
+>
+</app-confirmation-modal>
