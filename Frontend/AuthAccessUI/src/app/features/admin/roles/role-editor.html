@@ -94,7 +94,7 @@
       <section class="role-editor__section">
         <h3 class="role-editor__section-title">Permissions</h3>
         <app-permission-tree
-          [groups]="modules()"
+          [modules]="modules()"
           [value]="draftRights()"
           [disabled]="!editing()"
           (valueChange)="onRightsChange($event)"

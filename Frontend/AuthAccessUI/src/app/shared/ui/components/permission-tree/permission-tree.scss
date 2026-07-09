@@ -1,211 +1,486 @@
 :host {
     display: block;
+    --tree-line: color-mix(in srgb, var(--text-tertiary) 30%, var(--surface-border));
 }
 
 .perm-tree {
     display: flex;
     flex-direction: column;
-    gap: .625rem;
+    gap: 1rem;
 }
 
 /* =========================================
-   LEGEND
+   TOOLBAR
 ========================================= */
 
-.perm-legend {
+.perm-tree__toolbar {
     display: flex;
-    flex-wrap: wrap;
-    gap: .5rem 1rem;
-    padding: .5rem .25rem;
-    font-size: .6875rem;
-    color: var(--text-tertiary);
-}
-
-.perm-legend__item {
-    display: inline-flex;
     align-items: center;
-    gap: .375rem;
+    gap: 1rem;
+    flex-wrap: wrap;
 }
 
-.perm-legend__key {
+/* pinned toolbar — stays visible while the tree scrolls underneath */
+.perm-tree__toolbar--sticky {
+    position: sticky;
+    top: 0;
+    z-index: 6;
+    margin: -.25rem 0 0;
+    padding: .6rem .25rem;
+    background: var(--surface-primary);
+    border-bottom: 1px solid var(--surface-border);
+    border-radius: 0 0 10px 10px;
+    box-shadow: 0 6px 14px -10px rgba(15, 23, 42, .3);
+}
+
+.perm-tree__search {
+    position: relative;
+    flex: 1;
+    min-width: 200px;
+    display: flex;
+    align-items: center;
+    height: 40px;
+    padding-inline: .75rem;
+    border: 1px solid var(--surface-border);
+    border-radius: 12px;
+    background: var(--surface-secondary);
+    transition: border-color 150ms ease, background-color 150ms ease;
+
+    &:focus-within {
+        background: var(--surface-primary);
+        border-color: var(--color-primary);
+    }
+}
+
+.perm-tree__search-icon {
+    color: var(--text-tertiary);
+    margin-right: .5rem;
+    font-size: .8125rem;
+}
+
+.perm-tree__search-input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: var(--text-primary);
+    font-size: .875rem;
+
+    &::placeholder {
+        color: var(--text-tertiary);
+    }
+}
+
+.perm-tree__search-clear {
+    border: none;
+    background: transparent;
+    color: var(--text-tertiary);
+    cursor: pointer;
+    padding: .25rem;
+    display: inline-flex;
+
+    &:hover {
+        color: var(--text-primary);
+    }
+}
+
+/* expand / collapse — icon-only segmented toggle, one active at a time */
+.perm-tree__seg {
+    flex-shrink: 0;
+    display: inline-flex;
+    padding: 2px;
+    border: 1px solid var(--surface-border);
+    border-radius: 10px;
+    background: var(--surface-secondary);
+}
+
+.perm-tree__seg-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 18px;
-    height: 18px;
-    border-radius: 5px;
-    background: var(--surface-secondary);
-    border: 1px solid var(--surface-border);
-    font-size: .625rem;
-    font-weight: 700;
+    width: 34px;
+    height: 30px;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--text-tertiary);
+    cursor: pointer;
+    font-size: .8125rem;
+    transition: background-color 150ms ease, color 150ms ease, box-shadow 150ms ease;
+
+    &:hover {
+        color: var(--color-primary);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--color-primary);
+        outline-offset: 2px;
+    }
+}
+
+.perm-tree__seg-btn--active {
+    background: var(--surface-primary);
+    color: var(--color-primary);
+    box-shadow: 0 1px 2px rgba(15, 23, 42, .12);
+}
+
+.perm-tree__summary {
+    flex-shrink: 0;
+    font-size: .8125rem;
     color: var(--text-secondary);
+
+    strong {
+        color: var(--color-primary);
+    }
 }
 
 /* =========================================
-   GROUP
+   TREE SHELL
 ========================================= */
 
-.perm-group {
+.perm-tree__root {
     border: 1px solid var(--surface-border);
-    border-radius: 12px;
-    overflow: hidden;
+    border-radius: 14px;
     background: var(--surface-primary);
-}
-
-.perm-group__header {
-    display: flex;
-    align-items: center;
-    gap: .625rem;
-    padding: .5rem .5rem .5rem .875rem;
-    cursor: pointer;
-    background: var(--surface-secondary);
-    user-select: none;
-    transition: background .15s ease;
-}
-
-.perm-group__header:hover {
-    background: color-mix(in srgb, var(--color-primary) 5%, var(--surface-secondary));
-}
-
-.perm-group__chevron {
-    font-size: .75rem;
-    color: var(--text-tertiary);
-    transition: transform .2s ease;
-}
-
-.perm-group__chevron--collapsed {
-    transform: rotate(-90deg);
-}
-
-.perm-group__name {
-    flex: 1;
-    min-width: 0;
-    font-size: .875rem;
-    font-weight: 700;
-    color: var(--text-primary);
-}
-
-.perm-group__count {
-    font-size: .6875rem;
-    font-weight: 700;
-    color: var(--text-tertiary);
-    background: var(--surface-primary);
-    border: 1px solid var(--surface-border);
-    border-radius: 999px;
-    padding: .1rem .5rem;
-}
-
-.perm-group__all {
-    flex-shrink: 0;
-}
-
-.perm-group__body {
-    padding: .375rem;
+    padding: .5rem;
     display: flex;
     flex-direction: column;
     gap: .125rem;
 }
 
-/* =========================================
-   ROW
-========================================= */
-
-.perm-row {
+/* generic node row (category / module / leaf all share this) */
+.perm-node-row {
+    position: relative;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: .75rem;
-    padding: .375rem .5rem;
+    gap: .6rem;
+    width: 100%;
+    padding: .5rem .6rem;
+    border: none;
+    background: transparent;
     border-radius: 8px;
-    transition: background .12s ease;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 140ms ease;
+
+    &:hover {
+        background: var(--surface-secondary);
+    }
 }
 
-.perm-row:hover {
-    background: var(--surface-secondary);
+.perm-caret {
+    flex-shrink: 0;
+    width: .75rem;
+    font-size: .75rem;
+    color: var(--text-tertiary);
+    transition: transform 200ms ease, color 200ms ease;
 }
 
-.perm-row__module {
+.perm-caret--open {
+    transform: rotate(90deg);
+    color: var(--color-primary);
+}
+
+/* =========================================
+   BRANCH + CONNECTOR GUIDES
+========================================= */
+
+.perm-branch {
+    margin-left: 11px;
+    padding-left: 22px;
+    border-left: 1.5px solid var(--tree-line);
+    display: flex;
+    flex-direction: column;
+    gap: .125rem;
+}
+
+/* horizontal connector from the category guide to each module row */
+.perm-mod__row::before {
+    content: '';
+    position: absolute;
+    left: -22px;
+    top: 50%;
+    width: 18px;
+    height: 1.5px;
+    background: var(--tree-line);
+}
+
+/* =========================================
+   CATEGORY (level 1)
+========================================= */
+
+.perm-cat__header {
+    font-weight: 700;
+}
+
+.perm-cat__name {
+    flex: 1;
+    min-width: 0;
     font-size: .8125rem;
-    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: .05em;
     color: var(--text-secondary);
+}
+
+.perm-cat__count {
+    flex-shrink: 0;
+    font-size: .6875rem;
+    font-weight: 700;
+    color: var(--text-tertiary);
+}
+
+/* =========================================
+   MODULE (level 2)
+========================================= */
+
+.perm-mod__title {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: .05rem;
+}
+
+.perm-mod__name {
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+    font-size: .875rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.perm-mod--active .perm-mod__name {
+    color: var(--color-primary);
+}
+
+.perm-dirty-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    flex-shrink: 0;
+}
+
+.perm-mod__desc {
+    font-size: .7188rem;
+    color: var(--text-tertiary);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 
-.perm-row--active .perm-row__module {
-    color: var(--text-primary);
-    font-weight: 600;
+.perm-mod__count {
+    flex-shrink: 0;
+    font-size: .6875rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    background: var(--surface-secondary);
+    border: 1px solid var(--surface-border);
+    border-radius: 999px;
+    padding: .12rem .5rem;
 }
 
-.perm-row__chips {
-    display: flex;
-    gap: .25rem;
-    flex-shrink: 0;
+.perm-mod__count--full {
+    color: var(--color-primary);
+    background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+    border-color: color-mix(in srgb, var(--color-primary) 25%, transparent);
+}
+
+.perm-mod--dirty > .perm-mod__row {
+    background: color-mix(in srgb, var(--color-primary) 6%, transparent);
 }
 
 /* =========================================
-   CHIP — accessible toggle (hidden checkbox)
+   RIGHTS DRAWER (level 3) — expandable chip cloud
+   Smooth height reveal via grid 0fr -> 1fr; chips
+   stagger in when the module opens.
 ========================================= */
 
+.perm-drawer {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 320ms cubic-bezier(.16, 1, .3, 1);
+}
+
+.perm-mod--open .perm-drawer {
+    grid-template-rows: 1fr;
+}
+
+.perm-drawer__inner {
+    overflow: hidden;
+}
+
+.perm-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .45rem;
+    padding: .15rem .75rem .8rem 1.9rem;
+}
+
 .perm-chip {
-    position: relative;
+    -webkit-tap-highlight-color: transparent;
     display: inline-flex;
     align-items: center;
-    justify-content: center;
-    width: 30px;
-    height: 26px;
-    border-radius: 7px;
+    min-height: 32px;
+    padding: .42rem .85rem;
     border: 1px solid var(--surface-border);
+    border-radius: 999px;
     background: var(--surface-primary);
-    font-size: .6875rem;
-    font-weight: 700;
-    color: var(--text-tertiary);
+    color: var(--text-secondary);
+    font: inherit;
+    font-size: .8rem;
+    font-weight: 600;
+    line-height: 1;
+    white-space: nowrap;
     cursor: pointer;
-    user-select: none;
-    transition: background .15s ease, border-color .15s ease, color .15s ease;
-}
-
-.perm-chip__input {
-    position: absolute;
-    width: 1px;
-    height: 1px;
+    /* start hidden/offset for the staggered entrance; toggle colours share
+       this single transition (delays applied per-property below). */
     opacity: 0;
-    pointer-events: none;
+    transform: translateY(6px);
+    transition:
+        background-color 160ms ease,
+        border-color 160ms ease,
+        color 160ms ease,
+        box-shadow 160ms ease,
+        opacity 300ms ease,
+        transform 300ms cubic-bezier(.16, 1, .3, 1);
 }
 
-.perm-chip:not(.perm-chip--disabled):hover {
+.perm-chip:hover:not(:disabled) {
     border-color: var(--color-primary);
     color: var(--color-primary);
+}
+
+.perm-chip:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+.perm-chip:active:not(:disabled) {
+    transform: scale(.94);
+}
+
+.perm-chip:disabled {
+    cursor: default;
+    opacity: .55;
 }
 
 .perm-chip--on {
     background: var(--color-primary);
     border-color: var(--color-primary);
     color: #fff;
+    box-shadow: 0 4px 12px -3px color-mix(in srgb, var(--color-primary) 45%, transparent);
 }
 
-.perm-chip--on:not(.perm-chip--disabled):hover {
+.perm-chip--on:hover:not(:disabled) {
+    color: #fff;
     background: var(--color-primary-hover);
     border-color: var(--color-primary-hover);
-    color: #fff;
 }
 
-.perm-chip--disabled {
-    cursor: default;
+/* "Grant all / Clear all" — dashed outline until every right is on */
+.perm-chip--all {
+    border-style: dashed;
+    color: var(--color-primary);
 }
 
-.perm-chip--disabled:not(.perm-chip--on) {
-    opacity: .7;
+.perm-chip--all.perm-chip--on {
+    border-style: solid;
+    background: color-mix(in srgb, var(--color-primary) 12%, transparent);
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+    box-shadow: none;
+}
+
+/* reveal + stagger when the module opens (delay only opacity/transform) */
+.perm-mod--open .perm-chip {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.perm-mod--open .perm-chip:nth-child(1) { transition-delay: 0ms, 0ms, 0ms, 0ms, 20ms, 20ms; }
+.perm-mod--open .perm-chip:nth-child(2) { transition-delay: 0ms, 0ms, 0ms, 0ms, 60ms, 60ms; }
+.perm-mod--open .perm-chip:nth-child(3) { transition-delay: 0ms, 0ms, 0ms, 0ms, 100ms, 100ms; }
+.perm-mod--open .perm-chip:nth-child(4) { transition-delay: 0ms, 0ms, 0ms, 0ms, 140ms, 140ms; }
+.perm-mod--open .perm-chip:nth-child(5) { transition-delay: 0ms, 0ms, 0ms, 0ms, 180ms, 180ms; }
+.perm-mod--open .perm-chip:nth-child(6) { transition-delay: 0ms, 0ms, 0ms, 0ms, 220ms, 220ms; }
+
+@media (prefers-reduced-motion: reduce) {
+    .perm-drawer { transition: none; }
+    .perm-chip { transition-duration: 1ms; opacity: 1; transform: none; }
 }
 
 /* =========================================
-   MOBILE
+   EMPTY
 ========================================= */
 
-@media (max-width: 480px) {
+.perm-tree__empty {
+    padding: 2rem;
+    text-align: center;
+    color: var(--text-tertiary);
+    font-size: .875rem;
+}
+
+/* =========================================
+   RESPONSIVE — tablet
+========================================= */
+
+@media (max-width: 860px) {
+    .perm-tree__toolbar {
+        gap: .6rem .9rem;
+    }
+
+    /* let the summary sit under the search/actions instead of squeezing them */
+    .perm-tree__summary {
+        order: 3;
+        width: 100%;
+    }
+}
+
+/* =========================================
+   RESPONSIVE — mobile
+========================================= */
+
+@media (max-width: 560px) {
+    .perm-tree__root {
+        padding: .375rem;
+    }
+
+    .perm-mod__desc {
+        display: none;
+    }
+
+    /* tighten the tree indentation so chips keep room to wrap */
+    .perm-branch {
+        margin-left: 7px;
+        padding-left: 15px;
+    }
+
+    .perm-mod__row::before {
+        left: -15px;
+        width: 11px;
+    }
+
+    .perm-node-row {
+        padding: .5rem .4rem;
+        gap: .45rem;
+    }
+
+    .perm-chips {
+        gap: .4rem;
+        padding: .15rem .5rem .7rem 1.5rem;
+    }
+
     .perm-chip {
-        width: 28px;
-        height: 24px;
+        min-height: 34px; /* comfortable touch target */
+        padding: .48rem .8rem;
+        font-size: .8125rem;
+    }
+
+    /* search fills row 1; the toggle sits to its right, summary drops below */
+    .perm-tree__seg {
+        margin-left: auto;
     }
 }

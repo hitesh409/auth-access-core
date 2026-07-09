@@ -1,1 +1,98 @@
-<p>permissions works!</p>
+<app-page-header title="Permissions" [breadcrumbs]="breadcrumbs"></app-page-header>
+
+<div class="permissions">
+  <!-- Subject bar: pick a user + save/reset -->
+  <div class="permissions__bar">
+    <div class="permissions__picker-wrap">
+      @if (pickerOpen()) {
+        <div class="permissions__picker-backdrop" (click)="pickerOpen.set(false)"></div>
+      }
+
+      <button
+        type="button"
+        class="permissions__picker-trigger"
+        [class.permissions__picker-trigger--open]="pickerOpen()"
+        (click)="togglePicker()"
+      >
+        <span class="permissions__avatar">{{ selectedSubject().initials }}</span>
+        <span class="permissions__picker-id">
+          <span class="permissions__picker-name">{{ selectedSubject().name }}</span>
+          <span class="permissions__picker-sub">
+            {{ selectedSubject().role }} · {{ selectedSubject().accessMode }}
+          </span>
+        </span>
+        <fa-icon [icon]="icons.chevronDown" class="permissions__picker-caret"></fa-icon>
+      </button>
+
+      <div
+        class="permissions__picker-dropdown"
+        [class.permissions__picker-dropdown--open]="pickerOpen()"
+      >
+        <div class="permissions__picker-search">
+          <app-search-box
+            placeholder="Search users..."
+            [value]="pickerSearch()"
+            (valueChange)="pickerSearch.set($event)"
+          ></app-search-box>
+        </div>
+
+        <div class="permissions__picker-list">
+          @for (subject of filteredSubjects(); track subject.id) {
+            <button
+              type="button"
+              class="permissions__picker-item"
+              [class.permissions__picker-item--active]="subject.id === selectedId()"
+              (click)="requestSelect(subject.id)"
+            >
+              <span class="permissions__avatar permissions__avatar--sm">{{ subject.initials }}</span>
+              <span class="permissions__picker-item-id">
+                <span class="permissions__picker-name">{{ subject.name }}</span>
+                <span class="permissions__picker-sub">{{ subject.email }}</span>
+              </span>
+              @if (subject.id === selectedId()) {
+                <fa-icon [icon]="icons.check" class="permissions__picker-check"></fa-icon>
+              }
+            </button>
+          }
+
+          @if (filteredSubjects().length === 0) {
+            <p class="permissions__picker-empty">No users found.</p>
+          }
+        </div>
+      </div>
+    </div>
+
+    <div class="permissions__actions">
+      @if (dirty()) {
+        <span class="permissions__changes">{{ changedModules() }} changed</span>
+      }
+      <app-button variant="secondary" [disabled]="!dirty()" (click)="reset()">Reset</app-button>
+      <app-button variant="primary" [disabled]="!dirty()" (click)="save()">Save changes</app-button>
+    </div>
+  </div>
+
+  <!-- The tree editor -->
+  <div class="permissions__tree">
+    <app-permission-tree
+      [modules]="catalog"
+      [flags]="flags"
+      [value]="workingValue()"
+      [baseline]="baseline()"
+      [stickyToolbar]="true"
+      (valueChange)="onValueChange($event)"
+    ></app-permission-tree>
+  </div>
+</div>
+
+<!-- Discard-changes confirmation when switching users -->
+<app-confirmation-modal
+  [isOpen]="confirmOpen()"
+  title="Discard unsaved changes?"
+  [message]="'You have unsaved permission changes for ' + selectedSubject().name + '. Switching users will discard them.'"
+  confirmLabel="Discard & switch"
+  tone="danger"
+  [icon]="icons.info"
+  (confirmed)="onConfirmSwitch()"
+  (cancelled)="onCancelSwitch()"
+>
+</app-confirmation-modal>

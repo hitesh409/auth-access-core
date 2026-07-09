@@ -39,7 +39,11 @@ import {
   faXmark,
   faClone,
   faTableCellsLarge,
-  faTableList
+  faTableList,
+  faCheck,
+  faMinus,
+  faAnglesDown,
+  faAnglesUp
 } from '@fortawesome/free-solid-svg-icons';
 
 export const APP_ICONS = {
@@ -84,4 +88,8 @@ export const APP_ICONS = {
   duplicate: faClone,
   densityComfortable: faTableCellsLarge,
   densityCompact: faTableList,
+  check: faCheck,
+  minus: faMinus,
+  expandAll: faAnglesDown,
+  collapseAll: faAnglesUp,
 } as const;

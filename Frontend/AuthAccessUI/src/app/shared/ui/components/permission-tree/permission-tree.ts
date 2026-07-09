@@ -1,90 +1,162 @@
-import { ChangeDetectionStrategy, Component, input, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, output, signal } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
-import { ButtonComponent } from '../button/button';
 import { APP_ICONS } from '../../../icons/font-awesome.icons';
-import { PermissionFlags } from '../../../../core/authorization/constants/permission-flags.constants';
-import { PermissionGroup } from './permission-tree.model';
+import { PermissionTreeFlag, PermissionTreeModule } from './permission-tree.model';
+import { PERMISSION_TREE_FLAGS } from './permission-tree.config';
 
-interface FlagColumn {
-  label: string;
-  short: string;
-  flag: number;
+type ModuleState = 'none' | 'partial' | 'all';
+
+interface TreeCategory {
+  name: string;
+  modules: PermissionTreeModule[];
 }
 
 @Component({
   selector: 'app-permission-tree',
   standalone: true,
-  imports: [FontAwesomeModule, ButtonComponent],
+  imports: [FontAwesomeModule],
   templateUrl: './permission-tree.html',
   styleUrl: './permission-tree.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PermissionTree {
-  readonly groups = input<PermissionGroup[]>([]);
+  readonly modules = input<PermissionTreeModule[]>([]);
+  readonly flags = input<PermissionTreeFlag[]>(PERMISSION_TREE_FLAGS);
   readonly value = input<Record<string, number>>({});
+  /** Original grants, used to flag modules changed since load. */
+  readonly baseline = input<Record<string, number> | null>(null);
   readonly disabled = input(false);
+  /** Pin the search + expand/collapse toolbar to the top while scrolling. */
+  readonly stickyToolbar = input(false);
+
   readonly valueChange = output<Record<string, number>>();
 
   readonly icons = APP_ICONS;
-  readonly columns: FlagColumn[] = [
-    { label: 'View', short: 'V', flag: PermissionFlags.View },
-    { label: 'Create', short: 'C', flag: PermissionFlags.Create },
-    { label: 'Update', short: 'U', flag: PermissionFlags.Update },
-    { label: 'Delete', short: 'D', flag: PermissionFlags.Delete },
-    { label: 'Export', short: 'E', flag: PermissionFlags.Export },
-  ];
 
-  private readonly collapsed = signal<Record<string, boolean>>({});
+  /** Which bulk action is currently applied — drives the segmented toggle. */
+  protected readonly treeMode = signal<'expanded' | 'collapsed'>('collapsed');
+  protected readonly search = signal('');
+  private readonly expanded = signal<Record<string, boolean>>({});
+  /** Category collapse state; categories default to open (undefined = open). */
+  private readonly collapsedCats = signal<Record<string, boolean>>({});
 
-  protected isCollapsed(group: string): boolean {
-    return this.collapsed()[group] ?? false;
-  }
+  private readonly allBits = computed(() => this.flags().reduce((acc, f) => acc | f.bit, 0));
 
-  protected toggleGroup(group: string): void {
-    this.collapsed.update((state) => ({ ...state, [group]: !this.isCollapsed(group) }));
-  }
+  /** Modules matching the current search (name/description/category/flag). */
+  protected readonly filteredModules = computed(() => {
+    const term = this.search().trim().toLowerCase();
+    if (!term) return this.modules();
+    const flagLabels = this.flags()
+      .map((f) => f.label.toLowerCase())
+      .join(' ');
+    return this.modules().filter((m) => {
+      const hay = `${m.name} ${m.description} ${m.category}`.toLowerCase();
+      return hay.includes(term) || (flagLabels.includes(term) ? true : false);
+    });
+  });
 
-  protected hasFlag(module: string, flag: number): boolean {
-    return ((this.value()[module] ?? 0) & flag) === flag;
-  }
-
-  protected grantedCount(group: PermissionGroup): number {
-    return group.modules.reduce((n, module) => n + ((this.value()[module] ?? 0) ? 1 : 0), 0);
-  }
-
-  protected moduleActive(module: string): boolean {
-    return (this.value()[module] ?? 0) > 0;
-  }
-
-  protected groupAllGranted(group: PermissionGroup): boolean {
-    const full = this.fullFlags();
-    return group.modules.every((module) => (this.value()[module] ?? 0) === full);
-  }
-
-  protected toggle(module: string, flag: number): void {
-    if (this.disabled()) {
-      return;
+  /** Filtered modules grouped into categories, preserving catalog order. */
+  protected readonly categories = computed<TreeCategory[]>(() => {
+    const out: TreeCategory[] = [];
+    const index = new Map<string, TreeCategory>();
+    for (const module of this.filteredModules()) {
+      let cat = index.get(module.category);
+      if (!cat) {
+        cat = { name: module.category, modules: [] };
+        index.set(module.category, cat);
+        out.push(cat);
+      }
+      cat.modules.push(module);
     }
-    const current = this.value()[module] ?? 0;
-    const next = (current & flag) === flag ? current & ~flag : current | flag;
-    this.valueChange.emit({ ...this.value(), [module]: next });
+    return out;
+  });
+
+  protected readonly grantedModuleCount = computed(
+    () => this.modules().filter((m) => (this.value()[m.key] ?? 0) > 0).length,
+  );
+
+  // =========================================
+  //  EXPAND / COLLAPSE
+  // =========================================
+
+  protected isCategoryOpen(category: string): boolean {
+    if (this.search().trim()) return true;
+    return !(this.collapsedCats()[category] ?? false);
   }
 
-  protected toggleGroupAll(group: PermissionGroup): void {
-    if (this.disabled()) {
-      return;
-    }
-    const grantAll = !this.groupAllGranted(group);
-    const full = this.fullFlags();
-    const next = { ...this.value() };
-    for (const module of group.modules) {
-      next[module] = grantAll ? full : 0;
-    }
-    this.valueChange.emit(next);
+  protected toggleCategory(category: string): void {
+    this.collapsedCats.update((state) => ({ ...state, [category]: !(state[category] ?? false) }));
   }
 
-  private fullFlags(): number {
-    return this.columns.reduce((acc, col) => acc | col.flag, 0);
+  protected isExpanded(moduleKey: string): boolean {
+    // While searching, matched modules open automatically so hits are visible.
+    if (this.search().trim()) return true;
+    return this.expanded()[moduleKey] ?? false;
+  }
+
+  protected toggleModule(moduleKey: string): void {
+    this.expanded.update((state) => ({ ...state, [moduleKey]: !(state[moduleKey] ?? false) }));
+  }
+
+  protected expandAll(): void {
+    const next: Record<string, boolean> = {};
+    for (const m of this.modules()) next[m.key] = true;
+    this.expanded.set(next);
+    this.collapsedCats.set({});
+    this.treeMode.set('expanded');
+  }
+
+  protected collapseAll(): void {
+    this.expanded.set({});
+    this.treeMode.set('collapsed');
+  }
+
+  /** Modules in a category that have any access — drives the category count. */
+  protected categoryGranted(modules: PermissionTreeModule[]): number {
+    return modules.filter((m) => (this.value()[m.key] ?? 0) > 0).length;
+  }
+
+  // =========================================
+  //  FLAG / MODULE STATE
+  // =========================================
+
+  protected hasFlag(moduleKey: string, bit: number): boolean {
+    return ((this.value()[moduleKey] ?? 0) & bit) === bit;
+  }
+
+  protected grantedCount(moduleKey: string): number {
+    const mask = this.value()[moduleKey] ?? 0;
+    return this.flags().filter((f) => (mask & f.bit) === f.bit).length;
+  }
+
+  protected moduleState(moduleKey: string): ModuleState {
+    const count = this.grantedCount(moduleKey);
+    if (count === 0) return 'none';
+    return count === this.flags().length ? 'all' : 'partial';
+  }
+
+  protected isDirty(moduleKey: string): boolean {
+    const base = this.baseline();
+    if (!base) return false;
+    return (this.value()[moduleKey] ?? 0) !== (base[moduleKey] ?? 0);
+  }
+
+  // =========================================
+  //  MUTATIONS
+  // =========================================
+
+  protected toggleFlag(moduleKey: string, bit: number): void {
+    if (this.disabled()) return;
+    const current = this.value()[moduleKey] ?? 0;
+    const next = (current & bit) === bit ? current & ~bit : current | bit;
+    this.valueChange.emit({ ...this.value(), [moduleKey]: next });
+  }
+
+  protected toggleModuleAll(moduleKey: string, event: Event): void {
+    event.stopPropagation();
+    if (this.disabled()) return;
+    const grantAll = this.moduleState(moduleKey) !== 'all';
+    this.valueChange.emit({ ...this.value(), [moduleKey]: grantAll ? this.allBits() : 0 });
   }
 }

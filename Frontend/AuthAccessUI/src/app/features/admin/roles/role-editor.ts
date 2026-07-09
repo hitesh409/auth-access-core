@@ -16,7 +16,7 @@ import { BadgeComponent } from '../../../shared/ui/components/badge/badge';
 import { RecordActionsMenu } from '../../../shared/ui/components/record-actions-menu/record-actions-menu';
 import { RecordActionItem } from '../../../shared/ui/components/record-actions-menu/record-action-item.model';
 import { PermissionTree } from '../../../shared/ui/components/permission-tree/permission-tree';
-import { PermissionGroup } from '../../../shared/ui/components/permission-tree/permission-tree.model';
+import { PermissionTreeModule } from '../../../shared/ui/components/permission-tree/permission-tree.model';
 import { APP_ICONS } from '../../../shared/icons/font-awesome.icons';
 import { RoleDemo, RoleStatus } from './role-demo.model';
 import { mapToRights, rightsToMap } from './role.util';
@@ -38,7 +38,7 @@ import { mapToRights, rightsToMap } from './role.util';
 })
 export class RoleEditor {
   readonly role = input<RoleDemo | null>(null);
-  readonly modules = input<PermissionGroup[]>([]);
+  readonly modules = input<PermissionTreeModule[]>([]);
   readonly isNew = input(false);
 
   readonly saved = output<RoleDemo>();
