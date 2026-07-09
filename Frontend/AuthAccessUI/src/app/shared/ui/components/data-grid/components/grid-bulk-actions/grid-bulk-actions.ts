@@ -14,5 +14,8 @@ import { GridBulkAction } from '../../models/grid-bulk-action.model';
 export class GridBulkActionsComponent {
   selectedCount = input.required<number>();
   actions = input.required<GridBulkAction[]>();
+  totalMatching = input(0);
+  showSelectAllBanner = input(false);
   execute = output<GridBulkAction>();
+  selectAllMatching = output<void>();
 }

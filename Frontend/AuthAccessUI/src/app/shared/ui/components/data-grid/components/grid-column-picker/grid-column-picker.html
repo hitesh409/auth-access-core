@@ -1,12 +1,37 @@
 <div class="column-picker">
-  @for (column of columns(); track column.key) {
-    <label class="column-picker__item">
-      <input
-        type="checkbox"
-        [checked]="selectedColumns().includes(column.key.toString())"
-        (change)="toggle(column.key.toString())"
-      />
-      {{ column.header }}
-    </label>
+  <div class="column-picker__header">
+    <span class="column-picker__title">Columns</span>
+    <app-button variant="ghost" size="sm" (click)="showAll()">Show All</app-button>
+  </div>
+
+  <div class="column-picker__list" cdkDropList (cdkDropListDropped)="reorder($event)">
+    @for (column of visibleHideableColumns(); track column.key) {
+      <label class="column-picker__item column-picker__item--draggable" cdkDrag>
+        <span class="column-picker__drag-handle" cdkDragHandle>⋮⋮</span>
+        <input
+          type="checkbox"
+          [checked]="isChecked(column)"
+          (change)="toggle(column.key.toString())"
+        />
+        {{ column.header }}
+      </label>
+    }
+  </div>
+
+  @if (hiddenHideableColumns().length) {
+    <div class="column-picker__divider">Hidden</div>
+
+    <div class="column-picker__list">
+      @for (column of hiddenHideableColumns(); track column.key) {
+        <label class="column-picker__item">
+          <input
+            type="checkbox"
+            [checked]="isChecked(column)"
+            (change)="toggle(column.key.toString())"
+          />
+          {{ column.header }}
+        </label>
+      }
+    </div>
   }
 </div>

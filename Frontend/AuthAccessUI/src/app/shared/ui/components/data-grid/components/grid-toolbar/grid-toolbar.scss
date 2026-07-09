@@ -15,8 +15,18 @@
    SEARCH
 ========================================= */
 
+.grid-toolbar__search-row {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    min-width: 0;
+}
+
 .grid-toolbar__search {
     position: relative;
+    flex: 1;
+    min-width: 0;
     display: flex;
     align-items: center;
     height: 44px;
@@ -44,6 +54,7 @@
 
 .grid-toolbar__search-input {
     flex: 1;
+    min-width: 0;
     border: none;
     outline: none;
     background: transparent;
@@ -77,6 +88,98 @@
 }
 
 /* =========================================
+   ADVANCED FILTER TRIGGER + DROPDOWN
+========================================= */
+
+.grid-toolbar__filter-wrap {
+    flex-shrink: 0;
+}
+
+.grid-toolbar__filter-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+}
+
+.grid-toolbar__filter-trigger {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 44px;
+    width: 44px;
+    border: 1px solid var(--surface-border);
+    border-radius: 14px;
+    background: var(--surface-secondary);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: border-color 180ms ease, background-color 180ms ease, color 180ms ease;
+
+    &:hover {
+        color: var(--color-primary);
+        border-color: color-mix(in srgb, var(--color-primary) 40%, var(--surface-border));
+    }
+}
+
+.grid-toolbar__filter-trigger--active {
+    color: var(--color-primary);
+    border-color: color-mix(in srgb, var(--color-primary) 45%, var(--surface-border));
+    background: color-mix(in srgb, var(--color-primary) 8%, var(--surface-secondary));
+}
+
+.grid-toolbar__filter-badge {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 4px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    background: var(--color-primary);
+    color: #fff;
+    font-size: .6875rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.grid-toolbar__filter-dropdown {
+    position: absolute;
+    top: calc(100% + .5rem);
+    left: 0;
+    background: var(--surface-primary);
+    border: 1px solid var(--surface-border);
+    border-radius: 14px;
+    box-shadow:
+        0 8px 24px rgba(15, 23, 42, .10),
+        0 2px 8px rgba(15, 23, 42, .06);
+    z-index: 101;
+    overflow: hidden;
+    visibility: hidden;
+    opacity: 0;
+    transform: scale(.96) translateY(-6px);
+    transform-origin: top left;
+    pointer-events: none;
+    transition:
+        opacity 200ms cubic-bezier(.16, 1, .3, 1),
+        transform 200ms cubic-bezier(.16, 1, .3, 1),
+        visibility 0s 200ms;
+}
+
+.grid-toolbar__filter-dropdown--open {
+    visibility: visible;
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    pointer-events: auto;
+    transition:
+        opacity 200ms cubic-bezier(.16, 1, .3, 1),
+        transform 200ms cubic-bezier(.16, 1, .3, 1),
+        visibility 0s 0s;
+}
+
+/* =========================================
    RIGHT SIDE
 ========================================= */
 
@@ -105,16 +208,160 @@
 }
 
 /* =========================================
-   MOBILE
+   COLUMN PICKER DROPDOWN
 ========================================= */
 
-@media (max-width: 768px) {
+.grid-toolbar__column-picker-wrap {
+    position: relative;
+}
+
+.grid-toolbar__column-picker-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+}
+
+.grid-toolbar__column-picker-dropdown {
+    position: absolute;
+    top: calc(100% + .5rem);
+    right: 0;
+    min-width: 220px;
+    background: var(--surface-primary);
+    border: 1px solid var(--surface-border);
+    border-radius: 14px;
+    box-shadow:
+        0 8px 24px rgba(15, 23, 42, .10),
+        0 2px 8px rgba(15, 23, 42, .06);
+    z-index: 101;
+
+    /* closed state */
+    visibility: hidden;
+    opacity: 0;
+    transform: scale(.94) translateY(-6px);
+    transform-origin: top right;
+    pointer-events: none;
+    transition:
+        opacity 200ms cubic-bezier(.16, 1, .3, 1),
+        transform 200ms cubic-bezier(.16, 1, .3, 1),
+        visibility 0s 200ms;
+}
+
+.grid-toolbar__column-picker-dropdown--open {
+    visibility: visible;
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    pointer-events: auto;
+    transition:
+        opacity 200ms cubic-bezier(.16, 1, .3, 1),
+        transform 200ms cubic-bezier(.16, 1, .3, 1),
+        visibility 0s 0s;
+}
+
+/* =========================================
+   COMPACT TOOLBAR MENU (small/medium screens)
+   Collapses the density/columns/export/refresh
+   icons into a single three-dot menu beside the
+   search box. Hidden on desktop.
+========================================= */
+
+.grid-toolbar__menu-wrap {
+    position: relative;
+    flex-shrink: 0;
+    display: none;
+}
+
+.grid-toolbar__menu-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+}
+
+.grid-toolbar__menu-dropdown {
+    position: absolute;
+    top: calc(100% + .5rem);
+    right: 0;
+    width: 250px;
+    max-width: calc(100vw - 2rem);
+    max-height: 60dvh;
+    overflow-y: auto;
+    padding: .375rem;
+    background: var(--surface-primary);
+    border: 1px solid var(--surface-border);
+    border-radius: 14px;
+    box-shadow:
+        0 8px 24px rgba(15, 23, 42, .10),
+        0 2px 8px rgba(15, 23, 42, .06);
+    z-index: 101;
+
+    visibility: hidden;
+    opacity: 0;
+    transform: scale(.94) translateY(-6px);
+    transform-origin: top right;
+    pointer-events: none;
+    transition:
+        opacity 200ms cubic-bezier(.16, 1, .3, 1),
+        transform 200ms cubic-bezier(.16, 1, .3, 1),
+        visibility 0s 200ms;
+}
+
+.grid-toolbar__menu-dropdown--open {
+    visibility: visible;
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    pointer-events: auto;
+    transition:
+        opacity 200ms cubic-bezier(.16, 1, .3, 1),
+        transform 200ms cubic-bezier(.16, 1, .3, 1),
+        visibility 0s 0s;
+}
+
+.grid-toolbar__menu-item {
+    display: block;
+}
+
+.grid-toolbar__menu-item ::ng-deep .btn--menu {
+    border-radius: 8px;
+    font-size: .8125rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.grid-toolbar__menu-item ::ng-deep .btn--menu:hover:not(:disabled) {
+    background: var(--surface-secondary);
+    color: var(--text-primary);
+}
+
+.grid-toolbar__menu-divider {
+    height: 1px;
+    margin: .375rem .25rem;
+    background: var(--surface-border);
+}
+
+.grid-toolbar__menu-dropdown ::ng-deep .column-picker {
+    padding: 0;
+}
+
+.grid-toolbar__menu-dropdown ::ng-deep .column-picker__list {
+    max-height: none;
+    overflow: visible;
+}
+
+/* =========================================
+   SMALL / MEDIUM SCREENS
+========================================= */
+
+@media (max-width: 1023px) {
 
     .grid-toolbar {
         grid-template-columns: 1fr;
     }
 
+    /* action icons collapse into the three-dot menu beside search */
+    .grid-toolbar__menu-wrap {
+        display: inline-flex;
+    }
+
     .grid-toolbar__right {
-        justify-content: space-between;
+        display: none;
     }
 }

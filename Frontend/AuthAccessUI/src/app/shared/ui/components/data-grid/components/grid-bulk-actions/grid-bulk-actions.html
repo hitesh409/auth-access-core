@@ -1,18 +1,29 @@
 <div class="grid-bulk-actions">
-  <div class="grid-bulk-actions__summary">
-    {{ selectedCount() }}
-    selected
+  <div class="grid-bulk-actions__row">
+    <div class="grid-bulk-actions__summary">
+      {{ selectedCount() }}
+      selected
+    </div>
+
+    <div class="grid-bulk-actions__buttons">
+      @for (action of actions(); track action.label) {
+        <app-button
+          [variant]="action.variant ?? 'secondary'"
+          size="sm"
+          (click)="execute.emit(action)"
+        >
+          {{ action.label }}
+        </app-button>
+      }
+    </div>
   </div>
 
-  <div class="grid-bulk-actions__buttons">
-    @for (action of actions(); track action.label) {
-      <app-button
-        [variant]="action.variant ?? 'secondary'"
-        size="sm"
-        (click)="execute.emit(action)"
-      >
-        {{ action.label }}
+  @if (showSelectAllBanner()) {
+    <div class="grid-bulk-actions__banner">
+      All {{ selectedCount() }} rows on this page are selected.
+      <app-button variant="ghost" size="sm" (click)="selectAllMatching.emit()">
+        Select all {{ totalMatching() }} matching rows
       </app-button>
-    }
-  </div>
+    </div>
+  }
 </div>

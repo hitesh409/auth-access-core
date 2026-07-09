@@ -5,6 +5,8 @@ export interface GridColumn<T = any> {
   header: string;
   sortable?: boolean;
   width?: string;
+  minWidth?: string;
+  resizable?: boolean;
   hidden?: boolean;
   hideable?: boolean;
   type?: GridColumnType;

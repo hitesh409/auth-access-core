@@ -1,0 +1,158 @@
+<div class="grid-filter">
+  <div class="grid-filter__head">
+    <div class="grid-filter__head-title">
+      <fa-icon [icon]="icons.filter"></fa-icon>
+      <span>Advanced filter</span>
+    </div>
+    <button type="button" class="grid-filter__close" aria-label="Close filter" (click)="close.emit()">
+      <fa-icon [icon]="icons.close"></fa-icon>
+    </button>
+  </div>
+
+  <div class="grid-filter__body">
+    <ng-container
+      *ngTemplateOutlet="groupTpl; context: { $implicit: draft, root: true, parent: null }"
+    ></ng-container>
+  </div>
+
+  <div class="grid-filter__foot">
+    <button type="button" class="grid-filter__clear" (click)="clearAll()">Clear all</button>
+    <app-button variant="primary" (click)="apply()">
+      Apply{{ draftCount ? ' (' + draftCount + ')' : '' }}
+    </app-button>
+  </div>
+</div>
+
+<!-- =========================================
+     GROUP (recursive) — a combinator bar + its rules; each rule is either a
+     condition row or another group rendered through this same template.
+========================================= -->
+<ng-template #groupTpl let-group let-root="root" let-parent="parent">
+  <div class="grid-filter-group" [class.grid-filter-group--nested]="!root">
+    <div class="grid-filter-group__bar">
+      <div class="grid-filter-combinator">
+        <button
+          type="button"
+          class="grid-filter-combinator__btn"
+          [class.grid-filter-combinator__btn--active]="group.combinator === 'and'"
+          (click)="setCombinator(group, 'and')"
+        >
+          AND
+        </button>
+        <button
+          type="button"
+          class="grid-filter-combinator__btn"
+          [class.grid-filter-combinator__btn--active]="group.combinator === 'or'"
+          (click)="setCombinator(group, 'or')"
+        >
+          OR
+        </button>
+      </div>
+      <span class="grid-filter-group__hint">
+        Match {{ group.combinator === 'and' ? 'all' : 'any' }} of the following
+      </span>
+
+      @if (!root) {
+        <button
+          type="button"
+          class="grid-filter__icon-btn grid-filter-group__remove"
+          aria-label="Remove group"
+          (click)="removeNode(parent, group)"
+        >
+          <fa-icon [icon]="icons.delete"></fa-icon>
+        </button>
+      }
+    </div>
+
+    <div class="grid-filter-group__rules">
+      @for (rule of group.rules; track rule.id) {
+        @if (rule.kind === 'condition') {
+          <div class="grid-filter-condition">
+            <select
+              class="grid-filter-condition__field grid-filter-select"
+              [value]="rule.column"
+              (change)="changeColumn(rule, $any($event.target).value)"
+            >
+              @for (col of filterableColumns(); track col.key) {
+                <option [value]="col.key">{{ col.header }}</option>
+              }
+            </select>
+
+            <select
+              class="grid-filter-condition__op grid-filter-select"
+              [value]="rule.operator"
+              (change)="changeOperator(rule, $any($event.target).value)"
+            >
+              @for (op of operatorsFor(rule); track op) {
+                <option [value]="op">{{ operatorLabel(op) }}</option>
+              }
+            </select>
+
+            @switch (editorFor(rule)) {
+              @case ('text') {
+                <input
+                  type="text"
+                  class="grid-filter-condition__value grid-filter-input"
+                  placeholder="Value"
+                  [value]="rule.value"
+                  (input)="changeValue(rule, $any($event.target).value)"
+                />
+              }
+              @case ('date') {
+                <input
+                  type="date"
+                  class="grid-filter-condition__value grid-filter-input"
+                  [value]="rule.value"
+                  (change)="changeValue(rule, $any($event.target).value)"
+                />
+              }
+              @case ('select') {
+                <select
+                  class="grid-filter-condition__value grid-filter-select"
+                  [value]="rule.value"
+                  (change)="changeValue(rule, $any($event.target).value)"
+                >
+                  <option value="">Select…</option>
+                  @for (opt of optionsFor(rule); track opt) {
+                    <option [value]="opt">{{ opt }}</option>
+                  }
+                </select>
+              }
+              @default {
+                <span class="grid-filter-condition__value grid-filter-condition__value--empty"></span>
+              }
+            }
+
+            <button
+              type="button"
+              class="grid-filter__icon-btn grid-filter-condition__remove"
+              aria-label="Remove condition"
+              (click)="removeNode(group, rule)"
+            >
+              <fa-icon [icon]="icons.close"></fa-icon>
+            </button>
+          </div>
+        } @else {
+          <ng-container
+            *ngTemplateOutlet="groupTpl; context: { $implicit: rule, root: false, parent: group }"
+          ></ng-container>
+        }
+      }
+
+      @if (group.rules.length === 0) {
+        <p class="grid-filter-group__empty">No conditions yet — add one below.</p>
+      }
+    </div>
+
+    <div class="grid-filter-group__actions">
+      <button type="button" class="grid-filter__add" (click)="addCondition(group)">
+        <fa-icon [icon]="icons.create"></fa-icon>
+        Condition
+      </button>
+      <button type="button" class="grid-filter__add" (click)="addGroup(group)">
+        <fa-icon [icon]="icons.create"></fa-icon>
+        Group
+      </button>
+    </div>
+  </div>
+</ng-template>

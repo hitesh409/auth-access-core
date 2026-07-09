@@ -37,7 +37,9 @@ import {
   faChevronDown,
   faChevronUp,
   faXmark,
-  faClone
+  faClone,
+  faTableCellsLarge,
+  faTableList
 } from '@fortawesome/free-solid-svg-icons';
 
 export const APP_ICONS = {
@@ -80,4 +82,6 @@ export const APP_ICONS = {
   email: faEnvelope,
   close: faXmark,
   duplicate: faClone,
+  densityComfortable: faTableCellsLarge,
+  densityCompact: faTableList,
 } as const;

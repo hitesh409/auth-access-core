@@ -1,25 +1,121 @@
 <div class="grid-toolbar">
-  <div class="grid-toolbar__search">
-    <fa-icon [icon]="icons.search" class="grid-toolbar__search-icon"> </fa-icon>
+  <div class="grid-toolbar__search-row">
+    <div class="grid-toolbar__search">
+      <fa-icon [icon]="icons.search" class="grid-toolbar__search-icon"> </fa-icon>
 
-    <input
-      type="text"
-      class="grid-toolbar__search-input"
-      [placeholder]="searchPlaceholder()"
-      [ngModel]="search()"
-      (ngModelChange)="searchChanged.emit($event)"
-    />
+      <input
+        type="text"
+        class="grid-toolbar__search-input"
+        [placeholder]="searchPlaceholder()"
+        [ngModel]="search()"
+        (ngModelChange)="searchChanged.emit($event)"
+      />
 
-    @if (search()) {
-      <app-button
-        class="grid-toolbar__clear"
-        variant="action"
-        [icon]="icons.close"
-        appTooltip="Clear Search"
-        ariaLabel="Clear Search"
-        (click)="searchChanged.emit('')"
-      ></app-button>
+      @if (search()) {
+        <app-button
+          class="grid-toolbar__clear"
+          variant="action"
+          [icon]="icons.close"
+          appTooltip="Clear Search"
+          ariaLabel="Clear Search"
+          (click)="searchChanged.emit('')"
+        ></app-button>
+      }
+    </div>
+
+    <!-- Advanced filter — visible at all breakpoints (panel fits mobile) -->
+    @if (filterable()) {
+    <div class="grid-toolbar__filter-wrap">
+      @if (showFilter()) {
+        <div class="grid-toolbar__filter-backdrop" (click)="filterVisibility.emit()"></div>
+      }
+
+      <button
+        type="button"
+        class="grid-toolbar__filter-trigger"
+        [class.grid-toolbar__filter-trigger--active]="activeFilterCount() > 0"
+        appTooltip="Advanced Filter"
+        aria-label="Advanced Filter"
+        (click)="filterVisibility.emit()"
+      >
+        <fa-icon [icon]="icons.filter"></fa-icon>
+        @if (activeFilterCount() > 0) {
+          <span class="grid-toolbar__filter-badge">{{ activeFilterCount() }}</span>
+        }
+      </button>
+
+      <div
+        class="grid-toolbar__filter-dropdown"
+        [class.grid-toolbar__filter-dropdown--open]="showFilter()"
+      >
+        @if (showFilter()) {
+          <app-grid-filter-panel
+            [filter]="filterModel()"
+            [columns]="columns()"
+            [distinctValues]="distinctValues()"
+            (applyFilter)="filterChanged.emit($event)"
+            (close)="filterVisibility.emit()"
+          ></app-grid-filter-panel>
+        }
+      </div>
+    </div>
     }
+
+    <!-- Small/medium screens: collapse all action icons into this menu -->
+    <div class="grid-toolbar__menu-wrap">
+      @if (toolbarMenuOpen()) {
+        <div class="grid-toolbar__menu-backdrop" (click)="toolbarMenuOpen.set(false)"></div>
+      }
+
+      <app-button
+        class="grid-toolbar__menu-trigger"
+        variant="toolbar"
+        [icon]="icons.more"
+        ariaLabel="Grid options"
+        (click)="toggleToolbarMenu()"
+      ></app-button>
+
+      <div
+        class="grid-toolbar__menu-dropdown"
+        [class.grid-toolbar__menu-dropdown--open]="toolbarMenuOpen()"
+      >
+        <app-button
+          class="grid-toolbar__menu-item"
+          variant="menu"
+          [icon]="density() === 'compact' ? icons.densityComfortable : icons.densityCompact"
+          (click)="toggleDensity()"
+        >
+          {{ density() === 'compact' ? 'Comfortable rows' : 'Compact rows' }}
+        </app-button>
+
+        <app-button
+          class="grid-toolbar__menu-item"
+          variant="menu"
+          [icon]="icons.export"
+          (click)="onMenuExport()"
+        >
+          Export
+        </app-button>
+
+        <app-button
+          class="grid-toolbar__menu-item"
+          variant="menu"
+          [icon]="icons.refresh"
+          (click)="onMenuRefresh()"
+        >
+          Refresh
+        </app-button>
+
+        <div class="grid-toolbar__menu-divider"></div>
+
+        <app-grid-column-picker
+          [columns]="columns()"
+          [selectedColumns]="selectedColumns()"
+          (selectionChanged)="columnSelectionChanged.emit($event)"
+        >
+        </app-grid-column-picker>
+      </div>
+    </div>
   </div>
 
   <div class="grid-toolbar__right">
@@ -33,12 +129,39 @@
     <div class="grid-toolbar__actions">
       <app-button
         variant="toolbar"
-        [icon]="icons.gridSettings"
-        appTooltip="Grid Settings"
-        aria-label="Grid Settings"
-        (click)="columnVisibility.emit()"
+        [icon]="density() === 'compact' ? icons.densityCompact : icons.densityComfortable"
+        [appTooltip]="density() === 'compact' ? 'Comfortable Rows' : 'Compact Rows'"
+        [ariaLabel]="density() === 'compact' ? 'Switch to comfortable rows' : 'Switch to compact rows'"
+        (click)="toggleDensity()"
       >
       </app-button>
+
+      <div class="grid-toolbar__column-picker-wrap">
+        @if (showColumnPicker()) {
+          <div class="grid-toolbar__column-picker-backdrop" (click)="columnVisibility.emit()"></div>
+        }
+
+        <app-button
+          variant="toolbar"
+          [icon]="icons.gridSettings"
+          appTooltip="Grid Settings"
+          aria-label="Grid Settings"
+          (click)="columnVisibility.emit()"
+        >
+        </app-button>
+
+        <div
+          class="grid-toolbar__column-picker-dropdown"
+          [class.grid-toolbar__column-picker-dropdown--open]="showColumnPicker()"
+        >
+          <app-grid-column-picker
+            [columns]="columns()"
+            [selectedColumns]="selectedColumns()"
+            (selectionChanged)="columnSelectionChanged.emit($event)"
+          >
+          </app-grid-column-picker>
+        </div>
+      </div>
 
       <app-button
         variant="toolbar"

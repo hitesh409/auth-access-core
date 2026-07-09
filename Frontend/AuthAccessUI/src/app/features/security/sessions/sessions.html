@@ -9,6 +9,8 @@
       searchPlaceholder="Search sessions, users, IP..."
       [bulkActions]="bulkActions"
       (rowSelected)="onRowSelected($event)"
+      (detailOpened)="onDetailOpened($event)"
+      (refresh)="onGridRefresh()"
     >
     </app-data-grid>
   </div>

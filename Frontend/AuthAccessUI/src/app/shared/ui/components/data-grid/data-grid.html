@@ -3,33 +3,38 @@
     [search]="state.search()"
     [selectedCount]="isEmpty() ? 0 : selectedCount()"
     [searchPlaceholder]="searchPlaceholder()"
+    [columns]="columns()"
+    [selectedColumns]="state.visibleColumns()"
+    [showColumnPicker]="showColumnPicker()"
+    [filterable]="filterable()"
+    [filterModel]="state.filter()"
+    [distinctValues]="distinctValues()"
+    [activeFilterCount]="state.activeFilterCount()"
+    [showFilter]="showFilter()"
     (searchChanged)="onSearchChange($event)"
-    (refresh)="refreshGrid()"
-    (export)="exportGrid()"
+    (refresh)="onRefresh()"
+    (export)="onExport()"
     (columnVisibility)="toggleColumnPicker()"
+    (columnSelectionChanged)="saveColumns($event)"
+    (filterVisibility)="toggleFilter()"
+    (filterChanged)="onFilterChange($event)"
   >
   </app-grid-toolbar>
-
-  @if (showColumnPicker()) {
-    <app-grid-column-picker
-      [columns]="columns()"
-      [selectedColumns]="state.visibleColumns()"
-      (selectionChanged)="saveColumns($event)"
-    >
-    </app-grid-column-picker>
-  }
 
   @if (selectedCount() > 0) {
     <app-grid-bulk-actions
       [selectedCount]="selectedCount()"
       [actions]="bulkActions()"
+      [totalMatching]="filteredRows().length"
+      [showSelectAllBanner]="showSelectAllBanner()"
       (execute)="executeBulkAction($event)"
+      (selectAllMatching)="onSelectAllMatching()"
     >
     </app-grid-bulk-actions>
   }
 
   @if (loading()) {
-    <app-grid-loading />
+    <app-grid-loading [columnCount]="visibleColumns().length" />
   } @else if (isEmpty()) {
     <app-empty-state
       [icon]="emptyStateIcon()"
@@ -38,19 +43,45 @@
     >
     </app-empty-state>
   } @else {
-    <div class="grid-table-wrapper">
-      <table class="grid-table">
+    @if (openHeaderMenu()) {
+      <div class="grid-table__header-backdrop" (click)="closeHeaderMenu()"></div>
+    }
+
+    <div
+      class="grid-table-wrapper"
+      [class.grid-table-wrapper--scrolled-x]="isScrolledX()"
+      (scroll)="onTableScroll($event)"
+    >
+      <table
+        class="grid-table"
+        role="grid"
+        [class.grid-table--compact]="density() === 'compact'"
+      >
         <thead>
-          <tr>
-            <th class="grid-checkbox-column">
-              <input type="checkbox" [checked]="allSelected()" (change)="toggleAll()" />
+          <tr role="row">
+            <th class="grid-checkbox-column" role="columnheader">
+              <input
+                type="checkbox"
+                aria-label="Select all rows on this page"
+                [checked]="allSelected()"
+                (change)="toggleAll()"
+              />
             </th>
 
-            @for (column of visibleColumns(); track column.key) {
+            @for (column of visibleColumns(); track column.key; let first = $first) {
               <th
+                role="columnheader"
                 (click)="column.sortable && sort(column.key.toString())"
+                (keydown.enter)="column.sortable && sort(column.key.toString())"
+                (keydown.space)="$event.preventDefault(); column.sortable && sort(column.key.toString())"
                 [class.grid-table__sortable]="column.sortable"
                 [class.grid-table__header--active]="isSortedColumn(column.key.toString())"
+                [class.grid-table__sticky-col]="first"
+                [class.grid-table__header--menu-open]="openHeaderMenu() === column.key.toString()"
+                [style.width]="effectiveWidth(column)"
+                [style.min-width]="column.minWidth ?? effectiveWidth(column)"
+                [attr.aria-sort]="ariaSort(column)"
+                [attr.tabindex]="column.sortable ? 0 : null"
               >
                 <div class="grid-table__header-content">
                   <div class="grid-table__header-label">
@@ -68,33 +99,108 @@
                   </div>
 
                   @if (column.sortable) {
-                    <span class="grid-table__header-menu" (click)="$event.stopPropagation()">
-                      <fa-icon [icon]="icons.more"> </fa-icon>
+                    <span class="grid-table__header-menu-wrap">
+                      <span
+                        class="grid-table__header-menu"
+                        (click)="toggleHeaderMenu(column.key.toString(), $event)"
+                      >
+                        <fa-icon [icon]="icons.more"> </fa-icon>
+                      </span>
+
+                      <div
+                        class="grid-table__header-dropdown"
+                        [class.grid-table__header-dropdown--open]="openHeaderMenu() === column.key.toString()"
+                        (click)="$event.stopPropagation()"
+                      >
+                        <app-button
+                          class="grid-table__header-menu-item"
+                          variant="menu"
+                          [icon]="icons.sortAsc"
+                          (click)="sortColumnDirection(column.key.toString(), 'asc')"
+                        >
+                          Sort Ascending
+                        </app-button>
+                        <app-button
+                          class="grid-table__header-menu-item"
+                          variant="menu"
+                          [icon]="icons.sortDesc"
+                          (click)="sortColumnDirection(column.key.toString(), 'desc')"
+                        >
+                          Sort Descending
+                        </app-button>
+                        @if (canHideColumn(column)) {
+                          <app-button
+                            class="grid-table__header-menu-item"
+                            variant="menu"
+                            [icon]="icons.close"
+                            (click)="hideColumn(column.key.toString())"
+                          >
+                            Hide Column
+                          </app-button>
+                        }
+                      </div>
                     </span>
                   }
                 </div>
+
+                @if (canResizeColumn(column)) {
+                  <span
+                    class="grid-table__resize-handle"
+                    (pointerdown)="startResize($event, column)"
+                    (click)="$event.stopPropagation()"
+                  ></span>
+                }
               </th>
             }
           </tr>
         </thead>
 
         <tbody>
-          @for (row of pagedRows(); track row.id) {
+          @for (row of pagedRows(); track row.id; let rowIndex = $index) {
             <tr
               class="grid-table__row"
-              (click)="selectRow(row)"
+              role="row"
+              (click)="onRowClick(row)"
               [class.grid-table__row--active]="activeRowId() === row.id"
             >
-              <td class="grid-checkbox-column">
+              <td
+                class="grid-checkbox-column"
+                role="gridcell"
+                [attr.data-cell-row]="rowIndex"
+                data-cell-col="0"
+                [attr.tabindex]="isFocusedCell(rowIndex, 0) ? 0 : -1"
+                (keydown)="onCellKeydown($event, rowIndex, 0)"
+                (focus)="onCellFocus(rowIndex, 0)"
+              >
                 <input
                   type="checkbox"
+                  tabindex="-1"
+                  [attr.aria-label]="'Select row ' + row.id"
                   [checked]="isSelected(row.id)"
                   (change)="toggleSelection(row.id)"
                 />
               </td>
 
-              @for (column of visibleColumns(); track column.key) {
-                <td>
+              @for (
+                column of visibleColumns();
+                track column.key;
+                let first = $first;
+                let last = $last;
+                let colIndex = $index
+              ) {
+                <td
+                  role="gridcell"
+                  [class.grid-table__sticky-col]="first"
+                  [class.grid-table__cell--clip]="column.type !== 'badge' && column.type !== 'actions'"
+                  [class.grid-table__cell--overlay-host]="isTouchDevice && last"
+                  [style.min-width]="effectiveWidth(column)"
+                  [attr.title]="cellTooltip(row, column)"
+                  [attr.data-cell-row]="rowIndex"
+                  [attr.data-cell-col]="colIndex + 1"
+                  [attr.tabindex]="isFocusedCell(rowIndex, colIndex + 1) ? 0 : -1"
+                  (keydown)="onCellKeydown($event, rowIndex, colIndex + 1)"
+                  (focus)="onCellFocus(rowIndex, colIndex + 1)"
+                >
                   @switch (column.type) {
                     @case ('badge') {
                       <app-badge [variant]="column.badgeVariant?.(row) ?? 'neutral'">
@@ -131,6 +237,16 @@
                       {{ getCellValue(row, column) }}
                     }
                   }
+
+                  @if (isTouchDevice && last) {
+                    <app-button
+                      class="grid-table__row-overlay-icon"
+                      variant="action"
+                      [icon]="icons.detailView"
+                      ariaLabel="Open detail"
+                      (click)="openDetail(row, $event)"
+                    ></app-button>
+                  }
                 </td>
               }
             </tr>
@@ -146,6 +262,7 @@
       [pageSize]="state.pageSize()"
       [totalItems]="filteredRows().length"
       (pageChanged)="state.setPage($event)"
+      (pageSizeChanged)="state.setPageSize($event)"
     >
     </app-grid-pagination>
   }

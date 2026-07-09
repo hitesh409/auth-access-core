@@ -114,8 +114,8 @@
 
 .detail-header__metadata {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: .5rem;
+    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+    gap: .5rem 1rem;
     margin-top: 1.25rem;
     padding-top: 1.25rem;
     border-top: 1px solid var(--surface-border);
@@ -137,7 +137,7 @@
 
 .detail-header__meta-value {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     gap: .35rem;
     color: var(--text-primary);
@@ -149,13 +149,18 @@
 .detail-header__meta-icon {
     font-size: .75rem;
     flex-shrink: 0;
+    margin-top: .15rem;
 }
 
 .detail-header__meta-text {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    -webkit-box-orient: vertical;
     overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    overflow-wrap: anywhere;
     min-width: 0;
+    line-height: 1.3;
 }
 
 @media (max-width: 1023px) {

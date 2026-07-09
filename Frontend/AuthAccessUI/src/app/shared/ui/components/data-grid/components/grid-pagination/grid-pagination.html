@@ -5,12 +5,62 @@
   </div>
 
   <div class="grid-pagination__controls">
-    <app-button variant="ghost" size="sm" [disabled]="page() === 1" (click)="previous()">
-      <
-    </app-button>
-    <div class="grid-pagination__page">{{ page() }} / {{ totalPages() }}</div>
-    <app-button variant="ghost" size="sm" [disabled]="page() === totalPages()" (click)="next()">
-      >
-    </app-button>
+    <div class="grid-pagination__page-size">
+      <span class="grid-pagination__page-size-label">Rows per page</span>
+
+      <div class="grid-pagination__page-size-wrap">
+        @if (pageSizeOpen()) {
+          <div class="grid-pagination__page-size-backdrop" (click)="pageSizeOpen.set(false)"></div>
+        }
+
+        <app-button
+          class="grid-pagination__page-size-trigger"
+          variant="plain"
+          [active]="pageSizeOpen()"
+          (click)="togglePageSize()"
+        >
+          <span>{{ pageSize() }}</span>
+          <fa-icon
+            class="grid-pagination__page-size-chevron"
+            [class.grid-pagination__page-size-chevron--open]="pageSizeOpen()"
+            [icon]="icons.chevronDown"
+          ></fa-icon>
+        </app-button>
+
+        <div
+          class="grid-pagination__page-size-menu"
+          [class.grid-pagination__page-size-menu--open]="pageSizeOpen()"
+        >
+          @for (size of pageSizeOptions; track size) {
+            <app-button
+              class="grid-pagination__page-size-option"
+              [class.grid-pagination__page-size-option--active]="size === pageSize()"
+              variant="menu"
+              (click)="selectPageSize(size)"
+            >
+              {{ size }}
+            </app-button>
+          }
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-pagination__nav">
+      <app-button
+        variant="ghost"
+        size="sm"
+        [icon]="icons.chevronLeft"
+        [disabled]="page() === 1"
+        (click)="previous()"
+      ></app-button>
+      <div class="grid-pagination__page">{{ page() }} / {{ totalPages() }}</div>
+      <app-button
+        variant="ghost"
+        size="sm"
+        [icon]="icons.chevronRight"
+        [disabled]="page() === totalPages()"
+        (click)="next()"
+      ></app-button>
+    </div>
   </div>
 </div>

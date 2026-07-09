@@ -79,9 +79,9 @@ export class Sessions {
       ipAddress: '203.0.113.14',
       location: 'Mumbai, India',
       status: 'Active',
-      startedAt: '13 Jun 2026, 08:02 AM',
-      lastActivityAt: '13 Jun 2026, 09:14 AM',
-      expiresAt: '13 Jun 2026, 08:02 PM',
+      startedAt: '2026-06-13T08:02:00',
+      lastActivityAt: '2026-06-13T09:14:00',
+      expiresAt: '2026-06-13T20:02:00',
       auditEvents: ['Session started', 'MFA verified', 'Last request processed'],
     },
     {
@@ -92,9 +92,9 @@ export class Sessions {
       ipAddress: '198.51.100.22',
       location: 'Mumbai, India',
       status: 'Active',
-      startedAt: '12 Jun 2026, 07:40 PM',
-      lastActivityAt: '13 Jun 2026, 07:55 AM',
-      expiresAt: '13 Jun 2026, 07:40 AM',
+      startedAt: '2026-06-12T19:40:00',
+      lastActivityAt: '2026-06-13T07:55:00',
+      expiresAt: '2026-06-13T07:40:00',
       auditEvents: ['Session started', 'MFA verified'],
     },
     {
@@ -105,9 +105,9 @@ export class Sessions {
       ipAddress: '192.0.2.55',
       location: 'Pune, India',
       status: 'Revoked',
-      startedAt: '28 May 2026, 09:58 PM',
-      lastActivityAt: '28 May 2026, 10:11 PM',
-      expiresAt: '29 May 2026, 09:58 AM',
+      startedAt: '2026-05-28T21:58:00',
+      lastActivityAt: '2026-05-28T22:11:00',
+      expiresAt: '2026-05-29T09:58:00',
       auditEvents: ['Session started', 'Multiple login failures detected', 'Session revoked by admin'],
     },
     {
@@ -118,9 +118,9 @@ export class Sessions {
       ipAddress: '203.0.113.71',
       location: 'Bengaluru, India',
       status: 'Active',
-      startedAt: '13 Jun 2026, 08:10 AM',
-      lastActivityAt: '13 Jun 2026, 08:23 AM',
-      expiresAt: '13 Jun 2026, 08:10 PM',
+      startedAt: '2026-06-13T08:10:00',
+      lastActivityAt: '2026-06-13T08:23:00',
+      expiresAt: '2026-06-13T20:10:00',
       auditEvents: ['Session started', 'MFA verified'],
     },
     {
@@ -131,9 +131,9 @@ export class Sessions {
       ipAddress: '198.51.100.90',
       location: 'Hyderabad, India',
       status: 'Expired',
-      startedAt: '11 Jun 2026, 06:00 AM',
-      lastActivityAt: '11 Jun 2026, 06:45 AM',
-      expiresAt: '11 Jun 2026, 06:00 PM',
+      startedAt: '2026-06-11T06:00:00',
+      lastActivityAt: '2026-06-11T06:45:00',
+      expiresAt: '2026-06-11T18:00:00',
       auditEvents: ['Session started', 'Session expired'],
     },
     {
@@ -144,9 +144,9 @@ export class Sessions {
       ipAddress: '192.0.2.118',
       location: 'Delhi, India',
       status: 'Revoked',
-      startedAt: '01 Mar 2026, 11:00 AM',
-      lastActivityAt: '01 Mar 2026, 11:08 AM',
-      expiresAt: '01 Mar 2026, 11:00 PM',
+      startedAt: '2026-03-01T11:00:00',
+      lastActivityAt: '2026-03-01T11:08:00',
+      expiresAt: '2026-03-01T23:00:00',
       auditEvents: ['Session started', 'Login attempt blocked', 'Session revoked by admin'],
     },
     {
@@ -157,9 +157,9 @@ export class Sessions {
       ipAddress: '203.0.113.132',
       location: 'Chennai, India',
       status: 'Active',
-      startedAt: '12 Jun 2026, 05:20 PM',
-      lastActivityAt: '12 Jun 2026, 05:42 PM',
-      expiresAt: '13 Jun 2026, 05:20 AM',
+      startedAt: '2026-06-12T17:20:00',
+      lastActivityAt: '2026-06-12T17:42:00',
+      expiresAt: '2026-06-13T05:20:00',
       auditEvents: ['Session started', 'MFA verified'],
     },
     {
@@ -170,9 +170,9 @@ export class Sessions {
       ipAddress: '198.51.100.201',
       location: 'Kolkata, India',
       status: 'Active',
-      startedAt: '12 Jun 2026, 02:55 PM',
-      lastActivityAt: '12 Jun 2026, 03:18 PM',
-      expiresAt: '13 Jun 2026, 02:55 AM',
+      startedAt: '2026-06-12T14:55:00',
+      lastActivityAt: '2026-06-12T15:18:00',
+      expiresAt: '2026-06-13T02:55:00',
       auditEvents: ['Session started', 'MFA verified', 'Last request processed'],
     },
   ]);
@@ -190,11 +190,22 @@ export class Sessions {
   readonly confirmOpen = computed(() => this.confirmConfig() !== null);
   private confirmRun: (() => void) | null = null;
 
+  protected onGridRefresh(): void {
+    // No backend yet — the mock signal is already current, so just confirm to the user.
+    this.toastr.info('Sessions refreshed');
+  }
+
   protected onRowSelected(session: SessionDemo): void {
     this.selectedSession.set(session);
     if (!this.panelService.isDesktop()) {
       this.modalOpen.set(true);
     }
+  }
+
+  /** Explicit "open detail" from the per-row redirect icon (touch). */
+  protected onDetailOpened(session: SessionDemo): void {
+    this.selectedSession.set(session);
+    this.modalOpen.set(true);
   }
 
   protected closeModal(): void {
